@@ -28,7 +28,9 @@
     "spaced-comment": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-types": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "prettier/prettier": "off"
   },
   "settings": {
     "react": { "version": "latest" }

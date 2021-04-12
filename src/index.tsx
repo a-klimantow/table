@@ -1,14 +1,14 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
 import { GlobalThemeProvider } from './theme'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <GlobalThemeProvider>
       <App />
     </GlobalThemeProvider>
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 )

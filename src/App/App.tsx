@@ -1,18 +1,21 @@
 import { FC } from 'react'
-import { Button, AppBar, Typography, Paper } from '@material-ui/core'
+import { Switch, Route } from 'react-router-dom'
+
+import { Header } from '../components'
 
 export const App: FC = () => (
   <>
-    <AppBar position="static">
-      <Typography>hello</Typography>
-    </AppBar>
-    <Button>button</Button>
-    <Button variant="contained">button 1</Button>
-    <Button variant="outlined" color="secondary">
-      button 2
-    </Button>
-    <Paper>
-      <Typography>paper</Typography>
-    </Paper>
+    <Header />
+    <div style={{ position: 'relative' }}>
+      <Switch>
+        <Route path="/" render={() => <div>home</div>} exact />
+        <Route path="/projects" render={() => <div>Проекты</div>} />
+        <Route path="/panels" render={() => <div>Панели</div>} />
+        <Route path="/payments" render={() => <div>Вознаграждения</div>} />
+        <Route path="/admin" render={() => <div>Администрирование</div>} />
+        <Route path="/settings" render={() => <div>Настройка почты</div>} />
+        <Route path="/logout" render={() => <div>Выход</div>} />
+      </Switch>
+    </div>
   </>
 )

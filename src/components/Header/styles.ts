@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core'
 
-export const useStylesHeader = makeStyles((t) => ({
+export const useStyles = makeStyles((t) => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',

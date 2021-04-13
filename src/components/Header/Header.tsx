@@ -3,10 +3,11 @@ import { Divider } from '@material-ui/core'
 import { HomeOutlined, ExpandMore } from '@material-ui/icons'
 
 import { HeaderMenu } from './HederMenu'
-import { useAppMenu, useUserMenu, useStylesHeader } from './hooks'
+import { useAppMenu, useUserMenu } from './hooks'
+import { useStyles } from './styles'
 
 export const Header: FC = () => {
-  const s = useStylesHeader()
+  const s = useStyles()
   const { appMenu, appMenuName } = useAppMenu()
   const { userMenu, userName } = useUserMenu()
   return (

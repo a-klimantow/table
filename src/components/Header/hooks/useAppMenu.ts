@@ -14,7 +14,7 @@ interface IUseAppMenu {
 
 export const useAppMenu = (): IUseAppMenu => {
   const { pathname } = useLocation()
-  const [appMenuName = 'Меню'] = appMenu.find(([, path]) => pathname === path) ?? []
+  const [appMenuName = 'Меню'] = appMenu.find(([, path]) => pathname.startsWith(path)) ?? []
 
   return {
     appMenu,

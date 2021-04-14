@@ -8,10 +8,10 @@ export const useStyles = makeStyles((t) => ({
   },
   item: {
     padding: 0,
-    "& > a":  {
+    '& > a': {
       display: 'flex',
       flex: 1,
-      padding: t.spacing(1)
-    }
-  }
+      padding: t.spacing(1, 2),
+    },
+  },
 }))

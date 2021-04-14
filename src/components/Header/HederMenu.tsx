@@ -4,13 +4,13 @@ import { NavLink } from 'react-router-dom'
 
 import { useActiveNavLinkStyle } from '../../hooks'
 import { IHeaderMenu } from './types'
-import {useStyles} from './styles'
+import { useStyles } from './styles'
 
 export const HeaderMenu: FC<IHeaderMenu> = ({ name, data, ...props }) => {
   const [anchorEl, setAncorEl] = useState<null | HTMLButtonElement>(null)
   const ref = useRef<HTMLButtonElement>(null)
   const { active } = useActiveNavLinkStyle()
-  const {item} = useStyles()
+  const { item } = useStyles()
 
   const handleOpen = () => setAncorEl(ref.current)
   const handleClose = () => setAncorEl(null)
@@ -24,7 +24,7 @@ export const HeaderMenu: FC<IHeaderMenu> = ({ name, data, ...props }) => {
         {data.map(([name, href]) => (
           <li key={name}>
             <MenuItem key={name} onClick={handleClose} className={item}>
-              <NavLink to={href} activeClassName={active} exact >
+              <NavLink to={href} activeClassName={active} exact>
                 {name}
               </NavLink>
             </MenuItem>

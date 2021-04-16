@@ -30,6 +30,7 @@ export const MenuList = styled(List)(({ theme, open }: IMenuProps) => ({
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.enteringScreen,
   }),
+  textTransform: 'uppercase'
 }))
 
 export const MenuListItem = styled(ListItem)(({ theme }) => ({

@@ -14,7 +14,6 @@ type PageProps = {
 
 export const Page = styled('div')(({ theme, column = 1 }: PageProps) => ({
   flex: 1,
-  border: '1px solid blue',
   display: 'grid',
   gridTemplateColumns: column === 1 ? '1fr' : '312px 1fr',
   gridGap: theme.spacing(4),

@@ -1,22 +1,28 @@
-import { FC } from 'react'
-import { Divider } from '@material-ui/core'
-import { HomeOutlined, ExpandMore } from '@material-ui/icons'
+import { HomeOutlined as HomeIcon, ExpandMoreOutlined as ArrowIcon } from '@material-ui/icons'
 
-import { HeaderMenu } from './HederMenu'
-import { useAppMenu, useUserMenu } from './hooks'
-import { useStyles } from './styles'
+import { useHeaderAppMenu, useHeaderUserMenu } from 'hooks'
+import { HeaderWrap } from './styles'
+import { HeaderMenu } from './HeaderMenu'
 
-export const Header: FC = () => {
-  const s = useStyles()
-  const { appMenu, appMenuName } = useAppMenu()
-  const { userMenu, userName } = useUserMenu()
+export const Header = () => {
+  const appMenu = useHeaderAppMenu()
+  const userMenu = useHeaderUserMenu()
   return (
-    <>
-      <header className={s.root}>
-        <HeaderMenu name={appMenuName} data={appMenu} startIcon={<HomeOutlined />} />
-        <HeaderMenu name={userName} data={userMenu} endIcon={<ExpandMore />} />
-      </header>
-      <Divider />
-    </>
+    <HeaderWrap>
+      <HeaderMenu
+        button={{
+          startIcon: <HomeIcon />,
+          children: 'Меню',
+        }}
+        data={appMenu}
+      />
+      <HeaderMenu
+        button={{
+          endIcon: <ArrowIcon />,
+          children: 'User',
+        }}
+        data={userMenu}
+      />
+    </HeaderWrap>
   )
 }

@@ -1,0 +1,1 @@
+export { PanelsModule } from './PanelsModule'

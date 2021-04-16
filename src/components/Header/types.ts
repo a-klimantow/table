@@ -1,8 +1,11 @@
 import { ButtonProps } from '@material-ui/core'
+import { NavLinkProps } from 'react-router-dom'
+
+export interface IHeaderMenuItem extends NavLinkProps {
+  name: string
+}
 
 export interface IHeaderMenu {
-  endIcon?: ButtonProps['endIcon']
-  startIcon?: ButtonProps['startIcon']
-  name: string
-  data: string[][]
+  button: ButtonProps
+  data: IHeaderMenuItem[]
 }

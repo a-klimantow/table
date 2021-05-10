@@ -1,11 +1,15 @@
 import { styled, Theme } from '@material-ui/core'
 
-const HEADER_HEIGHT = 53
+const HEADER_HEIGHT = 54
 
-export const Module = styled('div')({
+export const Module = styled('div')(({ theme }) => ({
   height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-  display: 'flex',
-})
+  display: 'grid',
+  gridTemplateColumns: `${HEADER_HEIGHT}px 1fr`,
+  '& > :first-child': {
+    zIndex: theme.zIndex.drawer,
+  },
+}))
 
 type PageProps = {
   theme: Theme

@@ -1,22 +1,23 @@
-import { useRouteMatch, Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
 import { Layout, ModuleMenu } from 'components'
-import { useModuleMenu } from 'hooks'
 import { PaymentsPage, ProfitPage } from 'pages'
+import { useRewardsPathes } from './useRewardsPathes'
+import { useRewardsMenu } from './useRewardsMenu'
 
 export const RewardsModule = () => {
-  const { path } = useRouteMatch()
-  const menu = useModuleMenu(path)
+  const pathes = useRewardsPathes()
+  const menu = useRewardsMenu(pathes)
 
-  const [{ to: payments }, { to: profit }] = menu as { to: string }[]
+  const { request, reports, profit, rewards } = pathes
 
   return (
     <Layout.Module>
-      <ModuleMenu name="Вознаграждения" data={menu} />
+      <ModuleMenu name="Вознаграждения" menu={menu} />
       <Switch>
-        <Route path={payments} component={PaymentsPage} />
+        <Route path={[request, reports]} component={PaymentsPage} />
         <Route path={profit} component={ProfitPage} />
-        <Redirect from={path} to={payments} exact />
+        <Redirect from={rewards} to={request} exact />
         <Redirect to="/404" />
       </Switch>
     </Layout.Module>

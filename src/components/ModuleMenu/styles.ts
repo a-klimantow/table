@@ -1,50 +1,61 @@
-import { styled, List, ListItem } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
-import { IMenuProps } from './types'
-
-const MIN_WIDTH = 54
 const MAX_WIDTH = 240
 
-export const ModuleMenuWrap = styled('div')(({ theme }) => ({
-  width: MIN_WIDTH,
-  zIndex: theme.zIndex.drawer,
-}))
-
-export const ModuleMenuBase = styled('div')(({ open }: IMenuProps) => ({
-  display: open ? 'block' : 'none',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-}))
-
-export const MenuList = styled(List)(({ theme, open }: IMenuProps) => ({
-  background: theme.palette.background.paper,
-  overflow: 'hidden',
-  borderRight: `1px solid ${theme.palette.divider}`,
-  paddingTop: theme.spacing(4),
-  height: '100%',
-  width: open ? MAX_WIDTH : '100%',
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.easeInOut,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  textTransform: 'uppercase'
-}))
-
-export const MenuListItem = styled(ListItem)(({ theme }) => ({
-  padding: 0,
-  whiteSpace: 'nowrap',
-
-  '& > a': {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
-    padding: theme.spacing(1, 2),
+export const useStyles = makeStyles((t) => ({
+  base: {
+    display: 'none',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  baseOpen: {
+    display: 'block',
+  },
+  menu: {
+    paddingTop: t.spacing(4),
+    background: t.palette.background.paper,
+    overflow: 'hidden',
+    borderRight: `1px solid ${t.palette.divider}`,
+    height: '100%',
+    width: '100%',
+    transition: t.transitions.create('width', {
+      easing: t.transitions.easing.easeInOut,
+      duration: t.transitions.duration.enteringScreen,
+    }),
+    textTransform: 'uppercase',
+  },
+  menuOpen: {
+    width: MAX_WIDTH,
   },
 
-  '& > a.active *': {
-    color: theme.palette.primary.main,
+  item: {
+    '& > a': {
+      display: 'contents',
+    },
+
+    '& a.active *': {
+      color: t.palette.primary.main,
+    },
+  },
+  icon: {
+    position: 'absolute',
+    right: 0,
+    transform: 'translateX(-8px)',
+    transition: t.transitions.create(['transform', 'rigth'], {
+      easing: t.transitions.easing.easeInOut,
+      duration: t.transitions.duration.enteringScreen,
+    }),
+  },
+
+  iconRotate: {
+    position: 'absolute',
+    transform: 'translateX(-8px) rotate(180deg) ',
+  },
+
+  iconSmall: {
+    transform: 'scale(.8) translateX(4px)',
   },
 }))

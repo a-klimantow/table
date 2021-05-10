@@ -1,33 +1,97 @@
-import { useState, FC } from 'react'
-import { NavLink } from 'react-router-dom'
-import { ListItemText, ListItemIcon } from '@material-ui/core'
+import { useState, FC, ReactElement, MouseEvent } from 'react'
+import { Collapse } from '@material-ui/core'
+import { useRouteMatch } from 'react-router-dom'
 
-import { ModuleMenuWrap, ModuleMenuBase, MenuList, MenuListItem } from './styles'
-import { MenuItemToggle } from './MenuItemToggle'
 import { IModuleMenu } from './types'
 
-export const ModuleMenu: FC<IModuleMenu> = ({ name, data }) => {
-  const [open, setOpen] = useState(false)
+import { Menu } from './components/Menu'
+import { MenuItemLink } from './components/MenuItemLink'
 
-  const handleToggle = () => setOpen((o) => !o)
-  const handleClose = () => setOpen(false)
+const isIncludes = (idx: number, arr: number[]) => arr.includes(idx)
+
+interface ISubmenuProps {
+  submenu: string[][]
+  submenuName: string
+  icon: ReactElement
+  path: string
+  handleMenuOpen: () => void
+  openMenu: boolean
+}
+const Submenu: FC<ISubmenuProps> = ({
+  submenu,
+  submenuName,
+  icon,
+  path,
+  openMenu,
+  handleMenuOpen,
+}) => {
+  const [openSubmenu, setOpenSubmenu] = useState(false)
+  const pathes = submenu.map(([, path]) => path)
+  const isActive = Boolean(useRouteMatch(pathes))
+
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    isActive && e.preventDefault()
+    !openMenu && handleMenuOpen()
+    setOpenSubmenu(openMenu)
+  }
 
   return (
-    <ModuleMenuWrap>
-      <ModuleMenuBase open={open} onClick={handleClose} />
-      <MenuList open={open} component="div">
-        <MenuItemToggle open={open} name={name} onClick={handleToggle} />
-        {data.map(({ name, icon: Icon, ...props }) => (
-          <MenuListItem button key={name}>
-            <NavLink {...props}>
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListItemText>{name}</ListItemText>
-            </NavLink>
-          </MenuListItem>
-        ))}
-      </MenuList>
-    </ModuleMenuWrap>
+    <>
+      <MenuItemLink
+        to={path}
+        primary={submenuName}
+        icon={icon}
+        isActive={() => isActive}
+        onClick={handleClick}
+      />
+      <Collapse in={openSubmenu}>
+        <ul>
+          {submenu.map(([subName, subPath]) => (
+            <MenuItemLink key={subName} secondary={subName} to={subPath} submenuItem />
+          ))}
+        </ul>
+      </Collapse>
+    </>
+  )
+}
+
+export const ModuleMenu: FC<IModuleMenu> = ({ name, menu }) => {
+  const [collapseIdxs, setCollapseIdxs] = useState<number[]>([])
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const handleMenuClose = () => setOpenMenu(false)
+  const handleMenuOpen = () => setOpenMenu(true)
+
+  const handleMenuToggle = () => {
+    setOpenMenu((o) => !o)
+    openMenu && setCollapseIdxs([])
+  }
+  const handleCollapseToggle = (idx: number) => () => {
+    !openMenu && setOpenMenu(true)
+    if (isIncludes(idx, collapseIdxs)) {
+      setCollapseIdxs((_) => _.filter((i) => i !== idx))
+    } else {
+      setCollapseIdxs((_) => [..._, idx])
+    }
+  }
+
+  return (
+    <Menu openMenu={openMenu} menuName={name} onClick={openMenu ? handleMenuClose : handleMenuOpen}>
+      {menu.map(({ submenu, name, Icon, path }) =>
+        submenu ? (
+          <Submenu
+            key={name}
+            submenu={submenu}
+            icon={<Icon />}
+            submenuName={name}
+            path={path}
+            openMenu={openMenu}
+            handleMenuOpen={handleMenuOpen}
+          />
+        ) : (
+          <MenuItemLink key={name} primary={name} icon={<Icon />} to={path} />
+        )
+      )}
+    </Menu>
   )
 }

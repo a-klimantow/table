@@ -1,25 +1,23 @@
-import { SvgIconProps, Theme } from '@material-ui/core'
-import { ElementType, FC } from 'react'
-import { NavLinkProps } from 'react-router-dom'
+import { ListItemTextProps, SvgIconProps } from '@material-ui/core'
+import { FC } from 'react'
+// import { NavLinkProps } from 'react-router-dom'
+
+type NameType = string
 
 export interface IMenuItemToggle {
   open: boolean
-  name: string
+  name: NameType
   onClick: () => void
 }
 
-export interface IMenuProps {
-  theme: Theme
-  open: IMenuItemToggle['open']
-  component?: ElementType
-}
-
-export interface IModuleMenuItem extends NavLinkProps {
-  name: string
-  icon: FC<SvgIconProps>
+export interface IModuleMenuItem extends ListItemTextProps {
+  name: NameType
+  Icon: FC<SvgIconProps>
+  submenu?: string[][]
+  path: string
 }
 
 export interface IModuleMenu {
-  name: IMenuItemToggle['name']
-  data: IModuleMenuItem[]
+  name: NameType
+  menu: IModuleMenuItem[]
 }

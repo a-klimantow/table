@@ -1,4 +1,4 @@
-import { styled, MenuItem } from '@material-ui/core'
+import { styled, makeStyles } from '@material-ui/core'
 
 export const HeaderWrap = styled('header')(({ theme }) => ({
   display: 'flex',
@@ -7,14 +7,16 @@ export const HeaderWrap = styled('header')(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
 }))
 
-export const MenuItemLink = styled(MenuItem)(({ theme }) => ({
-  padding: 0,
-  '& > a': {
+export const useStyles = makeStyles((t) => ({
+  item: {
+    padding: 0,
+  },
+  navlink: {
     display: 'flex',
     flex: 1,
-    padding: theme.spacing(1, 2),
-  },
-  '& > a.active': {
-    color: theme.palette.primary.main,
+    padding: t.spacing(1, 2),
+    '&.active': {
+      color: t.palette.primary.main,
+    },
   },
 }))

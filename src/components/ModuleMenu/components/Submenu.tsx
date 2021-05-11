@@ -1,46 +1,50 @@
-import { FC } from 'react'
-import {
-  Collapse,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  SvgIconProps,
-} from '@material-ui/core'
-import { ExpandMore as ArrowIcon } from '@material-ui/icons'
-import { useLocation, NavLink } from 'react-router-dom'
+import { FC, useState, ReactElement, MouseEvent } from 'react'
+import { Collapse } from '@material-ui/core'
+import { useRouteMatch } from 'react-router-dom'
 
-import { IModuleMenuItem } from '../types'
+import { MenuItemLink } from './MenuItemLink'
 
-export const Submenu: FC<IModuleMenuItem & { isOpen: boolean; arrowIcon: SvgIconProps }> = ({
-  children,
-  isOpen,
-  Icon,
+interface ISubmenuProps {
+  submenu: string[][]
+  submenuName: string
+  icon: ReactElement
+  path: string
+  handleMenuOpen: () => void
+  openMenu: boolean
+}
+export const Submenu: FC<ISubmenuProps> = ({
+  submenu,
+  submenuName,
+  icon,
   path,
-  name,
-  className,
-  onClick,
-  arrowIcon,
+  openMenu,
+  handleMenuOpen,
 }) => {
-  const { pathname } = useLocation()
-  const isActive = () =>
-    (children as { props: { path: string } }[])
-      .map(({ props }) => props.path)
-      .some((p) => p === pathname)
+  const [openSubmenu, setOpenSubmenu] = useState(false)
+  const pathes = submenu.map(([, path]) => path)
+  const isActive = Boolean(useRouteMatch(pathes))
+
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    isActive && e.preventDefault()
+    !openMenu && handleMenuOpen()
+    setOpenSubmenu(openMenu)
+  }
 
   return (
     <>
-      <ListItem button onClick={onClick} className={className}>
-        <NavLink to={path} isActive={isActive} onClick={(e) => isActive() && e.preventDefault()}>
-          <ListItemIcon>{Icon ? <Icon /> : null}</ListItemIcon>
-          <ListItemText primary={name} />
-          {arrowIcon}
-        </NavLink>
-      </ListItem>
-      <Collapse in={isOpen}>
-        <List component="div" disablePadding>
-          {children}
-        </List>
+      <MenuItemLink
+        to={path}
+        primary={submenuName}
+        icon={icon}
+        isActive={() => isActive}
+        onClick={handleClick}
+      />
+      <Collapse in={openSubmenu}>
+        <ul>
+          {submenu.map(([subName, subPath]) => (
+            <MenuItemLink key={subName} secondary={subName} to={subPath} submenuItem />
+          ))}
+        </ul>
       </Collapse>
     </>
   )

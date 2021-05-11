@@ -12,6 +12,7 @@ interface ItemLinkProps extends NavLinkProps {
   primary?: string
   secondary?: string
   submenuItem?: true
+  arrowIcon?: ReactElement
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ export const MenuItemLink: FC<ItemLinkProps> = ({
   primary,
   secondary,
   submenuItem,
+  arrowIcon,
   ...props
 }) => {
   const classes = useStyles()
@@ -51,6 +53,7 @@ export const MenuItemLink: FC<ItemLinkProps> = ({
       >
         {icon ? <ListItemIcon>{icon}</ListItemIcon> : <PipeIcon />}
         <ListItemText primary={primary} secondary={secondary} />
+        {arrowIcon ?? null}
       </ListItem>
     </li>
   )

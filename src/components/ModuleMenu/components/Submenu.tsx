@@ -1,5 +1,5 @@
-import { useState, useEffect, FC, ReactElement, MouseEvent } from 'react'
-import { Collapse } from '@material-ui/core'
+import { useState, useEffect, FC, ReactElement } from 'react'
+import { Collapse, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
 import { useRouteMatch } from 'react-router-dom'
 
 import { MenuItemLink } from './MenuItemLink'
@@ -13,38 +13,44 @@ interface ISubmenuProps {
   handleMenuOpen: () => void
   openMenu: boolean
 }
+
+const useStyles = makeStyles((theme) => ({
+  active: {
+    '& *': {
+      color: ({ isActive }: { isActive: boolean }) => (isActive ? theme.palette.primary.main : ''),
+    },
+  },
+}))
+
 export const Submenu: FC<ISubmenuProps> = ({
   submenu,
   submenuName,
   icon,
-  path,
   openMenu,
   handleMenuOpen,
 }) => {
   const [openCollapse, setOpenCollapse] = useState(false)
   const pathes = submenu.map(([, path]) => path)
   const isActive = Boolean(useRouteMatch(pathes))
+  const classes = useStyles({ isActive })
 
   useEffect(() => {
     !openMenu && setOpenCollapse(false)
   }, [openMenu])
 
-  const handleClick = (e: MouseEvent<HTMLElement>) => {
-    e.preventDefault()
+  const handleClick = () => {
     !openMenu && handleMenuOpen()
     setOpenCollapse((o) => !o)
   }
 
   return (
     <>
-      <MenuItemLink
-        to={path}
-        primary={submenuName}
-        icon={icon}
-        isActive={() => isActive}
-        onClick={handleClick}
-        arrowIcon={<ArrowIcon openMenu={openMenu} openCollapse={openCollapse} />}
-      />
+      <ListItem button onClick={handleClick} className={classes.active}>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={submenuName} />
+        <ArrowIcon openMenu={openMenu} openCollapse={openCollapse} />
+      </ListItem>
+
       <Collapse in={openCollapse}>
         <ul>
           {submenu.map(([subName, subPath]) => (

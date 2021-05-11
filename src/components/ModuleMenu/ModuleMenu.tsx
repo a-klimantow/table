@@ -14,19 +14,19 @@ export const ModuleMenu: FC<IModuleMenu> = ({ name, menu }) => {
 
   return (
     <Menu openMenu={openMenu} menuName={name} onClick={openMenu ? handleMenuClose : handleMenuOpen}>
-      {menu.map(({ submenu, name, Icon, path }) =>
+      {menu.map(({ submenu, name, icon, path }) =>
         submenu ? (
           <Submenu
             key={name}
             submenu={submenu}
-            icon={<Icon />}
+            icon={icon}
             submenuName={name}
             path={path}
             openMenu={openMenu}
             handleMenuOpen={handleMenuOpen}
           />
         ) : (
-          <MenuItemLink key={name} primary={name} icon={<Icon />} to={path} />
+          <MenuItemLink key={name} primary={name} icon={icon} to={path} />
         )
       )}
     </Menu>

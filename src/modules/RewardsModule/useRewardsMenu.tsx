@@ -22,7 +22,7 @@ export const useRewardsMenu = ({
         return [
           {
             name: 'Выплаты',
-            Icon: MinusIcon,
+            icon: <MinusIcon />,
             path: request,
             submenu: [
               ['Заявки', request],
@@ -31,7 +31,7 @@ export const useRewardsMenu = ({
           },
           {
             name: 'Начисления',
-            Icon: PlusIcon,
+            icon: <PlusIcon />,
             path: profit,
           },
         ]

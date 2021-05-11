@@ -1,8 +1,9 @@
-import { FC, useState, ReactElement, MouseEvent } from 'react'
+import { useState, useEffect, FC, ReactElement, MouseEvent } from 'react'
 import { Collapse } from '@material-ui/core'
 import { useRouteMatch } from 'react-router-dom'
 
 import { MenuItemLink } from './MenuItemLink'
+import { ArrowIcon } from './ArrowIcon'
 
 interface ISubmenuProps {
   submenu: string[][]
@@ -20,14 +21,18 @@ export const Submenu: FC<ISubmenuProps> = ({
   openMenu,
   handleMenuOpen,
 }) => {
-  const [openSubmenu, setOpenSubmenu] = useState(false)
+  const [openCollapse, setOpenCollapse] = useState(false)
   const pathes = submenu.map(([, path]) => path)
   const isActive = Boolean(useRouteMatch(pathes))
 
+  useEffect(() => {
+    !openMenu && setOpenCollapse(false)
+  }, [openMenu])
+
   const handleClick = (e: MouseEvent<HTMLElement>) => {
-    isActive && e.preventDefault()
+    e.preventDefault()
     !openMenu && handleMenuOpen()
-    setOpenSubmenu(openMenu)
+    setOpenCollapse((o) => !o)
   }
 
   return (
@@ -38,8 +43,9 @@ export const Submenu: FC<ISubmenuProps> = ({
         icon={icon}
         isActive={() => isActive}
         onClick={handleClick}
+        arrowIcon={<ArrowIcon openMenu={openMenu} openCollapse={openCollapse} />}
       />
-      <Collapse in={openSubmenu}>
+      <Collapse in={openCollapse}>
         <ul>
           {submenu.map(([subName, subPath]) => (
             <MenuItemLink key={subName} secondary={subName} to={subPath} submenuItem />

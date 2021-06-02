@@ -1,8 +1,11 @@
+import { makeStyles } from '@material-ui/core'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@material-ui/data-grid'
 import { Layout } from 'components'
 
+const Test = () => <div>test</div>
+
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'id', headerName: 'ID', width: 700, renderHeader: Test },
   { field: 'firstName', headerName: 'First name', width: 130 },
   { field: 'lastName', headerName: 'Last name', width: 130 },
   {
@@ -10,7 +13,6 @@ const columns: GridColDef[] = [
     headerName: 'Age',
     type: 'number',
     width: 90,
-    resizable: true,
   },
   {
     field: 'fullName',
@@ -35,22 +37,38 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ]
 
-const Test = ({ test }: { test: number }) => <div>test {test}</div>
-
 export const PaymentsPage = () => {
+  const classes = useStyles()
   return (
     <Layout.Page>
       <div style={{ backgroundColor: 'white' }}>
         <DataGrid
+          classes={classes}
           rows={rows}
           columns={columns}
           pageSize={5}
           checkboxSelection
           components={{ Toolbar: Test, Pagination: Test }}
           componentsProps={{ toolbar: { test: 1 } }}
-          onResize={(e: any) => console.log(e)}
         />
       </div>
     </Layout.Page>
   )
 }
+
+const useStyles = makeStyles({
+  root: {
+    position: 'sticky',
+    '& .MuiDataGrid': {
+      '&-cell:first-child': {
+        position: 'absolute',
+        left: 0,
+        border: '1px solid',
+      },
+      '&-cell:not(:first-child)': {
+        color: 'blue',
+        marginLeft: 48,
+      },
+    },
+  },
+})

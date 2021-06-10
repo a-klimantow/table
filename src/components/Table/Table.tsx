@@ -15,6 +15,7 @@ import {
 } from './components'
 import { useScroll } from './useScroll'
 import { useCheckboxes } from './useCheckboxes'
+import { useResize } from './useResize'
 
 interface ITableProps {
   columns: IColumn[]
@@ -29,41 +30,7 @@ const getIndexes = (arr: unknown[]): number[] => arr.map((_, i) => i)
 export const Table: FC<ITableProps> = ({ columns, data, showCheckbox = true }) => {
   const handleScroll = useScroll()
   const checkbox = useCheckboxes(getIndexes(data))
-  const [widths, setWidths] = useState(columns.map(() => 100))
-  const [resizeIdx, setResizeIdx] = useState(-1)
-
-  const handleResize = (event: SyntheticEvent) => {
-    const current = event.currentTarget as HTMLElement
-
-    switch (event.type) {
-      case 'mousedown':
-        const target = event.target as HTMLElement
-        if (target.hasAttribute('data-cell-resize')) {
-          current.style.cursor = 'col-resize'
-          event.preventDefault()
-          const { cellResize } = target.dataset
-          setResizeIdx(Number(cellResize))
-        }
-        break
-      case 'mouseleave':
-      case 'mouseup':
-        setResizeIdx(Number(-1))
-        current.style.cursor = ''
-        break
-      case 'mousemove':
-        if (resizeIdx > -1) {
-          const x = (event as MouseEvent).movementX
-          const newWidth = widths.map((w, i) =>
-            i === resizeIdx ? Math.min(Math.max(w + x, 100), 500) : w
-          )
-          setWidths(newWidth)
-        }
-        break
-      default:
-        console.log(event.type)
-        break
-    }
-  }
+  const { widths, handleResize } = useResize(columns.map(() => 100))
 
   return (
     <GridContainer onScroll={handleScroll}>

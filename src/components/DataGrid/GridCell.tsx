@@ -1,5 +1,5 @@
-import { FC, MouseEvent, TouchEvent } from 'react'
-import { Remove as ResizeIcon } from '@material-ui/icons'
+import { FC} from 'react'
+
 
 interface IGridCell {
   head?: boolean

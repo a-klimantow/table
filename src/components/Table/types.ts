@@ -1,4 +1,4 @@
 export interface IColumn {
-  name: string
+  name?: string
   field: string
 }

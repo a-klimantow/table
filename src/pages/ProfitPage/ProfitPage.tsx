@@ -29,7 +29,7 @@ const columns: IColumn[] = [
 export const ProfitPage = () => {
   return (
     <Layout.Page>
-      <Table data={data} columns={columns} />
+      <Table data={data} columns={columns} showCheckbox onCheckedChange={console.log} />
     </Layout.Page>
   )
 }

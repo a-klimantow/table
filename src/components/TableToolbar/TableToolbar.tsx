@@ -6,19 +6,17 @@ import {
   Search as SearchIcon,
 } from '@material-ui/icons'
 
-export const TableToolbar: FC = () => {
-  return (
-    <ToolbarStyled>
-      <IconButton>
-        <ColsIcon />
-      </IconButton>
-      <IconButton>
-        <FilterIcon />
-      </IconButton>
-      <OutlinedInputStyled startAdornment={<SearchIcon color="action" />} placeholder="Поиск..." />
-    </ToolbarStyled>
-  )
-}
+export const TableToolbar: FC = () => (
+  <ToolbarStyled>
+    <IconButton>
+      <ColsIcon />
+    </IconButton>
+    <IconButton>
+      <FilterIcon />
+    </IconButton>
+    <OutlinedInputStyled startAdornment={<SearchIcon color="action" />} placeholder="Поиск..." />
+  </ToolbarStyled>
+)
 
 const ToolbarStyled = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -32,6 +30,7 @@ const OutlinedInputStyled = styled(OutlinedInput)(({ theme }) => ({
   background: theme.palette.background.paper,
   maxHeight: 40,
   fontSize: 12,
+
   '& svg': {
     marginRight: theme.spacing(1),
   },

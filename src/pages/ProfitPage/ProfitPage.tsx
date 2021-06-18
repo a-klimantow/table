@@ -1,4 +1,14 @@
-import { Layout, Table, TableToolbar, TableWrapper, TableActiveFilters, IColumn } from 'components'
+import {
+  Layout,
+  Table,
+  TableToolbar,
+  TableWrapper,
+  TableActiveFilters,
+  TableFooter,
+  IColumn,
+} from 'components'
+
+import { Button } from '@material-ui/core'
 
 const data = new Array(10).fill({
   name: 'Экспертное мнение',
@@ -32,8 +42,11 @@ export const ProfitPage = () => {
       <TableWrapper>
         <TableToolbar />
         <TableActiveFilters filters={Array(20).fill('thlleo = tu')} />
-        <Table data={data} columns={columns} showCheckbox onCheckedChange={console.log} />
-        <div>footer</div>
+        <Table data={data} columns={columns} onCheckedChange={console.log} />
+        <TableFooter>
+          <Button color="primary">Экспорт</Button>
+          <Button color="primary">Импорт</Button>
+        </TableFooter>
       </TableWrapper>
     </Layout.Page>
   )

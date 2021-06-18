@@ -87,7 +87,6 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     container: {
       overflow: 'auto',
-      maxHeight: 200,
 
       '&[data-scroll] [data-freeze]': {
         borderRight: `1px solid ${theme.palette.divider}`,

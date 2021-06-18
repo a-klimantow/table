@@ -1,4 +1,4 @@
-import { Layout, Table, IColumn } from 'components'
+import { Layout, Table, TableToolbar, TableWrapper, TableActiveFilters, IColumn } from 'components'
 
 const data = new Array(10).fill({
   name: 'Экспертное мнение',
@@ -29,7 +29,12 @@ const columns: IColumn[] = [
 export const ProfitPage = () => {
   return (
     <Layout.Page>
-      <Table data={data} columns={columns} showCheckbox onCheckedChange={console.log} />
+      <TableWrapper>
+        <TableToolbar />
+        <TableActiveFilters filters={Array(20).fill('thlleo = tu')} />
+        <Table data={data} columns={columns} showCheckbox onCheckedChange={console.log} />
+        <div>footer</div>
+      </TableWrapper>
     </Layout.Page>
   )
 }

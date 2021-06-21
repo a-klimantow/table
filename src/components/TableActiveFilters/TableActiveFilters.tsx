@@ -21,7 +21,7 @@ const ActiveFilterWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
   '& > :first-child': {
     width: 48,
   },
@@ -29,6 +29,6 @@ const ActiveFilterWrapper = styled('div')(({ theme }) => ({
   '& > :last-child': {
     display: 'inherit',
     flexWrap: 'wrap',
-    gap: theme.spacing(1),
+    gap: 'inherit',
   },
 }))

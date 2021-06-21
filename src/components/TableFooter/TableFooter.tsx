@@ -1,10 +1,18 @@
 import { FC } from 'react'
-import { styled } from '@material-ui/core'
+import { styled, TablePagination } from '@material-ui/core'
 
 export const TableFooter: FC = ({ children }) => (
   <TableFooterStyled>
     {children}
-    <div>table footer</div>
+    <TablePagination
+      component="div"
+      count={10}
+      page={0}
+      onChangePage={() => null}
+      rowsPerPage={10}
+      labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+      labelRowsPerPage="Строк на странице"
+    />
   </TableFooterStyled>
 )
 

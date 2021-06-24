@@ -31,6 +31,11 @@ const theme = createMuiTheme({
       },
     },
   },
+  typography: {
+    body1: {
+      fontWeight: 500,
+    },
+  },
 })
 
 export const GlobalThemeProvider: FC = ({ children }) => (

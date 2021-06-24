@@ -1,5 +1,19 @@
-import { makeStyles } from '@material-ui/core'
+import { useState } from 'react'
+import { makeStyles, Typography } from '@material-ui/core'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@material-ui/data-grid'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import Button from '@material-ui/core/Button'
+
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormGroup from '@material-ui/core/FormGroup'
+
+import Checkbox from '@material-ui/core/Checkbox'
+
+import { DivWrap, SpaceBottom } from './styles'
 import { Layout } from 'components'
 
 const Test = () => <div>test</div>
@@ -39,6 +53,11 @@ const rows = [
 
 export const PaymentsPage = () => {
   const classes = useStyles()
+
+  const [open, setOpen] = useState(false)
+
+  const handleDrawer = () => setOpen((state) => !state)
+
   return (
     <Layout.Page>
       <div style={{ backgroundColor: 'white' }}>
@@ -51,6 +70,79 @@ export const PaymentsPage = () => {
           components={{ Toolbar: Test, Pagination: Test }}
           componentsProps={{ toolbar: { test: 1 } }}
         />
+
+        <SwipeableDrawer anchor={'right'} open={open} onClose={handleDrawer} onOpen={handleDrawer}>
+          <DivWrap>
+            <div>
+              <Typography variant="h5">Экспорт заявок</Typography>
+              <SpaceBottom></SpaceBottom>
+
+              <FormControl component="fieldset">
+                <FormLabel component="legend">
+                  <Typography variant="body1">Платежная система</Typography>
+                </FormLabel>
+                <RadioGroup
+                  aria-label="payment"
+                  name="payment"
+                  //value={value}
+                  //onChange={handleChange}
+                >
+                  <FormControlLabel value="yookassa" control={<Radio />} label="Юкасса" />
+                  <FormControlLabel value="webmoney" control={<Radio />} label="Webmoney" />
+                </RadioGroup>
+              </FormControl>
+
+              <FormControl component="fieldset">
+                <FormLabel component="legend">
+                  <Typography variant="body1">Статус заявки</Typography>
+                </FormLabel>
+                <RadioGroup
+                  aria-label="request"
+                  name="request"
+                  //value={value}
+                  //onChange={handleChange}
+                >
+                  <FormControlLabel value="new" control={<Radio />} label="Новые" />
+                  <FormControlLabel
+                    value="inProgress"
+                    control={<Radio />}
+                    label="Принятые в работу"
+                  />
+                </RadioGroup>
+              </FormControl>
+
+              <FormControl component="fieldset" className="">
+                <FormLabel component="legend">
+                  {' '}
+                  <Typography variant="body1">Панели</Typography>
+                </FormLabel>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        //checked={EM}
+                        //onChange={handleChange}
+                        name="EM"
+                      />
+                    }
+                    label="Экспертное мнение"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        //checked={VD}
+                        //onChange={handleChange}
+                        name="VD"
+                      />
+                    }
+                    label="Власна Думка"
+                  />
+                </FormGroup>
+              </FormControl>
+            </div>
+          </DivWrap>
+        </SwipeableDrawer>
+        <Button onClick={handleDrawer}>Open</Button>
       </div>
     </Layout.Page>
   )

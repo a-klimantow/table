@@ -3,7 +3,7 @@ import {
   Table,
   TableToolbar,
   TableWrapper,
-  TableActiveFilters,
+  // TableActiveFilters,
   TableFooter,
   IColumn,
 } from 'components'
@@ -41,8 +41,8 @@ export const ProfitPage = () => {
     <Layout.Page>
       <TableWrapper>
         <TableToolbar />
-        <TableActiveFilters filters={Array(20).fill('thlleo = tu')} />
-        <Table data={data} columns={columns} onCheckedChange={console.log} />
+        {/* <TableActiveFilters filters={Array(20).fill('thlleo = tu')} /> */}
+        <Table data={data} columns={columns} onCheckedChange={console.log} showCheckbox />
         <TableFooter>
           <Button color="primary">Экспорт</Button>
           <Button color="primary">Импорт</Button>

@@ -1,3 +1,2 @@
-export * from './styled'
-export * from './GridHead'
-export * from './CheckboxCell'
+export * from './Checkbox'
+export * from './HeadCell'

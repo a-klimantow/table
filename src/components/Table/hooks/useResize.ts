@@ -1,6 +1,7 @@
 import { useState, DetailedHTMLProps, HtmlHTMLAttributes, MouseEvent } from 'react'
+import { TableHeadProps } from '@material-ui/core'
 
-type HandleType = () => DetailedHTMLProps<HtmlHTMLAttributes<HTMLTableElement>, HTMLTableElement>
+type HandleType = () => TableHeadProps
 
 const getStyle = (w: number) => `max-width: ${Math.max(100, w)}px; min-width: ${Math.min(500, w)}px`
 
@@ -34,5 +35,6 @@ export const useResize: HandleType = () => {
     onMouseLeave,
     onMouseMove,
     onMouseDown,
+    ['data-resize']: index,
   }
 }

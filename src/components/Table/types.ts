@@ -1,8 +1,10 @@
 import { ReactNode } from 'react'
+import { TableCellProps } from '@material-ui/core'
 
 export interface IColumn {
-  name?: string
   field: string
+  name?: string
+  align?: TableCellProps['align']
 }
 
 interface IDataItem {

@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) =>
       overflow: 'hidden',
       display: 'grid',
       gridTemplateRows: count > 3 ? 'auto auto 1fr auto' : 'auto 1fr auto',
+      maxHeight: 'calc(100vh - 120px)',
     }),
   })
 )

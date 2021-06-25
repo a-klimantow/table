@@ -23,7 +23,7 @@ const data = new Array(10).fill({
 const columns: IColumn[] = [
   { name: 'Название панели', field: 'name' },
   { name: 'Старше 3 дней', field: 'reqOld' },
-  { name: 'Сумма (старше 3 дней)', field: 'reqOldSum' },
+  { name: 'Сумма (старше 3 дней)', field: 'reqOldSum', align: 'right' },
   { name: 'Всего заявок', field: 'reqAll' },
   { name: 'Сумма (всего заяв ок)', field: 'reqSum' },
   { name: 'В обработке', field: 'name' },

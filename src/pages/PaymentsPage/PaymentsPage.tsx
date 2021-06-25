@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, FC } from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@material-ui/data-grid'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import Button from '@material-ui/core/Button'
+
+import { IPaymentsPage } from './types'
 
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -51,12 +53,40 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ]
 
-export const PaymentsPage = () => {
+const availablePanels = [
+  { id: 1029695, key: 'em', title: 'Экспертное мнение' },
+  { id: 161373312, key: 'opby', title: 'Opros.by' },
+  { id: 183597234, key: 'oy', title: 'Oy.kz' },
+  { id: 74340367, key: 'vd', title: 'Власна думка' },
+  { id: 7110218, key: 'bp', title: 'BigPoll' },
+]
+
+const availablePaymentSystems = [
+  { id: 11, key: 'youkassa', title: 'Юкасса' },
+  { id: 12, key: 'webmoney', title: 'Webmoney' },
+]
+
+const paymentStatus = [
+  { id: 11, key: 'new', title: 'Новые' },
+  { id: 12, key: 'inProgress', title: 'В процессе' },
+]
+
+export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
   const classes = useStyles()
 
   const [open, setOpen] = useState(false)
+  const [payment, setPayment] = useState('webmoney')
+  const [status, setStatus] = useState('new')
 
   const handleDrawer = () => setOpen((state) => !state)
+
+  const handlePaymentSystemChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPayment((event.target as HTMLInputElement).value)
+  }
+
+  const handlePaymentStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus((event.target as HTMLInputElement).value)
+  }
 
   return (
     <Layout.Page>
@@ -84,14 +114,20 @@ export const PaymentsPage = () => {
                 <RadioGroup
                   aria-label="payment"
                   name="payment"
-                  //value={value}
-                  //onChange={handleChange}
+                  value={payment}
+                  onChange={handlePaymentSystemChange}
                 >
-                  <FormControlLabel value="yookassa" control={<Radio />} label="Юкасса" />
-                  <FormControlLabel value="webmoney" control={<Radio />} label="Webmoney" />
+                  {availablePaymentSystems.map((system) => (
+                    <FormControlLabel
+                      key={system['key']}
+                      value={system.key}
+                      control={<Radio />}
+                      label={system.title}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
-
+              <SpaceBottom></SpaceBottom>
               <FormControl component="fieldset">
                 <FormLabel component="legend">
                   <Typography variant="body1">Статус заявки</Typography>
@@ -99,17 +135,20 @@ export const PaymentsPage = () => {
                 <RadioGroup
                   aria-label="request"
                   name="request"
-                  //value={value}
-                  //onChange={handleChange}
+                  value={status}
+                  onChange={handlePaymentStatusChange}
                 >
-                  <FormControlLabel value="new" control={<Radio />} label="Новые" />
-                  <FormControlLabel
-                    value="inProgress"
-                    control={<Radio />}
-                    label="Принятые в работу"
-                  />
+                  {paymentStatus.map((status) => (
+                    <FormControlLabel
+                      key={status['key']}
+                      value={status.key}
+                      control={<Radio />}
+                      label={status.title}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
+              <SpaceBottom></SpaceBottom>
 
               <FormControl component="fieldset" className="">
                 <FormLabel component="legend">
@@ -117,26 +156,19 @@ export const PaymentsPage = () => {
                   <Typography variant="body1">Панели</Typography>
                 </FormLabel>
                 <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        //checked={EM}
-                        //onChange={handleChange}
-                        name="EM"
-                      />
-                    }
-                    label="Экспертное мнение"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        //checked={VD}
-                        //onChange={handleChange}
-                        name="VD"
-                      />
-                    }
-                    label="Власна Думка"
-                  />
+                  {availablePanels.map((panel) => (
+                    <FormControlLabel
+                      key={panel['key']}
+                      control={
+                        <Checkbox
+                          //checked={true}
+                          //onChange={handleChange}
+                          name={panel.key}
+                        />
+                      }
+                      label={panel.title}
+                    />
+                  ))}
                 </FormGroup>
               </FormControl>
             </div>

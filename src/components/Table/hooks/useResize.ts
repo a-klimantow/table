@@ -1,4 +1,4 @@
-import { useState, DetailedHTMLProps, HtmlHTMLAttributes, MouseEvent } from 'react'
+import { useState, MouseEvent } from 'react'
 import { TableHeadProps } from '@material-ui/core'
 
 type HandleType = () => TableHeadProps

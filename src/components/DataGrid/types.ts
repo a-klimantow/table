@@ -1,16 +1,34 @@
-import { CheckboxProps } from '@material-ui/core'
+import { ChangeEvent, ReactNode } from 'react'
 
-interface IGridCol {
-  field: string
+export interface IDataGridCol {
   name: string
-  width: number
+  field: string
+  hidden?: boolean
 }
 
-export interface IGridProps {
-  columns?: IGridCol[]
+export interface IDataGridProps {
+  columns: IDataGridCol[]
+  data: { [key: string]: string | ReactNode }[]
 }
 
-export interface ICheckboxCellProps extends CheckboxProps {
-  head?: boolean | null
-  cell?: boolean | null
+export interface IDataGridState extends IDataGridProps {
+  filters: IDataGridCol[]
+  search: string
+  selected: number[]
+  hiddenFields: string[]
 }
+
+export interface IDataGridContext extends IDataGridState {
+  memoColumns: IDataGridCol[]
+}
+
+export interface IDataGridActionContext {
+  handleChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void
+  handleChangeHidden: (field: string) => (e: ChangeEvent<HTMLInputElement>) => void
+  handleChangeHiddenAll: (hidden: boolean) => () => void
+}
+
+export type ActionsType =
+  | { type: 'search_change'; value: string }
+  | { type: 'change_hidden'; field: string; hidden: boolean }
+  | { type: 'change_hidden_all'; hidden: boolean }

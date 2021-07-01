@@ -1,19 +1,23 @@
 import { FC } from 'react'
-import { Paper, InputBase, InputBaseProps, styled } from '@material-ui/core'
+import { observer } from 'mobx-react-lite'
+import { Paper, InputBase, styled } from '@material-ui/core'
 import { Search as Icon } from '@material-ui/icons'
+import { useGridStore } from '../hooks'
 
-import { useDataGridContext } from '../hooks'
-
-export const ToolbarSearch: FC<InputBaseProps> = () => {
-  const { search, handleChangeSearch } = useDataGridContext()
-
+export const Search: FC = observer(() => {
+  const { search, changeSearch } = useGridStore()
   return (
     <SearchStaled variant="outlined">
       <Icon fontSize="small" color="action" />
-      <InputBase placeholder="Поиск..." value={search} onChange={handleChangeSearch} />
+      <InputBase
+        placeholder="Поиск..."
+        value={search}
+        onChange={(e) => changeSearch(e.currentTarget.value)}
+      />
     </SearchStaled>
   )
-}
+})
+
 const SearchStaled = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

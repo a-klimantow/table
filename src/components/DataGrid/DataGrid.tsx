@@ -1,21 +1,24 @@
 import { FC } from 'react'
+
 import { Paper, styled } from '@material-ui/core'
 
-import { DataGridProvider } from './DataGridProvider'
-
 import { IDataGridProps } from './types'
-import { Toolbar, Filters, Grid, Footer } from './components'
+import { Toolbar, AppliedFilters, Grid, Footer } from './components'
+import { GridContext } from './context'
+import { GridStore } from './store'
 
-export const DataGrid: FC<IDataGridProps> = (props) => (
-  <DataGridProvider {...props}>
-    <Wrapper variant="outlined">
-      <Toolbar />
-      <Filters />
-      <Grid />
-      <Footer />
-    </Wrapper>
-  </DataGridProvider>
-)
+export const DataGrid: FC<IDataGridProps> = ({ columns }) => {
+  return (
+    <GridContext.Provider value={new GridStore(columns)}>
+      <Wrapper variant="outlined">
+        <Toolbar />
+        <AppliedFilters />
+        <Grid />
+        <Footer />
+      </Wrapper>
+    </GridContext.Provider>
+  )
+}
 
 const Wrapper = styled(Paper)({
   display: 'grid',

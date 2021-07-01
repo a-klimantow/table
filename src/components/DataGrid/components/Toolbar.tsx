@@ -1,18 +1,21 @@
+import { observer } from 'mobx-react-lite'
 import { styled } from '@material-ui/core'
 
-import { ToolbarColMenu } from './ToolbarColMenu'
-import { ToolbarFilterMenu } from './ToolbarFilterMenu'
-import { ToolbarSearch } from './ToolbarSearch'
+import { useGridStore } from '../hooks'
+import { Search } from './Search'
+import { MenuColumns } from './MenuColumns'
+import { MenuFilters } from './MenuFilters'
 
-export const Toolbar = () => {
+export const Toolbar = observer(() => {
+  const { isActionToolbar } = useGridStore()
   return (
-    <ToolbarStyled>
-      <ToolbarColMenu />
-      <ToolbarFilterMenu />
-      <ToolbarSearch />
+    <ToolbarStyled data-action={isActionToolbar}>
+      <MenuColumns />
+      <MenuFilters />
+      <Search />
     </ToolbarStyled>
   )
-}
+})
 
 const ToolbarStyled = styled('div')(({ theme }) => ({
   background: theme.palette.grey['300'],

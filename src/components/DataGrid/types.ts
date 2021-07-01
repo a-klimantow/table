@@ -1,25 +1,49 @@
 import { ChangeEvent, ReactNode } from 'react'
 
-export interface IDataGridCol {
+export interface IGridStore {
+  columns: IGridCol[]
+  isActionToolbar: boolean
+  search: string
+  filters: IFilterItem[]
+  // actions
+  changeSearch: (s: string) => void
+  hiddenAllCols: () => void
+  showAllCols: () => void
+  toggleColHidden: (name: string) => void
+  addFilter: () => void
+  deleteFilter: (n: number) => void
+  changeFilter: (i: number, f: keyof IFilterItem, v: string) => void
+  //getters
+  renderFilter: string[]
+}
+
+export interface IGridCol {
   name: string
   field: string
   hidden?: boolean
 }
 
+export interface IFilterItem {
+  name: string
+  type: string
+  condition: string
+  value: string
+}
+
 export interface IDataGridProps {
-  columns: IDataGridCol[]
+  columns: IGridCol[]
   data: { [key: string]: string | ReactNode }[]
 }
 
 export interface IDataGridState extends IDataGridProps {
-  filters: IDataGridCol[]
+  filters: IGridCol[]
   search: string
   selected: number[]
   hiddenFields: string[]
 }
 
 export interface IDataGridContext extends IDataGridState {
-  memoColumns: IDataGridCol[]
+  memoColumns: IGridCol[]
 }
 
 export interface IDataGridActionContext {

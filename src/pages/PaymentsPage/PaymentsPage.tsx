@@ -6,16 +6,8 @@ import Button from '@material-ui/core/Button'
 
 import { IPaymentsPage } from './types'
 
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import FormGroup from '@material-ui/core/FormGroup'
+import { PaymentRequestExport } from '../../components/PaymentRequestExport'
 
-import Checkbox from '@material-ui/core/Checkbox'
-
-import { DivWrap, SpaceBottom } from './styles'
 import { Layout } from 'components'
 
 const Test = () => <div>test</div>
@@ -53,40 +45,12 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ]
 
-const availablePanels = [
-  { id: 1029695, key: 'em', title: 'Экспертное мнение' },
-  { id: 161373312, key: 'opby', title: 'Opros.by' },
-  { id: 183597234, key: 'oy', title: 'Oy.kz' },
-  { id: 74340367, key: 'vd', title: 'Власна думка' },
-  { id: 7110218, key: 'bp', title: 'BigPoll' },
-]
-
-const availablePaymentSystems = [
-  { id: 11, key: 'youkassa', title: 'Юкасса' },
-  { id: 12, key: 'webmoney', title: 'Webmoney' },
-]
-
-const paymentStatus = [
-  { id: 11, key: 'new', title: 'Новые' },
-  { id: 12, key: 'inProgress', title: 'В процессе' },
-]
-
 export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
   const classes = useStyles()
 
   const [open, setOpen] = useState(false)
-  const [payment, setPayment] = useState('webmoney')
-  const [status, setStatus] = useState('new')
 
   const handleDrawer = () => setOpen((state) => !state)
-
-  const handlePaymentSystemChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPayment((event.target as HTMLInputElement).value)
-  }
-
-  const handlePaymentStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStatus((event.target as HTMLInputElement).value)
-  }
 
   return (
     <Layout.Page>
@@ -102,77 +66,7 @@ export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
         />
 
         <SwipeableDrawer anchor={'right'} open={open} onClose={handleDrawer} onOpen={handleDrawer}>
-          <DivWrap>
-            <div>
-              <Typography variant="h5">Экспорт заявок</Typography>
-              <SpaceBottom></SpaceBottom>
-
-              <FormControl component="fieldset">
-                <FormLabel component="legend">
-                  <Typography variant="body1">Платежная система</Typography>
-                </FormLabel>
-                <RadioGroup
-                  aria-label="payment"
-                  name="payment"
-                  value={payment}
-                  onChange={handlePaymentSystemChange}
-                >
-                  {availablePaymentSystems.map((system) => (
-                    <FormControlLabel
-                      key={system['key']}
-                      value={system.key}
-                      control={<Radio />}
-                      label={system.title}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <SpaceBottom></SpaceBottom>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">
-                  <Typography variant="body1">Статус заявки</Typography>
-                </FormLabel>
-                <RadioGroup
-                  aria-label="request"
-                  name="request"
-                  value={status}
-                  onChange={handlePaymentStatusChange}
-                >
-                  {paymentStatus.map((status) => (
-                    <FormControlLabel
-                      key={status['key']}
-                      value={status.key}
-                      control={<Radio />}
-                      label={status.title}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <SpaceBottom></SpaceBottom>
-
-              <FormControl component="fieldset" className="">
-                <FormLabel component="legend">
-                  {' '}
-                  <Typography variant="body1">Панели</Typography>
-                </FormLabel>
-                <FormGroup>
-                  {availablePanels.map((panel) => (
-                    <FormControlLabel
-                      key={panel['key']}
-                      control={
-                        <Checkbox
-                          //checked={true}
-                          //onChange={handleChange}
-                          name={panel.key}
-                        />
-                      }
-                      label={panel.title}
-                    />
-                  ))}
-                </FormGroup>
-              </FormControl>
-            </div>
-          </DivWrap>
+          <PaymentRequestExport />
         </SwipeableDrawer>
         <Button onClick={handleDrawer}>Open</Button>
       </div>

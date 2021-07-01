@@ -36,6 +36,14 @@ const theme = createMuiTheme({
       fontWeight: 500,
     },
   },
+  props: {
+    MuiRadio: {
+      color: 'primary',
+    },
+    MuiCheckbox: {
+      color: 'primary',
+    },
+  },
 })
 
 export const GlobalThemeProvider: FC = ({ children }) => (

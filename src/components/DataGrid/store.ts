@@ -9,6 +9,7 @@ export class GridStore implements IGridStore {
   filters = [createFilterItem()]
   isActionToolbar = false
   search = ''
+  data = []
 
   constructor(columns: IGridCol[]) {
     makeAutoObservable(this)
@@ -65,5 +66,9 @@ export class GridStore implements IGridStore {
     return this.filters
       .filter((f) => [f.name, f.condition, f.value].every(Boolean))
       .map(({ name, value }) => `${name} = ${value}`)
+  }
+
+  get renderColumns() {
+    return this.columns.filter((c) => !c.hidden)
   }
 }

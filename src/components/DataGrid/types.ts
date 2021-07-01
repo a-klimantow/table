@@ -5,6 +5,7 @@ export interface IGridStore {
   isActionToolbar: boolean
   search: string
   filters: IFilterItem[]
+  data: { [key: string]: ReactNode }[]
   // actions
   changeSearch: (s: string) => void
   hiddenAllCols: () => void
@@ -15,6 +16,7 @@ export interface IGridStore {
   changeFilter: (i: number, f: keyof IFilterItem, v: string) => void
   //getters
   renderFilter: string[]
+  renderColumns: IGridCol[]
 }
 
 export interface IGridCol {

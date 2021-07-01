@@ -7,8 +7,8 @@ export const FilterList = observer(() => {
   const store = useGridStore()
   return (
     <FilterListStyled>
-      {store.renderFilter.map((filter, i) => (
-        <Chip key={i} label={filter} size="small" onDelete={() => store.deleteFilter(i)} />
+      {store.renderFilter.map((filter, index) => (
+        <Chip key={index} label={filter} size="small" onDelete={() => store.deleteFilter(index)} />
       ))}
     </FilterListStyled>
   )

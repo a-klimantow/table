@@ -9,7 +9,7 @@ import { GridStore } from './store'
 
 export const DataGrid: FC<IDataGridProps> = ({ columns }) => {
   return (
-    <GridContext.Provider value={new GridStore(columns)}>
+    <GridContext.Provider value={new GridStore({ columns, showCheckbox: false })}>
       <Wrapper variant="outlined">
         <Toolbar />
         <AppliedFilters />

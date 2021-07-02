@@ -5,14 +5,14 @@ import { Search as Icon } from '@material-ui/icons'
 import { useGridStore } from '../hooks'
 
 export const Search: FC = observer(() => {
-  const { search, changeSearch } = useGridStore()
+  const store = useGridStore()
   return (
     <SearchStaled variant="outlined">
       <Icon fontSize="small" color="action" />
       <InputBase
         placeholder="Поиск..."
-        value={search}
-        onChange={(e) => changeSearch(e.currentTarget.value)}
+        value={store.search}
+        onChange={(e) => store.changeSearch(e.currentTarget.value)}
       />
     </SearchStaled>
   )

@@ -1,22 +1,34 @@
 import { makeAutoObservable } from 'mobx'
 
-import { IFilterItem, IGridCol, IGridStore } from './types'
+import { IFilterItem, IGridCol, IGridStore, DataItemType } from './types'
 
 const createFilterItem = (): IFilterItem => ({ name: '', condition: '', type: '', value: '' })
 
+const mockData = Array(1000).fill({
+  test: 0,
+  test1: 1,
+  test2: 2,
+  test3: 3,
+  test4: 4,
+  test5: 5,
+})
+
 export class GridStore implements IGridStore {
   columns
+  showCheckbox = false
   filters = [createFilterItem()]
   isActionToolbar = false
   search = ''
-  data = []
+  data = mockData
+  selected: DataItemType[] = []
 
-  constructor(columns: IGridCol[]) {
+  constructor({ columns, showCheckbox }: { columns: IGridCol[]; showCheckbox: boolean }) {
     makeAutoObservable(this)
     this.columns = columns
+    this.showCheckbox = showCheckbox
   }
 
-  changeSearch = (search = '') => {
+  changeSearch(search = '') {
     this.search = search
   }
 
@@ -62,6 +74,15 @@ export class GridStore implements IGridStore {
     }
   }
 
+  changeSelectedAll(checked: boolean) {
+    this.data.forEach((d) => (d.checked = checked))
+  }
+
+  changeSelectedRow(index: number, checked: boolean) {
+    const row = this.data[index]
+    row.checked = checked
+  }
+
   get renderFilter() {
     return this.filters
       .filter((f) => [f.name, f.condition, f.value].every(Boolean))
@@ -70,5 +91,15 @@ export class GridStore implements IGridStore {
 
   get renderColumns() {
     return this.columns.filter((c) => !c.hidden)
+  }
+
+  get selectedIds() {
+    return this.data.filter((d) => d.checked).map((_, i) => i)
+  }
+
+  get checkAll() {
+    const checked = Boolean(this.selectedIds.length)
+    const indeterminate = checked && this.selectedIds.length !== this.data.length
+    return { checked, indeterminate }
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 export interface IGridStore {
   columns: IGridCol[]
@@ -36,25 +36,3 @@ export interface IDataGridProps {
   columns: IGridCol[]
   data: { [key: string]: string | ReactNode }[]
 }
-
-export interface IDataGridState extends IDataGridProps {
-  filters: IGridCol[]
-  search: string
-  selected: number[]
-  hiddenFields: string[]
-}
-
-export interface IDataGridContext extends IDataGridState {
-  memoColumns: IGridCol[]
-}
-
-export interface IDataGridActionContext {
-  handleChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void
-  handleChangeHidden: (field: string) => (e: ChangeEvent<HTMLInputElement>) => void
-  handleChangeHiddenAll: (hidden: boolean) => () => void
-}
-
-export type ActionsType =
-  | { type: 'search_change'; value: string }
-  | { type: 'change_hidden'; field: string; hidden: boolean }
-  | { type: 'change_hidden_all'; hidden: boolean }

@@ -1,8 +1,5 @@
 import { createContext } from 'react'
 
-import { IDataGridContext, IDataGridActionContext, IGridStore } from './types'
-
-export const DataGridContext = createContext({} as IDataGridContext)
-export const DataGridActionContext = createContext({} as IDataGridActionContext)
+import { IGridStore } from './types'
 
 export const GridContext = createContext({} as IGridStore)

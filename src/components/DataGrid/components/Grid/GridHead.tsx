@@ -1,22 +1,26 @@
 import { observer } from 'mobx-react-lite'
 import { TableHead, TableRow, styled } from '@material-ui/core'
 
-import { useGridStore } from '../../hooks'
-import { GridCell } from './GridCell'
-import { Resize } from './Resize'
+import { useGridStore, useColWidths } from '../../hooks'
 import { GridCellCheckbox } from './GridCellCheckbox'
+import { GridCellHead } from './GridCellHead'
 
 export const GridHead = observer(() => {
   const store = useGridStore()
+  const widths = useColWidths()
   return (
     <TableHeadStyled>
       <TableRow>
         <GridCellCheckbox head />
-        {store.renderColumns.map(({ name }, i) => (
-          <GridCell key={i} data-freeze={i === 0 || null}>
+        {store.renderColumns.map(({ name, field }, i) => (
+          <GridCellHead
+            key={name}
+            field={field}
+            isFreeze={i === 0 || null}
+            width={widths ? widths[field] : ''}
+          >
             {name}
-            <Resize />
-          </GridCell>
+          </GridCellHead>
         ))}
       </TableRow>
     </TableHeadStyled>

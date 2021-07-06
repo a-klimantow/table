@@ -15,6 +15,7 @@ export const PaymentsPage = () => {
           { name: 'test 7 очень длинное название колонки', field: 'test7' },
         ]}
         data={Array(10).fill({ test: 0, test1: 1, test2: 2, test3: 3, test4: 4, test5: 5 })}
+        
       />
     </Layout.Page>
   )

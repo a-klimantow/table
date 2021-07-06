@@ -4,6 +4,8 @@ export const GridCell = withStyles((theme) => ({
   root: {
     position: 'relative',
     padding: theme.spacing(1),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
 
     '&[data-freeze], &[data-checkbox]': {
       position: 'sticky',
@@ -13,9 +15,9 @@ export const GridCell = withStyles((theme) => ({
 
     '&[data-checkbox]': {
       padding: 0,
-      "& ~ [data-freeze]": {
-        left: 42
-      }
+      '& ~ [data-freeze]': {
+        left: 42,
+      },
     },
   },
 

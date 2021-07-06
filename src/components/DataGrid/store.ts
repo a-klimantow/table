@@ -4,7 +4,7 @@ import { IFilterItem, IGridCol, IGridStore, DataItemType } from './types'
 
 const createFilterItem = (): IFilterItem => ({ name: '', condition: '', type: '', value: '' })
 
-const mockData = Array(1000).fill({
+const mockData = Array(10).fill({
   test: 0,
   test1: 1,
   test2: 2,

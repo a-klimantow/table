@@ -29,7 +29,7 @@ export const GridCellCheckbox = observer<Props>(({ head = false, index = 0 }) =>
   return (
     <GridCell data-checkbox align="center">
       <Checkbox color="primary" {...props} />
-      {head ? <Resize /> : null}
+      {head ? <Resize isResize={false} /> : null}
     </GridCell>
   )
 })

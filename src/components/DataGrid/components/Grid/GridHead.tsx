@@ -17,7 +17,7 @@ export const GridHead = observer(() => {
             key={name}
             field={field}
             isFreeze={i === 0 || null}
-            width={widths ? widths[field] : ''}
+            width={widths ? widths[field] ?? '' : ''}
           >
             {name}
           </GridCellHead>

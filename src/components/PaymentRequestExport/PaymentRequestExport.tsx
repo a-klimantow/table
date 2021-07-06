@@ -8,10 +8,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import FormGroup from '@material-ui/core/FormGroup'
 import Checkbox from '@material-ui/core/Checkbox'
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 
-import { Wrapper, SpaceBottom } from './style'
+import { useStyles } from './style'
+import { Wrapper } from './style'
+import { IPaymentRequestClose } from './types'
 
-export const PaymentRequestExport = () => {
+export const PaymentRequestExport: FC<IPaymentRequestClose> = ({ onClick }) => {
+  const classes = useStyles()
+
   const availablePanels = [
     { id: 1029695, key: 'em', title: 'Экспертное мнение' },
     { id: 161373312, key: 'opby', title: 'Opros.by' },
@@ -42,10 +48,11 @@ export const PaymentRequestExport = () => {
   }
 
   return (
-    <Wrapper>
-      <div>
-        <Typography variant="h5">Экспорт заявок</Typography>
-        <SpaceBottom></SpaceBottom>
+    <>
+      <Wrapper>
+        <Typography variant="h5" className={classes.root}>
+          Экспорт заявок
+        </Typography>
 
         <FormControl component="fieldset" className={classes.root}>
           <FormLabel component="legend">
@@ -67,8 +74,8 @@ export const PaymentRequestExport = () => {
             ))}
           </RadioGroup>
         </FormControl>
-        <SpaceBottom></SpaceBottom>
-        <FormControl component="fieldset">
+
+        <FormControl component="fieldset" className={classes.root}>
           <FormLabel component="legend">
             <Typography variant="body1">Статус заявки</Typography>
           </FormLabel>
@@ -88,9 +95,8 @@ export const PaymentRequestExport = () => {
             ))}
           </RadioGroup>
         </FormControl>
-        <SpaceBottom></SpaceBottom>
 
-        <FormControl component="fieldset" className="">
+        <FormControl component="fieldset" className={classes.root}>
           <FormLabel component="legend">
             {' '}
             <Typography variant="body1">Панели</Typography>
@@ -111,7 +117,15 @@ export const PaymentRequestExport = () => {
             ))}
           </FormGroup>
         </FormControl>
-      </div>
-    </Wrapper>
+      </Wrapper>
+      <Box className={classes.box}>
+        <Button variant="outlined" color="primary" className={classes.margin} onClick={onClick}>
+          Отменить
+        </Button>
+        <Button variant="contained" color="primary">
+          Экспортировать
+        </Button>
+      </Box>
+    </>
   )
 }

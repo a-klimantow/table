@@ -50,7 +50,9 @@ export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
 
   const [open, setOpen] = useState(false)
 
-  const handleDrawer = () => setOpen((state) => !state)
+  const handleToggleDrawer = () => setOpen((state) => !state)
+
+  const handleCloseDrawer = () => setOpen(false)
 
   return (
     <Layout.Page>
@@ -65,10 +67,15 @@ export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
           componentsProps={{ toolbar: { test: 1 } }}
         />
 
-        <SwipeableDrawer anchor={'right'} open={open} onClose={handleDrawer} onOpen={handleDrawer}>
-          <PaymentRequestExport />
+        <SwipeableDrawer
+          anchor={'right'}
+          open={open}
+          onClose={handleToggleDrawer}
+          onOpen={handleToggleDrawer}
+        >
+          <PaymentRequestExport onClick={handleCloseDrawer} />
         </SwipeableDrawer>
-        <Button onClick={handleDrawer}>Open</Button>
+        <Button onClick={handleToggleDrawer}>Open</Button>
       </div>
     </Layout.Page>
   )

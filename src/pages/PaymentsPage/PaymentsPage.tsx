@@ -1,53 +1,10 @@
-import { useState, FC } from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@material-ui/data-grid'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import Button from '@material-ui/core/Button'
-
-import { IPaymentsPage } from './types'
+import { Layout, DataGrid } from 'components'
+import { useState } from 'react'
+import { SwipeableDrawer, Box, Button } from '@material-ui/core'
 
 import { PaymentRequestExport } from '../../components/PaymentRequestExport'
 
-import { Layout } from 'components'
-
-const Test = () => <div>test</div>
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 700, renderHeader: Test },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-  },
-]
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-]
-
-export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
-  const classes = useStyles()
-
+export const PaymentsPage = () => {
   const [open, setOpen] = useState(false)
 
   const handleToggleDrawer = () => setOpen((state) => !state)
@@ -56,44 +13,33 @@ export const PaymentsPage: FC<IPaymentsPage> = ({ panels, paymentSystems }) => {
 
   return (
     <Layout.Page>
-      <div style={{ backgroundColor: 'white' }}>
-        <DataGrid
-          classes={classes}
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-          components={{ Toolbar: Test, Pagination: Test }}
-          componentsProps={{ toolbar: { test: 1 } }}
-        />
+      <DataGrid
+        columns={[
+          { name: 'test очень длинное название колонки', field: 'test' },
+          { name: 'test 1 очень длинное название колонки', field: 'test1' },
+          { name: 'test 2 очень длинное название колонки', field: 'test2' },
+          { name: 'test 3 очень длинное название колонки', field: 'test3' },
+          { name: 'test 4 очень длинное название колонки', field: 'test4' },
+          { name: 'test 5 очень длинное название колонки', field: 'test5' },
+          { name: 'test 6 очень длинное название колонки', field: 'test6' },
+          { name: 'test 7 очень длинное название колонки', field: 'test7' },
+        ]}
+        data={Array(10).fill({ test: 0, test1: 1, test2: 2, test3: 3, test4: 4, test5: 5 })}
+      />
 
-        <SwipeableDrawer
-          anchor={'right'}
-          open={open}
-          onClose={handleToggleDrawer}
-          onOpen={handleToggleDrawer}
-        >
-          <PaymentRequestExport onClick={handleCloseDrawer} />
-        </SwipeableDrawer>
-        <Button onClick={handleToggleDrawer}>Open</Button>
-      </div>
+      <SwipeableDrawer
+        anchor={'right'}
+        open={open}
+        onClose={handleToggleDrawer}
+        onOpen={handleToggleDrawer}
+      >
+        <PaymentRequestExport onClick={handleCloseDrawer} />
+      </SwipeableDrawer>
+      <Box component="span" m={1}>
+        <Button color="primary" onClick={handleToggleDrawer}>
+          Экспорт
+        </Button>
+      </Box>
     </Layout.Page>
   )
 }
-
-const useStyles = makeStyles({
-  root: {
-    position: 'sticky',
-    '& .MuiDataGrid': {
-      '&-cell:first-child': {
-        position: 'absolute',
-        left: 0,
-        border: '1px solid',
-      },
-      '&-cell:not(:first-child)': {
-        color: 'blue',
-        marginLeft: 48,
-      },
-    },
-  },
-})

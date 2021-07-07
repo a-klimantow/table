@@ -27,6 +27,7 @@
     "require-jsdoc": "off",
     "spaced-comment": "off",
     "no-unused-vars": "off",
+    "no-invalid-this": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

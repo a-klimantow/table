@@ -15,7 +15,7 @@ export const Resize = styled('span')(({ theme }) => ({
   },
 }))
 
-export const InnerCell = styled('div')(({ theme }) => ({
+export const InnerCell = styled('div')(() => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   alignItems: 'center',

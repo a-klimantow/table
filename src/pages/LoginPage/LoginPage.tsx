@@ -7,8 +7,13 @@ import {
   Box,
   InputAdornment, IconButton,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+
+interface FormValues {
+  login: string,
+  password: string,
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,13 +43,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialValues: FormValues = {
+  login: '',
+  password: '',
+};
+
 export const LoginPage = () => {
-  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [formValues, setFormValues] = useState<FormValues>(initialValues);
+  const [formErrors, setFormErrors] = useState<FormValues>(initialValues);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const classes = useStyles();
 
   const switchIsShowingPassword = (): void => {
     setIsShowPassword((isShowPassword) => !isShowPassword);
   };
+
+  const FormSubmitHandler = (): void => {
+    debugger
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFormErrors({
+        login: 'Пользователь с таким E-mail не зарегистрирован',
+        password: 'Введен неверный пароль. Повторите попытку',
+      })
+    }, 2000)
+  }, []);
 
   return (
     <Container className={classes.root}>
@@ -53,7 +78,7 @@ export const LoginPage = () => {
         <Typography component='h1' variant='h6' align='center' className={classes.header}>
           PanelRider
         </Typography>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={FormSubmitHandler}>
           <Typography component='p' variant='body1'>
             Вход в систему
           </Typography>
@@ -62,14 +87,30 @@ export const LoginPage = () => {
             label='E-mail'
             size='small'
             type='email'
-            error
-            helperText='Пользователь с таким E-mail не зарегистрирован'
+            value={formValues.login}
+            onChange={(evt) => {
+              setFormValues({
+                ...formValues,
+                login: evt.target.value,
+              });
+            }}
+            error={Boolean(formErrors.login)}
+            helperText={formErrors.login}
           />
           <TextField
             variant='outlined'
             label='Пароль'
             size='small'
             type={isShowPassword ? 'text' : 'password'}
+            value={formValues.password}
+            onChange={(evt) => {
+              setFormValues({
+                ...formValues,
+                password: evt.target.value,
+              });
+            }}
+            error={Boolean(formErrors.password)}
+            helperText={formErrors.password}
             InputProps={{
               endAdornment: (
                 <InputAdornment position='end'>

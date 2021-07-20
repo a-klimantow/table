@@ -11,7 +11,6 @@ import {
 
 interface IFormControlWrapProps {
   title: string
-  type: 'radio' | 'checkbox'
   radioGroup?: RadioGroupProps
   radioList?: { title: string; key: string }[]
   onChange(event: React.ChangeEvent<HTMLInputElement>): void
@@ -19,9 +18,8 @@ interface IFormControlWrapProps {
   className?: string
 }
 
-export const FormControlWrapperRadio: FC<IFormControlWrapProps> = ({
+export const WrapperRadio: FC<IFormControlWrapProps> = ({
   title,
-  type,
   radioGroup = {},
   radioList = [],
   onChange,
@@ -35,13 +33,11 @@ export const FormControlWrapperRadio: FC<IFormControlWrapProps> = ({
           <Typography variant="body1">{title}</Typography>
         </FormLabel>
 
-        {type === 'radio' ? (
-          <RadioGroup {...radioGroup} onChange={onChange} value={value}>
-            {radioList.map(({ key, title }) => (
-              <FormControlLabel key={key} value={key} control={<Radio />} label={title} />
-            ))}
-          </RadioGroup>
-        ) : null}
+        <RadioGroup {...radioGroup} onChange={onChange} value={value}>
+          {radioList.map(({ key, title }) => (
+            <FormControlLabel key={key} value={key} control={<Radio />} label={title} />
+          ))}
+        </RadioGroup>
       </FormControl>
     </>
   )

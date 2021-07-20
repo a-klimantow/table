@@ -1,8 +1,8 @@
 import { useStyles } from '../../style'
 import { useState } from 'react'
 
-import { FormControlWrapperRadio } from '../FormControlWrapper/FormControlWrapperRadio'
-import { FormControlWrapperCheckbox } from '../FormControlWrapper/FormControlWrapperCheckbox'
+import { WrapperRadio } from '../ListWrapper/WrapperRadio'
+import { WrapperCheckbox } from '../ListWrapper/WrapperCheckbox'
 
 const availablePanels = [
   { id: 1029695, key: 'em', title: 'Экспертное мнение' },
@@ -38,24 +38,22 @@ export const PaymentRequestList = () => {
 
   return (
     <>
-      <FormControlWrapperRadio
+      <WrapperRadio
         title={'Платежная система'}
-        type={'radio'}
         radioList={availablePaymentSystems}
         onChange={handlePaymentSystemChange}
         value={payment}
         className={classes.root}
       />
-      <FormControlWrapperRadio
+      <WrapperRadio
         title={'Статус заявки'}
-        type={'radio'}
         radioList={paymentStatus}
         onChange={handlePaymentStatusChange}
         value={status}
         className={classes.root}
       />
 
-      <FormControlWrapperCheckbox
+      <WrapperCheckbox
         title={'Панели'}
         checkboxList={availablePanels}
         className={classes.root}

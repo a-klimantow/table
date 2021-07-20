@@ -1,3 +1,3 @@
 export interface IPaymentRequestClose {
-  onClick: any
+  onClick: () => void
 }

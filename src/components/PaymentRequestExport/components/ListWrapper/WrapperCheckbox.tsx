@@ -18,7 +18,7 @@ interface IFormControlWrapperCheckboxProps {
   className?: string
 }
 
-export const FormControlWrapperCheckbox: FC<IFormControlWrapperCheckboxProps> = ({
+export const WrapperCheckbox: FC<IFormControlWrapperCheckboxProps> = ({
   title,
   formGroup = {},
   checkboxList = [],

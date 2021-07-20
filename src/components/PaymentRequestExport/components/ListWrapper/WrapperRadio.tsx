@@ -13,8 +13,8 @@ interface IFormControlWrapProps {
   title: string
   radioGroup?: RadioGroupProps
   radioList?: { title: string; key: string }[]
-  onChange(event: React.ChangeEvent<HTMLInputElement>): void
-  value: string | number
+  onChange: RadioGroupProps['onChange']
+  value: RadioGroupProps['value']
   className?: string
 }
 

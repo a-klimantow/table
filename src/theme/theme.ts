@@ -39,4 +39,17 @@ export default createMuiTheme({
       },
     },
   },
+  typography: {
+    body1: {
+      fontWeight: 500,
+    },
+  },
+  props: {
+    MuiRadio: {
+      color: 'primary',
+    },
+    MuiCheckbox: {
+      color: 'primary',
+    },
+  },
 })

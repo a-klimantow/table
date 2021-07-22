@@ -1,8 +1,26 @@
 import { makeAutoObservable } from 'mobx';
 
+interface IServerData {
+  email: string,
+  id: number,
+  name: string,
+  "roles": string[],
+  "token": string,
+}
+
+interface IServerResponse {
+  StatusCode: number,
+  Data: IServerData | null,
+  Errors?: {
+    ErrorDescription: string,
+  },
+  IsSuccessStatusCode: boolean,
+}
+
 enum Error {
   INVALID_EMAIL = 'Некорректный email',
   INVALID_PASSWORD = 'Введен неверный пароль. Повторите попытку',
+  UNKNOWN_ERROR = 'Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru',
 }
 
 const validateEmail = (email: string): boolean => {
@@ -62,39 +80,46 @@ export class Store {
       this.setPasswordError(Error.INVALID_PASSWORD);
       return;
     }
-    // TODO: Отправка данных и обработка ошибок
+    // TODO: Убрать моковые данные
     // TODO: Спиннер?
-    const request = new Promise((resolve, reject) => {
+    const request = new Promise((resolve) => {
       setTimeout(() => resolve(MockServerResponse.OK), 2000);
     });
     // TODO: Типизация ответа сервера
     request
-      .then((res: any) => {
+      // @ts-ignore  // временное решение. Как будет обёртка на запросы, в ней уже сделать типизацию
+      .then((res: IServerResponse) => {
         switch (res.StatusCode) {
           case ServerResponseCode.OK:
             const user = res.Data;
             console.log('Данные пользователя', user);
             break;
           case ServerResponseCode.BAD_REQUEST:
-            this.setPasswordError(res.Errors.ErrorDescription);
+            this.setPasswordError(res.Errors?.ErrorDescription ?? Error.INVALID_PASSWORD);
             break;
           case ServerResponseCode.NOT_FOUND:
-            this.setLoginError(res.Errors.ErrorDescription);
+            this.setLoginError(res.Errors?.ErrorDescription ?? Error.INVALID_EMAIL);
             break;
           case ServerResponseCode.SERVER_ERROR:
             // TODO: Общая ошибка на уровне приложения
-           alert(res.Errors.ErrorDescription);
+           alert(res.Errors?.ErrorDescription ?? Error.UNKNOWN_ERROR);
             break;
           default:
-            alert('Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru');
+            alert(Error.UNKNOWN_ERROR);
         }
       });
   }
 }
 
-const MockServerResponse = {
+interface IMockResponse {
+  OK: IServerResponse,
+  BAD_REQUEST: IServerResponse,
+  NOT_FOUND: IServerResponse,
+  SERVER_ERROR: IServerResponse,
+}
+
+const MockServerResponse: IMockResponse = {
   OK: {
-    "IsSuccessStatusCode": true,
     StatusCode: 200,
     Data: {
       "email": "content_bigpol@onlineinterviewer.ru",
@@ -106,34 +131,30 @@ const MockServerResponse = {
         "TemplateManagement"
       ],
       "token": "some.token.XXX"
-    }
+    },
+    "IsSuccessStatusCode": false,
   },
   BAD_REQUEST: {
     "Data": null,
     "Errors": {
-      "ErrorCode": "incorrectRequest",
       "ErrorDescription": "Неправильный пароль"
     },
     "IsSuccessStatusCode": false,
     "StatusCode": 400,
-    "XCorrelationId": null
   },
   NOT_FOUND: {
     "Data": null,
     "Errors": {
-      "ErrorCode": "notFound",
       "ErrorDescription": "Пользователь с логином 'content_bigpo1l@onlineinterviewer.ru' не найден"
     },
     "IsSuccessStatusCode": false,
     "StatusCode": 404,
-    "XCorrelationId": null
   },
   SERVER_ERROR: {
+    "Data": null,
     "IsSuccessStatusCode": false,
     "StatusCode": 500,
-    "XCorrelationId": null,
     "Errors": {
-      "ErrorCode": "internalError",
       "ErrorDescription": "Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru"
     }
   },

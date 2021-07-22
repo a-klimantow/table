@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { IServerResponse, IUser, RoleType } from '../../types/common';
+import { IServerResponse, IUser } from '../../types/common';
+import { MockServerResponse } from '../../mocks/userResponses';
 
 interface IUserServerResponse extends IServerResponse {
   Data: IUser | null,
@@ -70,6 +71,7 @@ export class Store {
     }
     // TODO: Убрать моковые данные
     // TODO: Спиннер?
+    // TODO: Перенести обработку ошибок в catch, когда будет развёнут тестовый контур
     const request = new Promise((resolve) => {
       setTimeout(() => resolve(MockServerResponse.OK), 2000);
     });
@@ -99,51 +101,3 @@ export class Store {
   }
 }
 
-interface IMockResponse {
-  OK: IServerResponse,
-  BAD_REQUEST: IServerResponse,
-  NOT_FOUND: IServerResponse,
-  SERVER_ERROR: IServerResponse,
-}
-
-const MockServerResponse: IMockResponse = {
-  OK: {
-    StatusCode: 200,
-    Data: {
-      "email": "content_bigpol@onlineinterviewer.ru",
-      "id": 765489242,
-      "name": "BigPoll Support",
-      "roles": [
-        RoleType.PM,
-        RoleType.TM,
-        RoleType.WM
-      ],
-      "token": "some.token.XXX"
-    },
-    "IsSuccessStatusCode": false,
-  },
-  BAD_REQUEST: {
-    "Data": null,
-    "Errors": {
-      "ErrorDescription": "Неправильный пароль"
-    },
-    "IsSuccessStatusCode": false,
-    "StatusCode": 400,
-  },
-  NOT_FOUND: {
-    "Data": null,
-    "Errors": {
-      "ErrorDescription": "Пользователь с логином 'content_bigpo1l@onlineinterviewer.ru' не найден"
-    },
-    "IsSuccessStatusCode": false,
-    "StatusCode": 404,
-  },
-  SERVER_ERROR: {
-    "Data": null,
-    "IsSuccessStatusCode": false,
-    "StatusCode": 500,
-    "Errors": {
-      "ErrorDescription": "Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru"
-    }
-  },
-}

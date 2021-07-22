@@ -1,20 +1,8 @@
 import { makeAutoObservable } from 'mobx';
+import { IServerResponse, IUser, RoleType } from '../../types/common';
 
-interface IServerData {
-  email: string,
-  id: number,
-  name: string,
-  "roles": string[],
-  "token": string,
-}
-
-interface IServerResponse {
-  StatusCode: number,
-  Data: IServerData | null,
-  Errors?: {
-    ErrorDescription: string,
-  },
-  IsSuccessStatusCode: boolean,
+interface IUserServerResponse extends IServerResponse {
+  Data: IUser | null,
 }
 
 enum Error {
@@ -88,7 +76,7 @@ export class Store {
     // TODO: Типизация ответа сервера
     request
       // @ts-ignore  // временное решение. Как будет обёртка на запросы, в ней уже сделать типизацию
-      .then((res: IServerResponse) => {
+      .then((res: IUserServerResponse) => {
         switch (res.StatusCode) {
           case ServerResponseCode.OK:
             const user = res.Data;
@@ -126,9 +114,9 @@ const MockServerResponse: IMockResponse = {
       "id": 765489242,
       "name": "BigPoll Support",
       "roles": [
-        "ProjectManagement",
-        "WebsiteManagement",
-        "TemplateManagement"
+        RoleType.PM,
+        RoleType.TM,
+        RoleType.WM
       ],
       "token": "some.token.XXX"
     },

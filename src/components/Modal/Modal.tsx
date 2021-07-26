@@ -1,4 +1,5 @@
-import React from 'react'
+import { FC } from 'react'
+
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -6,43 +7,45 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-export const Modal = () => {
-  const [open, setOpen] = React.useState(false)
+interface IModalProps {
+  open: boolean
+  onClose: () => void
+  type: 'info' | 'error' | 'confirm'
+  title: string
+  innerText: string
+  onYesClick?: () => void
+}
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
+export const Modal: FC<IModalProps> = ({ open, onClose, title, innerText, type, onYesClick }) => {
+  console.log(type, 'type')
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">{innerText}</DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
+        {type === 'confirm' ? (
+          <DialogActions>
+            <Button onClick={onClose} color="primary">
+              Disagree
+            </Button>
+            <Button onClick={onYesClick} color="primary" autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        ) : type === 'info' || 'error' ? (
+          <DialogActions>
+            <Button onClick={onClose} color="primary" autoFocus>
+              Ок
+            </Button>
+          </DialogActions>
+        ) : null}
       </Dialog>
     </div>
   )

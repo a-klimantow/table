@@ -1,4 +1,4 @@
-import { Layout, DataGrid } from 'components'
+import { DataGrid } from 'components'
 import { useState } from 'react'
 import { SwipeableDrawer, Box, Button } from '@material-ui/core'
 

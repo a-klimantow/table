@@ -1,5 +1,4 @@
 import {
-  Layout,
   Table,
   TableToolbar,
   TableWrapper,

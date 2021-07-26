@@ -45,10 +45,18 @@ export default createTheme({
         },
       },
     },
-  },
-  typography: {
-    body1: {
-      fontWeight: 500,
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          background: '#fff',
+          letterSpacing: 1,
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        size: 'small',
+      },
     },
   },
 })

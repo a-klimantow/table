@@ -1,2 +1,1 @@
-export * from './useHeaderMenu'
-export * from './useHeaderUserMenu'
+export { useStorage } from './useStorage'

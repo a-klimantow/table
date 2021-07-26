@@ -1,5 +1,6 @@
 import { useState, useEffect, FC, ReactElement } from 'react'
-import { Collapse, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
+import { Collapse, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import { useRouteMatch } from 'react-router-dom'
 
 import { MenuItemLink } from './MenuItemLink'

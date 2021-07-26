@@ -5,10 +5,9 @@ export const TableFooter: FC = ({ children }) => (
   <TableFooterStyled>
     {children}
     <TablePagination
-      component="div"
       count={10}
       page={0}
-      onChangePage={() => null}
+      onPageChange={() => null}
       rowsPerPage={10}
       labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
       labelRowsPerPage="Строк на странице"

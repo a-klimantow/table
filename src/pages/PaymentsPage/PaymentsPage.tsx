@@ -12,7 +12,7 @@ export const PaymentsPage = () => {
   const handleCloseDrawer = () => setOpen(false)
 
   return (
-    <Layout.Page>
+    <>
       <DataGrid
         columns={[
           { name: 'test очень длинное название колонки', field: 'test' },
@@ -40,6 +40,6 @@ export const PaymentsPage = () => {
           Экспорт
         </Button>
       </Box>
-    </Layout.Page>
+    </>
   )
 }

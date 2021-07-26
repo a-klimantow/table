@@ -38,7 +38,7 @@ const columns: IColumn[] = [
 
 export const ProfitPage = () => {
   return (
-    <Layout.Page>
+    <>
       <TableWrapper>
         <TableToolbar />
         {/* <TableActiveFilters filters={Array(20).fill('thlleo = tu')} /> */}
@@ -48,6 +48,6 @@ export const ProfitPage = () => {
           <Button color="primary">Импорт</Button>
         </TableFooter>
       </TableWrapper>
-    </Layout.Page>
+    </>
   )
 }

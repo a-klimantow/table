@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { makeStyles, Typography, ListItem, ListItemIcon } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+import { Typography, ListItem, ListItemIcon } from '@material-ui/core'
 import { Menu as MenuIcon, CloseOutlined as CloseIcon } from '@material-ui/icons'
 
 interface Props {

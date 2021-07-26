@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,4 +26,4 @@ export const useStyles = makeStyles((theme) => ({
   header: {
     marginBottom: theme.spacing(11),
   },
-}));
+}))

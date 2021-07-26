@@ -1,4 +1,5 @@
-import { styled, makeStyles } from '@material-ui/core'
+import { styled } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 export const HeaderWrap = styled('header')(({ theme }) => ({
   display: 'flex',

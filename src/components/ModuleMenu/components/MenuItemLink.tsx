@@ -1,7 +1,8 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, ReactElement, useMemo, forwardRef } from 'react'
-import { ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 import { NavLink, NavLinkProps } from 'react-router-dom'
 import { PipeIcon } from './PipeIcon'

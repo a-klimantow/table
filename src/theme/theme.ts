@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core'
+import { createTheme, Theme } from '@material-ui/core'
 
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
@@ -7,6 +7,11 @@ declare module '@material-ui/core/styles/createPalette' {
   interface PaletteOptions {
     selected: PaletteOptions['primary']
   }
+}
+
+declare module '@material-ui/styles' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
 }
 
 const colors = {
@@ -18,7 +23,7 @@ const colors = {
   action: '#E0EFFF',
 }
 
-export default createMuiTheme({
+export default createTheme({
   palette: {
     selected: { main: 'blue', contrastText: 'red' },
     primary: {
@@ -32,24 +37,18 @@ export default createMuiTheme({
       selected: colors.action,
     },
   },
-  overrides: {
+  components: {
     MuiCssBaseline: {
-      '@global': {
-        a: { textDecoration: 'none', color: 'inherit' },
+      styleOverrides: {
+        '@global': {
+          a: { textDecoration: 'none', color: 'inherit' },
+        },
       },
     },
   },
   typography: {
     body1: {
       fontWeight: 500,
-    },
-  },
-  props: {
-    MuiRadio: {
-      color: 'primary',
-    },
-    MuiCheckbox: {
-      color: 'primary',
     },
   },
 })

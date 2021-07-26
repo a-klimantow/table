@@ -22,7 +22,7 @@ export const PaymentsPage = () => {
   const handleCloseModal = () => setOpenModal(false)
 
   return (
-    <Layout.Page>
+    <>
       <DataGrid
         columns={[
           { name: 'test очень длинное название колонки', field: 'test' },
@@ -61,6 +61,6 @@ export const PaymentsPage = () => {
           Открыть
         </Button>
       </Box>
-    </Layout.Page>
+    </>
   )
 }

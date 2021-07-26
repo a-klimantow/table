@@ -1,5 +1,6 @@
 import { FC, Children } from 'react'
-import { Paper, makeStyles, createStyles } from '@material-ui/core'
+import { Paper, createStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 export const TableWrapper: FC = ({ children }) => {
   const classes = useStyles({ count: Children.count(children) })

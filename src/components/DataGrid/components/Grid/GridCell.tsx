@@ -1,4 +1,5 @@
-import { withStyles, TableCell } from '@material-ui/core'
+import { TableCell } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
 
 export const GridCell = withStyles((theme) => ({
   root: {

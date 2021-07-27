@@ -4,27 +4,31 @@ import {
   IndeterminateCheckBoxOutlined as MinusIcon,
 } from '@material-ui/icons'
 
-import { ModuleMenu } from 'components'
+import { ModuleMenu, ModuleMenuProps } from 'components'
+
+const moduleMenu: ModuleMenuProps = {
+  menuName: 'Вознаграждения',
+  items: [
+    {
+      name: 'Выплаты',
+      icon: MinusIcon,
+      submenu: [
+        { name: 'Заявки', path: 'заявки' },
+        { name: 'Отчеты', path: 'отчеты' },
+      ],
+    },
+    { name: 'Начисления', icon: PlusIcon, path: 'начисления' },
+  ],
+}
 
 export const RewardsModule = () => {
   const { path } = useRouteMatch()
   return (
     <>
-      <ModuleMenu
-        menuName="Вознаграждения"
-        items={[
-          {
-            name: 'Выплаты',
-            icon: MinusIcon,
-            submenu: [
-              { name: 'Заявки', path: 'заявки' },
-              { name: 'Отчеты', path: 'отчеты' },
-            ],
-          },
-          { name: 'Начисления', icon: PlusIcon, path: `${path}начисления` },
-        ]}
-      />
-      <Route path={`${path}test`} component={() => <div>test</div>} />
+      <ModuleMenu {...moduleMenu} />
+      <Route path={`${path}заявки`} component={() => <div>заявки</div>} />
+      <Route path={`${path}отчеты`} component={() => <div>отчеты</div>} />
+      <Route path={`${path}начисления`} component={() => <div>начисления</div>} />
     </>
   )
 }

@@ -1,70 +1,29 @@
+import { observer } from 'mobx-react-lite'
+import { SvgIcon } from '@material-ui/core'
 
-import { observer, useLocalObservable } from 'mobx-react-lite'
-import { Collapse } from '@material-ui/core'
+import { MenuProvider, MenuWrap, MenuItemToggle, MenuList } from './components'
 
-import { ModuleMenuWrap } from './ModuleMenuWrap'
-import { ModuleMenuToggle } from './ModuleMenuToggle'
-import { ModuleMenuItem } from './ModuleMenuItem'
+type IconType = typeof SvgIcon
 
-import { ModuleMenuProps } from './types'
-
-const MenuState = {
-  isOpen: false,
-  openSubmenu: [] as number[],
-  toggleMenuOpen() {
-    this.isOpen = !this.isOpen
-  },
-
-  closeMenu() {
-    this.isOpen = false
-    openSubmenu: []
-  },
-
-  toggleSubmenuOpen(idx: number) {
-    if (this.openSubmenu.includes(idx)) {
-      this.openSubmenu = this.openSubmenu.filter((i) => i !== idx)
-    } else {
-      this.openSubmenu.push(idx)
-      this.isOpen = true
-    }
-  },
+export type MenuItemType = {
+  name: string
+  icon: IconType
+  path?: string
+  submenu?: Omit<MenuItemType, 'icon' | 'submenu'>[]
 }
 
-class MenuStore {
-  menuOpen = false
-  submOpen: number[] = []
-
-  constructor(){
-
-  }
+export interface ModuleMenuProps {
+  menuName: string
+  items: MenuItemType[]
 }
 
-export const ModuleMenu = observer<ModuleMenuProps>(({ menuName, items }) => {
-  const menu = useLocalObservable(() => MenuState)
+export const ModuleMenu = observer<ModuleMenuProps>((props) => {
   return (
-    <ModuleMenuWrap isOpen={menu.isOpen} onClose={menu.toggleMenuOpen}>
-      <ModuleMenuToggle isOpen={menu.isOpen} onClick={menu.toggleMenuOpen}>
-        {menuName}
-      </ModuleMenuToggle>
-      {items.map((item, idx) =>
-        item.submenu ? (
-          <>
-            <ModuleMenuItem
-              key={item.name}
-              name={item.name}
-              icon={item.icon}
-              onClick={() => menu.toggleSubmenuOpen(idx)}
-            />
-            <Collapse in={menu.openSubmenu.includes(idx)}>
-              {item.submenu.map((s) => (
-                <ModuleMenuItem key={s.name} name={s.name} />
-              ))}
-            </Collapse>
-          </>
-        ) : (
-          <ModuleMenuItem key={item.name} icon={item.icon} name={item.name} />
-        )
-      )}
-    </ModuleMenuWrap>
+    <MenuProvider {...props}>
+      <MenuWrap>
+        <MenuItemToggle />
+        <MenuList />
+      </MenuWrap>
+    </MenuProvider>
   )
 })

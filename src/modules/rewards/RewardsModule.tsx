@@ -16,9 +16,12 @@ export const RewardsModule = () => {
           {
             name: 'Выплаты',
             icon: MinusIcon,
-            submenu: [{ name: 'Заявки' }, { name: 'Отчеты' }],
+            submenu: [
+              { name: 'Заявки', path: 'заявки' },
+              { name: 'Отчеты', path: 'отчеты' },
+            ],
           },
-          { name: 'Начисления', icon: PlusIcon },
+          { name: 'Начисления', icon: PlusIcon, path: `${path}начисления` },
         ]}
       />
       <Route path={`${path}test`} component={() => <div>test</div>} />

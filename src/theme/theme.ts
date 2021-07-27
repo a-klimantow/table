@@ -13,7 +13,13 @@ export default createTheme({
   },
   components: {
     MuiCssBaseline: {
-      styleOverrides: ``,
+      styleOverrides: `
+        a {
+          text-decoration: none;
+          color: inherit;
+          outline: 0;
+        }
+      `,
     },
     MuiInputBase: {
       styleOverrides: {

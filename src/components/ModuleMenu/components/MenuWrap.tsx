@@ -1,12 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import { Box } from '@material-ui/core'
 
-interface MenuWrapProps {
-  isOpen: boolean
-  onClose(): void
-}
+import { useMenuContext } from './MenuProvider'
 
-export const ModuleMenuWrap = observer<MenuWrapProps>(({ children, isOpen, onClose }) => {
+export const MenuWrap = observer(({ children }) => {
+  const { isOpen, closeMenu } = useMenuContext()
   return (
     <Box
       component="nav"
@@ -29,7 +27,7 @@ export const ModuleMenuWrap = observer<MenuWrapProps>(({ children, isOpen, onClo
         },
       }}
     >
-      <div className="base" onClick={onClose} />
+      <div className="base" onClick={closeMenu} />
       {children}
     </Box>
   )

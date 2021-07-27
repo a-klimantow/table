@@ -1,30 +1,24 @@
-import { FC } from 'react'
-import { makeStyles } from '@material-ui/styles'
-import { ExpandMore } from '@material-ui/icons'
+import { observer } from 'mobx-react-lite'
+import { KeyboardArrowDownSharp } from '@material-ui/icons'
 
-interface Props {
-  openMenu: boolean
-  openCollapse: boolean
+type ArrowIconProps = {
+  isSubmenuOpen?: boolean
+  isMenuOpen?: boolean
 }
+export const ArrowIcon = observer<ArrowIconProps>(({ isSubmenuOpen, isMenuOpen }) => (
+  <KeyboardArrowDownSharp
+    sx={{
+      position: 'absolute',
+      right: 7,
+      transform: 'translateX(50%) scale(0.7)',
+      transition: 'transform .3s ease',
+      ...(isMenuOpen && {
+        transform: 'translateX(0) scale(1)',
+      }),
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    position: 'absolute',
-    right: 0,
-    transform: ({ openMenu, openCollapse }: Props) =>
-      openMenu && openCollapse
-        ? 'translateX(-8px) scaleY(-1) '
-        : openMenu
-        ? 'translateX(-8px)'
-        : 'scale(0.6) translateX(6px)',
-    transition: theme.transitions.create(['transform', 'rigth'], {
-      easing: theme.transitions.easing.easeInOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-}))
-
-export const ArrowIcon: FC<Props> = (props) => {
-  const classes = useStyles(props)
-  return <ExpandMore className={classes.icon} />
-}
+      ...(isSubmenuOpen && {
+        transform: 'translateX(0) scale(1) rotate(180deg)',
+      }),
+    }}
+  />
+))

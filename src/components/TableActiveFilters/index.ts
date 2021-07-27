@@ -1,1 +1,0 @@
-export { TableActiveFilters } from './TableActiveFilters'

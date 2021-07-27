@@ -2,28 +2,26 @@ import { makeStyles } from '@material-ui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    minHeight: '100vh',
     display: 'grid',
-    justifyItems: 'center',
+    placeContent: 'center',
+    gap: theme.spacing(11),
     alignContent: 'center',
-    padding: theme.spacing(3),
   },
-  formContainer: {
-    width: '400px',
-    padding: theme.spacing(7, 4),
-  },
-  logoContainer: {
-    width: '125px',
-    height: '125px',
-    margin: theme.spacing(0, 'auto', 3),
-    backgroundColor: 'grey',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
+
+  logo: {
+    display: 'grid',
     gap: theme.spacing(3),
+    placeItems: 'center',
+    fontSize: 22,
+    '&  img': {
+      background: theme.palette.grey['500'],
+    },
   },
-  header: {
-    marginBottom: theme.spacing(11),
+
+  form: {
+    minWidth: 370,
+    display: 'grid',
+    gap: theme.spacing(3),
   },
 }))

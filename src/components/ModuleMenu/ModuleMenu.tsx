@@ -1,34 +1,29 @@
-import { useState, FC } from 'react'
+import { observer } from 'mobx-react-lite'
+import { SvgIcon } from '@material-ui/core'
 
-import { IModuleMenu } from './types'
+import { MenuProvider, MenuWrap, MenuItemToggle, MenuList } from './components'
 
-import { Menu } from './components/Menu'
-import { Submenu } from './components/Submenu'
-import { MenuItemLink } from './components/MenuItemLink'
+type IconType = typeof SvgIcon
 
-export const ModuleMenu: FC<IModuleMenu> = ({ name, menu }) => {
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const handleMenuClose = () => setOpenMenu(false)
-  const handleMenuOpen = () => setOpenMenu(true)
-
-  return (
-    <Menu openMenu={openMenu} menuName={name} onClick={openMenu ? handleMenuClose : handleMenuOpen}>
-      {menu.map(({ submenu, name, icon, path }) =>
-        submenu ? (
-          <Submenu
-            key={name}
-            submenu={submenu}
-            icon={icon}
-            submenuName={name}
-            path={path}
-            openMenu={openMenu}
-            handleMenuOpen={handleMenuOpen}
-          />
-        ) : (
-          <MenuItemLink key={name} primary={name} icon={icon} to={path} />
-        )
-      )}
-    </Menu>
-  )
+export type MenuItemType = {
+  name: string
+  icon: IconType
+  path?: string
+  submenu?: Omit<MenuItemType, 'icon' | 'submenu'>[]
 }
+
+export interface ModuleMenuProps {
+  menuName: string
+  items: MenuItemType[]
+}
+
+export const ModuleMenu = observer<ModuleMenuProps>((props) => {
+  return (
+    <MenuProvider {...props}>
+      <MenuWrap>
+        <MenuItemToggle />
+        <MenuList />
+      </MenuWrap>
+    </MenuProvider>
+  )
+})

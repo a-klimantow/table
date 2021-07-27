@@ -1,1 +1,0 @@
-export { ProfitPage } from './ProfitPage'

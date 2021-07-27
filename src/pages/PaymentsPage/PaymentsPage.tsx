@@ -1,6 +1,7 @@
 import { Layout, DataGrid } from 'components'
 import { useState } from 'react'
 import { SwipeableDrawer, Box, Button } from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 
 import { PaymentRequestExport } from '../../components/PaymentRequestExport'
 import { Modal } from '../../components/Modal/Modal'
@@ -13,13 +14,20 @@ export const PaymentsPage = () => {
 
   const [openModal, setOpenModal] = useState(false)
 
+  const [start, startSmth] = useState(false)
+
   const handleToggleDrawer = () => setOpen((state) => !state)
 
   const handleCloseDrawer = () => setOpen(false)
 
   const handleToggleModal = () => setOpenModal((state) => !state)
 
-  const handleCloseModal = () => setOpenModal(false)
+  const handleCloseModal = () => {
+    setOpenModal(false)
+    startSmth(false)
+  }
+
+  const handleStartSmth = () => startSmth(true)
 
   return (
     <>
@@ -37,6 +45,7 @@ export const PaymentsPage = () => {
         data={Array(10).fill({ test: 0, test1: 1, test2: 2, test3: 3, test4: 4, test5: 5 })}
       />
 
+      {start ? <CircularProgress /> : null}
       <SwipeableDrawer
         anchor={'right'}
         open={open}
@@ -51,7 +60,7 @@ export const PaymentsPage = () => {
         title={'Заголовок'}
         innerText={text}
         type={'confirm'}
-        onYesClick={handleCloseModal}
+        onYesClick={handleStartSmth}
       />
       <Box component="span" m={1}>
         <Button color="primary" onClick={handleToggleDrawer}>

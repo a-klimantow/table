@@ -4,7 +4,7 @@ import {
   IndeterminateCheckBoxOutlined as MinusIcon,
 } from '@material-ui/icons'
 
-import { ModuleMenu, ModuleMenuProps } from 'components'
+import { ModuleMenu, ModuleMenuProps, PageLayout } from 'components'
 
 const moduleMenu: ModuleMenuProps = {
   menuName: 'Вознаграждения',
@@ -26,7 +26,7 @@ export const RewardsModule = () => {
   return (
     <>
       <ModuleMenu {...moduleMenu} />
-      <Route path={`${path}заявки`} component={() => <div>заявки</div>} />
+      <Route path={`${path}заявки`} component={() => <PageLayout>заявки</PageLayout>} />
       <Route path={`${path}отчеты`} component={() => <div>отчеты</div>} />
       <Route path={`${path}начисления`} component={() => <div>начисления</div>} />
     </>

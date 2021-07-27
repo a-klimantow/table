@@ -10,8 +10,9 @@ type MenuListItemProps = Omit<MenuItemType, 'submenu'>
 export const MenuListItem = observer<MenuListItemProps>(({ name, icon: Icon, path = '' }) => {
   const { pushTo } = useMenuContext()
   const { pathname } = useLocation()
+  const isSelected = pathname.includes(path)
   return (
-    <ListItem button onClick={() => pushTo(path)} selected={pathname === path}>
+    <ListItem button onClick={() => pushTo(path)} selected={isSelected}>
       <ListItemIcon>
         <Icon />
       </ListItemIcon>

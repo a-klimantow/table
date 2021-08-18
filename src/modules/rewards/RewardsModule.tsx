@@ -1,34 +1,24 @@
-import { Route, useRouteMatch } from 'react-router-dom'
-import {
-  AddBoxOutlined as PlusIcon,
-  IndeterminateCheckBoxOutlined as MinusIcon,
-} from '@material-ui/icons'
+import { Route, useRouteMatch, Redirect, Switch } from 'react-router-dom'
 
-import { ModuleMenu, ModuleMenuProps, PageLayout } from 'components'
-
-const moduleMenu: ModuleMenuProps = {
-  menuName: 'Вознаграждения',
-  items: [
-    {
-      name: 'Выплаты',
-      icon: MinusIcon,
-      submenu: [
-        { name: 'Заявки', path: 'заявки' },
-        { name: 'Отчеты', path: 'отчеты' },
-      ],
-    },
-    { name: 'Начисления', icon: PlusIcon, path: 'начисления' },
-  ],
-}
+import { ModuleMenu } from 'components'
+import { useRewardsMenu } from './useRewardsMenu'
+import { BidsPage } from './pages/BidsPage'
+import { ReportsPage } from './pages/ReportsPage'
+import { ProfitPage } from './pages/ProfitPage'
+import { Pages } from './enums'
 
 export const RewardsModule = () => {
   const { path } = useRouteMatch()
+  const moduleMenu = useRewardsMenu()
   return (
     <>
       <ModuleMenu {...moduleMenu} />
-      <Route path={`${path}заявки`} component={() => <PageLayout>заявки</PageLayout>} />
-      <Route path={`${path}отчеты`} component={() => <div>отчеты</div>} />
-      <Route path={`${path}начисления`} component={() => <div>начисления</div>} />
+      <Switch>
+        <Route path={`${path}${Pages.Bids}`} component={BidsPage} />
+        <Route path={`${path}${Pages.Reports}`} component={ReportsPage} />
+        <Route path={`${path}${Pages.Profit}`} component={ProfitPage} />
+        <Redirect from={path} to={`${path}${Pages.Bids}`} />
+      </Switch>
     </>
   )
 }

@@ -9,7 +9,7 @@ export const ModuleLayout = observer<BoxProps>((props) => (
       display: 'grid',
       gridTemplate: `
         "h h" 56px
-        ". ." 1fr / 48px 1fr
+        ". ." calc(100vh - 56px) / 48px 1fr
       `,
     }}
   />

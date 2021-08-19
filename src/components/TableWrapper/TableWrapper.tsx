@@ -39,6 +39,6 @@ type useGetTemplateType = (props: Omit<TableWrapperProps, 'children'>) => string
 
 const useGetTemplate: useGetTemplateType = ({ toolbar: t, bottom: b, pagination: p }) =>
   React.useMemo(
-    () => [t ? '52px' : null, 'auto', '1fr', b || p ? '52px' : null].filter(Boolean).join(' '),
+    () => [t ? '52px' : null, '1fr', b || p ? '52px' : null].filter(Boolean).join(' '),
     [t, b, p]
   )

@@ -13,7 +13,7 @@ type SuccessType = {
 }
 
 class Store {
-  top = 10
+  top = 20
   page = 0
   count = 0
   loading = true
@@ -62,6 +62,7 @@ class Store {
 
   get pagination(): TablePaginationProps {
     return {
+      rowsPerPageOptions: [20, 40, 100],
       count: this.count,
       page: this.page,
       onPageChange: (_, page) => runInAction(() => (this.page = page)),

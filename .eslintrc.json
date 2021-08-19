@@ -24,6 +24,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "camelcase":"off",
     "require-jsdoc": "off",
     "spaced-comment": "off",
     "no-unused-vars": "off",

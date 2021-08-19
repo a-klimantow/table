@@ -10,11 +10,7 @@ export const useGetBids = (store: StoreType) => {
     ;(async () => {
       try {
         const res = await sa.then()
-        const {
-          items,
-          metadata: { pagination },
-        } = res.body
-        store.success({ type: 'get', items, count: pagination.total_count })
+        store.success(res.body)
       } catch (error) {}
     })()
     return () => sa.abort()

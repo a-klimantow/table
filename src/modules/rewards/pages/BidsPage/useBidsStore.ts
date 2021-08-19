@@ -4,21 +4,16 @@ import { TablePaginationProps } from '@material-ui/core'
 import buildQuery from 'odata-query'
 
 import { TableProps } from 'components'
+import { BidResType } from '../../types'
 
-type SuccessType = {
-  type: 'get'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any[]
-  count: number
-}
+type ItemKeys = keyof BidResType['items'][number]
 
 class Store {
   top = 20
   page = 0
   count = 0
   loading = true
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any[] = []
+  items: BidResType['items'] = []
   columns: TableProps['columns']
 
   constructor() {
@@ -33,22 +28,19 @@ class Store {
     ]
   }
 
-  success(data: SuccessType) {
+  success(data: BidResType) {
     this.loading = false
-    switch (data.type) {
-      case 'get':
-        this.items = data.items
-        this.count = data.count
-        break
-      default:
-        console.error(data.type)
-    }
+    const { items, metadata } = data
+    this.items = items
+    this.count = metadata.pagination.total_count
   }
 
   get rows(): TableProps['rows'] {
     if (!this.items.length) return []
+
+    const cols = this.columns.filter((c) => !c.hidden)
     return this.items.map((item) =>
-      this.columns.map((c) => (c.renderCell ? c.renderCell(item) : item[c.key]))
+      cols.map((c) => (c.renderCell ? c.renderCell(item) : item[c.key as ItemKeys]))
     )
   }
 

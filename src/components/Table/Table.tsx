@@ -18,6 +18,7 @@ interface ICol {
   name: string
   key: string
   renderCell?(item: unknown): React.ReactNode
+  hidden?: boolean
 }
 
 export interface TableProps {
@@ -34,8 +35,15 @@ export const Table = observer<TableProps>(({ columns, rows = [], loading }) => {
         <MuiTable>
           <TableHead>
             <TableRow>
-              {columns.map(({ name, key }) => (
-                <TableCell key={key}>{name}</TableCell>
+              {columns.map(({ name, key, hidden }) => (
+                <TableCell
+                  key={key}
+                  sx={{
+                    display: hidden ? 'none' : 'table-cell',
+                  }}
+                >
+                  {name}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -43,7 +51,7 @@ export const Table = observer<TableProps>(({ columns, rows = [], loading }) => {
             {rows.map((cells, i) => (
               <TableRow key={i}>
                 {(cells as React.ReactNode[]).map((cell, i) => (
-                  <TableCell key={i}>{cell}</TableCell>
+                  <TableCell key={i} >{cell}</TableCell>
                 ))}
               </TableRow>
             ))}

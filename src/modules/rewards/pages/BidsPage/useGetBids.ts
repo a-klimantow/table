@@ -14,7 +14,6 @@ export const useGetBids = (store: StoreType) => {
           items,
           metadata: { pagination },
         } = res.body
-        console.log(store.top)
         store.success({ type: 'get', items, count: pagination.total_count })
       } catch (error) {}
     })()

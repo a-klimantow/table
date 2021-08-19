@@ -18,9 +18,14 @@ export const SubmenuList = observer<SubmenuListProps>(
 
     return (
       <>
-        <ListItem button onClick={() => changeSubmenu(index)} selected={isSelected}>
+        <ListItem
+          button
+          onClick={() => changeSubmenu(index)}
+          selected={isSelected}
+          sx={{ color: isSelected ? 'primary.main' : '' }}
+        >
           <ListItemIcon>
-            <Icon />
+          <Icon color={isSelected ? 'primary' : undefined} />
           </ListItemIcon>
           <ListItemText primary={name} />
           <ArrowIcon isMenuOpen={isOpen} isSubmenuOpen={isSubmenuOpen} />

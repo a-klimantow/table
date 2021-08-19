@@ -12,11 +12,17 @@ export const MenuListItem = observer<MenuListItemProps>(({ name, icon: Icon, pat
   const { pathname } = useLocation()
   const isSelected = pathname.includes(path)
   return (
-    <ListItem button onClick={() => pushTo(path)} selected={isSelected}>
+    <ListItem
+      button
+      onClick={() => pushTo(path)}
+      selected={isSelected}
+      sx={{ color: isSelected ? 'primary.main' : '' }}
+    >
       <ListItemIcon>
-        <Icon />
+        <Icon color={isSelected ? 'primary' : undefined} />
       </ListItemIcon>
       <ListItemText primary={name} />
     </ListItem>
   )
 })
+ 

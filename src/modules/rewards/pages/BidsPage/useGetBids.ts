@@ -4,7 +4,7 @@ import { useSuperagent } from 'hooks'
 import { StoreType } from './useBidsStore'
 
 export const useGetBids = (store: StoreType) => {
-  const sa = useSuperagent('withdrawal' + store.query)
+  const sa = useSuperagent('withdrawal' + store.queryString)
 
   React.useEffect(() => {
     ;(async () => {

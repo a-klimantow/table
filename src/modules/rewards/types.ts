@@ -10,7 +10,7 @@ interface IResponse<I> {
   metadata: IMetadata
 }
 
-interface IBidItem {
+export interface IBidItem {
   accept_requests: number
   all_requests: number
   all_requests_sum: number
@@ -20,4 +20,4 @@ interface IBidItem {
   panel_name: string
 }
 
-export type BidResType = IResponse<IBidItem>
+export type BidSuccessResponse = IResponse<IBidItem>

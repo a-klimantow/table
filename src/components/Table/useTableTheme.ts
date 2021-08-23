@@ -20,6 +20,7 @@ export const useTableTheme = () => {
             styleOverrides: {
               root: {
                 position: 'relative',
+                flex: 1,
               },
             },
           },

@@ -16,6 +16,6 @@ export const useSuperagent = (url = '', method?: MethodType) => {
     () => superagent(method ?? 'GET', `${baseUrl}${url}`),
     [url, method]
   ).on('error', (err) => {
-    err.status === 404 && replace('/refresh')
+    err.status === 401 && replace('/refresh')
   })
 }

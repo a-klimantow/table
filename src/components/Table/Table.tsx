@@ -12,20 +12,8 @@ import {
   ThemeProvider,
 } from '@material-ui/core'
 
+import { TableProps } from './types'
 import { useTableTheme } from './useTableTheme'
-
-interface ICol {
-  name: string
-  key: string
-  renderCell?(item: unknown): React.ReactNode
-  hidden?: boolean
-}
-
-export interface TableProps {
-  columns: ICol[]
-  rows?: React.ReactNode[][]
-  loading?: boolean
-}
 
 export const Table = observer<TableProps>(({ columns, rows = [], loading }) => {
   const theme = useTableTheme()
@@ -51,7 +39,7 @@ export const Table = observer<TableProps>(({ columns, rows = [], loading }) => {
             {rows.map((cells, i) => (
               <TableRow key={i}>
                 {(cells as React.ReactNode[]).map((cell, i) => (
-                  <TableCell key={i} >{cell}</TableCell>
+                  <TableCell key={i}>{cell}</TableCell>
                 ))}
               </TableRow>
             ))}

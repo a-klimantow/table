@@ -5,9 +5,9 @@ import { PageLayout, Search, Table, TableWrapper, UploadButton } from 'component
 export const ProfitPage = observer(() => {
   return (
     <PageLayout>
-      <TableWrapper toolbar={<Search />} bottom={<UploadButton type="import" />}>
+      {/* <TableWrapper toolbar={<Search />} bottom={<UploadButton type="import" />}>
         <Table columns={[]} rows={[]} />
-      </TableWrapper>
+      </TableWrapper> */}
     </PageLayout>
   )
 })

@@ -21,7 +21,7 @@ class Store {
 
   constructor(columns: ColType) {
     this.columns = columns
-    this.quickFilterCols = columns.filter((c) => c.queryFilter).map((c) => c.key)
+    this.quickFilterCols = columns.filter((c) => c.quickFilter).map((c) => c.key)
     makeAutoObservable(this)
   }
 
@@ -118,7 +118,7 @@ export const useBidsStore = () => {
   const [store] = React.useState(
     () =>
       new Store([
-        { name: 'Наименование панели', key: 'panel_name', queryFilter: true },
+        { name: 'Наименование панели', key: 'panel_name', quickFilter: true },
         { name: 'Старше 3 дней', key: 'old_requests' },
         { name: 'Сумма (старше 3 дней)', key: 'old_requests_sum' },
         { name: 'Всего заявок', key: 'all_requests' },

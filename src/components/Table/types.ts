@@ -5,7 +5,7 @@ export interface ICol {
   key: string
   renderCell?(item: unknown): React.ReactNode
   hidden?: boolean
-  queryFilter?: boolean
+  quickFilter?: boolean
 }
 
 export interface TableProps {

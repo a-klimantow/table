@@ -4,7 +4,7 @@ interface IMetadata {
   }
 }
 
-interface IResponse<I> {
+export interface IResponse<I> {
   total_count: number
   items: I[]
   metadata: IMetadata

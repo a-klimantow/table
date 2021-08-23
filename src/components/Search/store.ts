@@ -15,7 +15,7 @@ export class SearchStore {
   }
 
   changeTouched() {
-    this.touched = false
+    this.touched
   }
 
   clear() {

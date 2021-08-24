@@ -1,6 +1,6 @@
 import { useTheme, createTheme } from '@material-ui/core'
 
-export const useSearchTheme = () => {
+export const useQFilterTheme = () => {
   const theme = useTheme()
 
   return createTheme({

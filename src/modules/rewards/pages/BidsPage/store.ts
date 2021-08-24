@@ -38,6 +38,10 @@ export class BidsStore {
     this.quickFilter = s
   }
 
+  get showCancelQF() {
+    return Boolean(this.quickFilter.trim())
+  }
+
   changePerPage(n: number) {
     this.pagination.rowsPerPage = n
     if (this.pagination.count < n) {

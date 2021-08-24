@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 
-import { PageLayout, Search, Table, TableWrapper, UploadButton } from 'components'
+import { PageLayout, Table, TableWrapper, UploadButton } from 'components'
 
 export const ProfitPage = observer(() => {
   return (

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-export class SearchStore {
+export class QFilterStore {
   value
   touched = false
 

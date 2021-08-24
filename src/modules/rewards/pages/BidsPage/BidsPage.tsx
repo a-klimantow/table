@@ -4,11 +4,11 @@ import { TablePagination } from '@material-ui/core'
 import {
   PageLayout,
   Table,
-  Search,
   TableWrapper,
   TableSection,
   UploadButton,
   TableColMenu,
+  QuickFilter,
 } from 'components'
 
 import { useBidsPage } from './useBidsPage'
@@ -21,6 +21,12 @@ export const BidsPage = observer(() => {
       <TableWrapper>
         <TableSection toolbar>
           <TableColMenu columns={store.colMenu} />
+          <QuickFilter
+            value={store.quickFilter}
+            onChange={(e) => store.changeQuickFilter(e.target.value)}
+            showCancel={store.showCancelQF}
+            onCancel={() => store.changeQuickFilter('')}
+          />
         </TableSection>
 
         <Table

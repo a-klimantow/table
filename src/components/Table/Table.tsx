@@ -10,6 +10,7 @@ import {
   Backdrop,
   CircularProgress,
   ThemeProvider,
+  Box,
 } from '@material-ui/core'
 
 import { TableProps } from './types'
@@ -23,14 +24,33 @@ export const Table = observer<TableProps>(({ columns, rows = [], loading }) => {
         <MuiTable>
           <TableHead>
             <TableRow>
-              {columns.map(({ name, key, hidden }) => (
+              {columns.map(({ name, key, hidden, quickFilter }) => (
                 <TableCell
                   key={key}
                   sx={{
                     display: hidden ? 'none' : 'table-cell',
                   }}
                 >
-                  {name}
+                  <Box
+                    component="span"
+                    sx={{
+                      position: 'relative',
+
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        display: quickFilter ? 'block' : 'none',
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        bgcolor: 'grey.600',
+                      },
+                    }}
+                  >
+                    {name}
+                  </Box>
                 </TableCell>
               ))}
             </TableRow>

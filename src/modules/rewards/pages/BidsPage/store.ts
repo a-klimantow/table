@@ -1,73 +1,90 @@
 import { makeAutoObservable } from 'mobx'
-import buildQuery from 'odata-query'
-import f from 'odata-filter-builder'
 
-import { IResponse } from '../../types'
 import { ICol } from 'components'
+import { IBidItem, IResponse } from 'modules/rewards/types'
 
-class QuickFilter {
-  value = ''
-
-  constructor() {
-    makeAutoObservable(this)
-  }
-  changeValue(value: string) {
-    this.value = value
-  }
-}
-
+type Data = IResponse<IBidItem>
 type Columns<T> = (ICol & { key: keyof T })[]
+type QuickFilterArr<T> = (keyof T)[]
 
-export class Store<Item> {
-  data: IResponse<Item> | null = null
+export class BidsStore {
+  quickFilter = ''
+  pagination = {
+    page: 0,
+    rowsPerPage: 10,
+    count: 0,
+  }
+
   loading = true
-  quickFilter = new QuickFilter()
-  private columns
-  private defaultQuickColumns: (keyof Item)[]
+  private data: null | Data = null
 
-  constructor(columns: Columns<Item>, defaultQuickColumns: (keyof Item)[]) {
-    this.columns = columns
-    this.defaultQuickColumns = defaultQuickColumns
+  private quickFilterArr: QuickFilterArr<IBidItem>
+  columns: Columns<IBidItem>
+
+  constructor(
+    columns: Columns<IBidItem>,
+    quickFilterArr: QuickFilterArr<IBidItem>
+  ) {
     makeAutoObservable(this)
-  }
+    this.columns = columns
+    this.quickFilterArr = quickFilterArr
 
-  successGet(data: IResponse<Item>) {
-    this.data = data
-  }
-
-  final() {
-    this.loading = false
-  }
-
-  get filter() {
-    const filter = f('or')
-    this.defaultQuickColumns.forEach((c) =>
-      filter.contains((x) => x.toLower(c as string), this.quickFilter.value.toLowerCase())
+    this.columns.forEach(
+      (c) => (c.quickFilter = this.quickFilterArr.includes(c.key))
     )
-    return filter.toString()
   }
 
-  get query() {
-    return buildQuery({
-      filter: this.filter,
-    })
+  changeQuickFilter(s: string) {
+    this.quickFilter = s
+  }
+
+  changePerPage(n: number) {
+    this.pagination.rowsPerPage = n
+    if (this.pagination.count < n) {
+      this.pagination.page = 0
+    }
+  }
+
+  changePage(n: number) {
+    this.pagination.page = n
+  }
+
+  get top() {
+    return this.pagination.rowsPerPage
+  }
+
+  get skip() {
+    return this.pagination.rowsPerPage * this.pagination.page
+  }
+
+  fetchStart() {
+    this.loading = true
+  }
+
+  getSuccess(data: Data) {
+    this.loading = false
+    this.data = data
+    this.pagination.count = data.metadata.pagination.total_count
+  }
+
+  fail() {
+    this.loading = false
   }
 
   get colMenu() {
     return this.columns
   }
 
-  get cols() {
+  get currentColumns() {
     return this.columns.filter((c) => !c.hidden)
   }
 
   get rows() {
     if (!this.data) return []
-
-    const { items } = this.data
-
-    return items.map((item) =>
-      this.cols.map((col) => (col.renderCell ? col.renderCell(item) : item[col.key]))
+    return this.data.items.map((i) =>
+      this.currentColumns.map((c) =>
+        c.renderCell ? c.renderCell(i) : i[c.key]
+      )
     )
   }
 }

@@ -23,6 +23,7 @@ export default createTheme(
         }
       `,
       },
+
       MuiInputBase: {
         styleOverrides: {
           root: {
@@ -31,9 +32,19 @@ export default createTheme(
           },
         },
       },
+
       MuiTextField: {
         defaultProps: {
           size: 'small',
+        },
+      },
+
+      MuiTablePagination: {
+        styleOverrides: {
+          root: { marginLeft: 'auto' },
+        },
+        defaultProps: {
+          rowsPerPageOptions: [10, 20, 40, 100],
         },
       },
     },

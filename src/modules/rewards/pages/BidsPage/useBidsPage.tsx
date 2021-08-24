@@ -1,6 +1,7 @@
 import React from 'react'
 import superagent from 'superagent'
 
+import { useUrl } from 'hooks/useUrl'
 import { IBidItem } from 'modules/rewards/types'
 import { BidsStore } from './store'
 
@@ -26,18 +27,20 @@ export const useBidsPage = () => {
       )
   )
 
+  const url = useUrl('withdrawal')
+
   React.useEffect(() => {
     const GET = superagent
-    .get('http://10.10.4.72:30101/v1/admin/withdrawal')
-    .query({ text: '' })
-    .query({ top: store.top })
-    .query({ skip: store.skip })
-    
+      .get(url)
+      .query({ text: '' })
+      .query({ top: store.top })
+      .query({ skip: store.skip })
+
     store.fetchStart()
     GET.then((res) => store.getSuccess(res.body)).catch(() => store.fail())
 
     return () => GET.abort()
-  }, [store, store.top, store.skip])
+  }, [store, store.top, store.skip, url])
 
   return store
 }

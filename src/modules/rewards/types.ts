@@ -19,4 +19,12 @@ export interface IBidItem {
   panel_name: string
 }
 
-export type BidSuccessResponse = IResponse<IBidItem>
+export interface IProfitItem {
+  amount: number
+  author_id: number
+  count_rows: number
+  created: Date
+  file_id: number
+  file_name: string
+  id: number
+}

@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 
 import { ICol } from 'components'
-import { IBidItem, IResponse } from 'modules/rewards/types'
+import { IProfitItem, IResponse } from 'modules/rewards/types'
 
-type Data = IResponse<IBidItem>
+type Data = IResponse<IProfitItem>
 type Columns<T> = (ICol & { key: keyof T })[]
 type QuickFilterArr<T> = (keyof T)[]
 
@@ -18,12 +18,12 @@ export class BidsStore {
   loading = true
   private data: null | Data = null
 
-  private quickFilterArr: QuickFilterArr<IBidItem>
-  private columns: Columns<IBidItem>
+  private quickFilterArr: QuickFilterArr<IProfitItem>
+  private columns: Columns<IProfitItem>
 
   constructor(
-    columns: Columns<IBidItem>,
-    quickFilterArr: QuickFilterArr<IBidItem>
+    columns: Columns<IProfitItem>,
+    quickFilterArr: QuickFilterArr<IProfitItem>
   ) {
     makeAutoObservable(this)
     this.columns = columns

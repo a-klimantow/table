@@ -3,6 +3,11 @@ import { makeAutoObservable } from 'mobx';
 import { IServerResponse, IUser } from '../../types/common';
 import { MockServerResponse } from '../../mocks/userResponses';
 
+interface IData {
+  login: string,
+  password: string,
+}
+
 interface IUserServerResponse extends IServerResponse {
   Data: IUser | null,
 }
@@ -14,14 +19,6 @@ enum Error {
   UNKNOWN_ERROR = 'Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru',
 }
 
-const validateEmail = (email: string): boolean => {
-  return email.length > 0;
-}
-
-const validatePassword = (password: string): boolean => {
-  return password.length > 0;
-}
-
 enum ServerResponseCode {
   OK = 200,
   BAD_REQUEST = 400,
@@ -29,19 +26,19 @@ enum ServerResponseCode {
   SERVER_ERROR = 500,
 }
 
-const initialData = {
+const initialData: IData = {
   login: '',
   password: '',
 }
 
-const initialError = {
+const initialError: IData = {
   login: '',
   password: '',
 }
 
 export class LoginStore {
-  private _data = initialData;
-  private _error = initialError;
+  private _data: IData = initialData;
+  private _error: IData = initialError;
   private _isShowPassword = false;
 
   constructor() {
@@ -72,6 +69,20 @@ export class LoginStore {
     this._error = initialError;
   }
 
+  validate() {
+    let isValid = true;
+    if (this.login.length === 0) {
+      this.setLoginError(Error.NO_VALUE);
+      isValid = false;
+    }
+    if (this.password.length === 0) {
+      this.setPasswordError(Error.NO_VALUE);
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
   changeLogin = (value: string): void => {
     this._data.login = value.trim();
     this.clearError();
@@ -96,19 +107,10 @@ export class LoginStore {
 
   submitForm = (evt: React.FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    let error = false;
-    if (!validateEmail(this.login)) {
-      this.setLoginError(Error.NO_VALUE);
-      error = true;
-    }
-    if (!validatePassword(this.password)) {
-      this.setPasswordError(Error.NO_VALUE);
-      error = true
-    }
-
-    if (error) {
+    if (!this.validate()) {
       return;
     }
+
     // TODO: Убрать моковые данные
     // TODO: Спиннер?
     // TODO: Перенести обработку ошибок в catch, когда будет развёнут тестовый контур

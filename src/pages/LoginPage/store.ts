@@ -1,3 +1,4 @@
+import React from 'react';
 import { makeAutoObservable } from 'mobx';
 import { IServerResponse, IUser } from '../../types/common';
 import { MockServerResponse } from '../../mocks/userResponses';
@@ -7,18 +8,18 @@ interface IUserServerResponse extends IServerResponse {
 }
 
 enum Error {
+  NO_VALUE = 'Заполните поле',
   INVALID_EMAIL = 'Некорректный email',
   INVALID_PASSWORD = 'Введен неверный пароль. Повторите попытку',
   UNKNOWN_ERROR = 'Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru',
 }
 
 const validateEmail = (email: string): boolean => {
-  const regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return regExp.test(email);
+  return email.length > 0;
 }
 
 const validatePassword = (password: string): boolean => {
-  return password.length > 5;
+  return password.length > 0;
 }
 
 enum ServerResponseCode {
@@ -28,52 +29,91 @@ enum ServerResponseCode {
   SERVER_ERROR = 500,
 }
 
-export class Store {
-  login = '';
-  password = '';
-  loginError = '';
-  passwordError = '';
-  isShowPassword = false;
+const initialData = {
+  login: '',
+  password: '',
+}
+
+const initialError = {
+  login: '',
+  password: '',
+}
+
+export class LoginStore {
+  private _data = initialData;
+  private _error = initialError;
+  private _isShowPassword = false;
+
   constructor() {
     makeAutoObservable(this);
   }
 
+  get login() {
+    return this._data.login;
+  }
+
+  get password() {
+    return this._data.password;
+  }
+
+  get loginError() {
+    return this._error.login;
+  }
+
+  get passwordError() {
+    return this._error.password;
+  }
+
+  get isShowPassword() {
+    return this._isShowPassword;
+  }
+
+  clearError() {
+    this._error = initialError;
+  }
+
   changeLogin = (value: string): void => {
-    this.login = value.trim();
-    this.loginError = '';
+    this._data.login = value.trim();
+    this.clearError();
   }
 
   changePassword = (value: string): void => {
-    this.password = value.trim();
-    this.passwordError = '';
+    this._data.password = value.trim();
+    this.clearError();
   }
 
   setLoginError = (value: string): void => {
-    this.loginError = value;
+    this._error.login = value;
   }
 
   setPasswordError = (value: string): void => {
-    this.passwordError = value;
+    this._error.password = value;
   }
 
   switchShowingPassword = (): void => {
-    this.isShowPassword = !this.isShowPassword;
+    this._isShowPassword = !this._isShowPassword;
   }
 
-  submitForm = (): void => {
+  submitForm = (evt: React.FormEvent<HTMLFormElement>): void => {
+    evt.preventDefault();
+    let error = false;
     if (!validateEmail(this.login)) {
-      this.setLoginError(Error.INVALID_EMAIL);
-      return;
+      this.setLoginError(Error.NO_VALUE);
+      error = true;
     }
     if (!validatePassword(this.password)) {
-      this.setPasswordError(Error.INVALID_PASSWORD);
+      this.setPasswordError(Error.NO_VALUE);
+      error = true
+    }
+
+    if (error) {
       return;
     }
     // TODO: Убрать моковые данные
     // TODO: Спиннер?
     // TODO: Перенести обработку ошибок в catch, когда будет развёнут тестовый контур
     const request = new Promise((resolve) => {
-      setTimeout(() => resolve(MockServerResponse.OK), 2000);
+      setTimeout(() => resolve(MockServerResponse.SERVER_ERROR), 2000);
     });
     // TODO: Типизация ответа сервера
     request

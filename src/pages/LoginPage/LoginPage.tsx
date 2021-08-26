@@ -3,18 +3,12 @@ import { observer } from 'mobx-react-lite'
 import { Button, TextField, Typography, InputAdornment, IconButton } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 
-import { Store } from './ObservableLoginStore'
 import { useStyles } from './styles'
-
-const store = new Store()
-
-const formSubmitHandler = (evt: React.FormEvent<HTMLFormElement>): void => {
-  evt.preventDefault()
-  store.submitForm()
-}
+import { useLoginPage } from './useLoginPage';
 
 export const LoginPage = observer(() => {
   const classes = useStyles()
+  const store = useLoginPage();
 
   return (
     <div className={classes.root}>
@@ -22,7 +16,7 @@ export const LoginPage = observer(() => {
         <img width="125px" height="125px" />
         PanelRider
       </div>
-      <form className={classes.form} onSubmit={formSubmitHandler}>
+      <form className={classes.form} onSubmit={store.submitForm}>
         <Typography component="p" variant="body1">
           Вход в систему
         </Typography>

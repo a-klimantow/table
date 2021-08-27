@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeAutoObservable } from 'mobx';
 import { IServerResponse, IUser } from '../../types/common';
-import { MockServerResponse } from '../../mocks/userResponses';
 
 interface IData {
   login: string,
@@ -40,9 +39,17 @@ export class LoginStore {
   private _data: IData = initialData;
   private _error: IData = initialError;
   private _isShowPassword = false;
+  private _isLoading = false;
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  get userData() {
+    return {
+      email: this.login,
+      password: this.password,
+    };
   }
 
   get login() {
@@ -63,6 +70,10 @@ export class LoginStore {
 
   get isShowPassword() {
     return this._isShowPassword;
+  }
+
+  get isLoading() {
+    return this._isLoading;
   }
 
   clearError() {
@@ -105,41 +116,49 @@ export class LoginStore {
     this._isShowPassword = !this._isShowPassword;
   }
 
+  startLoading = () => {
+    this._isLoading = true;
+  }
+
+  stopLoading = () => {
+    this._isLoading = false;
+  }
+
   submitForm = (evt: React.FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
     if (!this.validate()) {
       return;
     }
+    this.startLoading();
 
-    // TODO: Убрать моковые данные
     // TODO: Спиннер?
     // TODO: Перенести обработку ошибок в catch, когда будет развёнут тестовый контур
-    const request = new Promise((resolve) => {
-      setTimeout(() => resolve(MockServerResponse.SERVER_ERROR), 2000);
-    });
-    // TODO: Типизация ответа сервера
-    request
-      // @ts-ignore  // временное решение. Как будет обёртка на запросы, в ней уже сделать типизацию
-      .then((res: IUserServerResponse) => {
-        switch (res.StatusCode) {
-          case ServerResponseCode.OK:
-            const user = res.Data;
-            console.log('Данные пользователя', user);
-            break;
-          case ServerResponseCode.BAD_REQUEST:
-            this.setPasswordError(res.Errors?.ErrorDescription ?? Error.INVALID_PASSWORD);
-            break;
-          case ServerResponseCode.NOT_FOUND:
-            this.setLoginError(res.Errors?.ErrorDescription ?? Error.INVALID_EMAIL);
-            break;
-          case ServerResponseCode.SERVER_ERROR:
-            // TODO: Общая ошибка на уровне приложения
-           alert(res.Errors?.ErrorDescription ?? Error.UNKNOWN_ERROR);
-            break;
-          default:
-            alert(Error.UNKNOWN_ERROR);
-        }
-      });
+    // const request = new Promise((resolve) => {
+    //   setTimeout(() => resolve(MockServerResponse.SERVER_ERROR), 2000);
+    // });
+    // // TODO: Типизация ответа сервера
+    // request
+    //   // @ts-ignore  // временное решение. Как будет обёртка на запросы, в ней уже сделать типизацию
+    //   .then((res: IUserServerResponse) => {
+    //     switch (res.StatusCode) {
+    //       case ServerResponseCode.OK:
+    //         const user = res.Data;
+    //         console.log('Данные пользователя', user);
+    //         break;
+    //       case ServerResponseCode.BAD_REQUEST:
+    //         this.setPasswordError(res.Errors?.ErrorDescription ?? Error.INVALID_PASSWORD);
+    //         break;
+    //       case ServerResponseCode.NOT_FOUND:
+    //         this.setLoginError(res.Errors?.ErrorDescription ?? Error.INVALID_EMAIL);
+    //         break;
+    //       case ServerResponseCode.SERVER_ERROR:
+    //         // TODO: Общая ошибка на уровне приложения
+    //        alert(res.Errors?.ErrorDescription ?? Error.UNKNOWN_ERROR);
+    //         break;
+    //       default:
+    //         alert(Error.UNKNOWN_ERROR);
+    //     }
+    //   });
   }
 }
 

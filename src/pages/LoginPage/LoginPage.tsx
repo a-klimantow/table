@@ -21,6 +21,7 @@ export const LoginPage = observer(() => {
           Вход в систему
         </Typography>
         <TextField
+          disabled={store.isLoading}
           variant="outlined"
           label="E-mail"
           size="small"
@@ -31,6 +32,7 @@ export const LoginPage = observer(() => {
           helperText={store.loginError}
         />
         <TextField
+          disabled={store.isLoading}
           variant="outlined"
           label="Пароль"
           size="small"
@@ -53,7 +55,7 @@ export const LoginPage = observer(() => {
             ),
           }}
         />
-        <Button variant="contained" color="primary" size="large" type="submit">
+        <Button disabled={store.isLoading} variant="contained" color="primary" size="large" type="submit">
           Войти
         </Button>
       </form>

@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { SnackbarProvider} from 'notistack';
 
 import { App } from './App'
 import { GlobalThemeProvider } from './theme'
+import { Snackbar } from './components/Snackbar/Snackbar';
 
 ReactDOM.render(
   <BrowserRouter>
     <GlobalThemeProvider>
-      <SnackbarProvider maxSnack={2} anchorOrigin={{vertical: 'top',horizontal: 'right'}}>
+      <Snackbar>
         <App />
-      </SnackbarProvider>
+      </Snackbar>
     </GlobalThemeProvider>
   </BrowserRouter>,
   document.getElementById('root')

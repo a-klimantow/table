@@ -1,15 +1,11 @@
-export enum RoleType {
-  PM = 'ProjectManagement',
-  WM = 'WebsiteManagement',
-  TM = 'TemplateManagement',
-}
+export type UserRole = 'ProjectManagement' | 'WebsiteManagement' | 'TemplateManagement';
 
 export interface IUser {
   email: string,
   id: number,
   name: string,
-  'roles': RoleType[],
-  'token': string,
+  roles: UserRole[],
+  token: string,
 }
 
 export interface IServerResponse {

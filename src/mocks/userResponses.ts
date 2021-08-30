@@ -1,4 +1,4 @@
-import { IServerResponse, RoleType } from '../types/common';
+import { IServerResponse } from '../types/common';
 
 interface IMockResponse {
   OK: IServerResponse,
@@ -15,9 +15,9 @@ export const MockServerResponse: IMockResponse = {
       'id': 765489242,
       'name': 'BigPoll Support',
       'roles': [
-        RoleType.PM,
-        RoleType.TM,
-        RoleType.WM,
+        'ProjectManagement',
+        'WebsiteManagement',
+        'TemplateManagement',
       ],
       'token': 'some.token.XXX',
     },

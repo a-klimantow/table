@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
 import { GlobalThemeProvider } from './theme'
-import { Snackbar } from './components/Snackbar/Snackbar';
+import { Snackbar } from './components/Snackbar';
 
 ReactDOM.render(
   <BrowserRouter>

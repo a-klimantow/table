@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { TablePagination } from '@material-ui/core'
+import { TablePagination, SwipeableDrawer } from '@material-ui/core'
 
 import {
   PageLayout,
@@ -9,12 +9,15 @@ import {
   UploadButton,
   TableColMenu,
   QuickFilter,
+  PaymentRequestExport,
 } from 'components'
 
+import { useExport } from '../../useExport'
 import { useBidsPage } from './useBidsPage'
 
 export const BidsPage = observer(() => {
   const store = useBidsPage()
+  const exp = useExport()
 
   return (
     <PageLayout>
@@ -36,7 +39,7 @@ export const BidsPage = observer(() => {
         />
 
         <TableSection>
-          <UploadButton type="export" />
+          <UploadButton type="export" onClick={() => exp.openModal()} />
           <UploadButton type="import" />
           <TablePagination
             component="div"
@@ -48,6 +51,14 @@ export const BidsPage = observer(() => {
           />
         </TableSection>
       </TableWrapper>
+      <SwipeableDrawer
+        anchor={'right'}
+        open={exp.isOpen}
+        onClose={() => exp.closeModal()}
+        onOpen={() => exp.openModal()}
+      >
+        <PaymentRequestExport onClick={() => exp.closeModal()} />
+      </SwipeableDrawer>
     </PageLayout>
   )
 })

@@ -10,7 +10,7 @@ export const Snackbar: React.FC = ({children}) => {
       maxSnack={2}
       anchorOrigin={{
         vertical: 'top',
-        horizontal: 'right'
+        horizontal: 'right',
       }}
       iconVariant={{
         success: <CheckCircleOutlinedIcon/>,

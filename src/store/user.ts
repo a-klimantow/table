@@ -9,7 +9,7 @@ export class UserStore {
     makeAutoObservable(this);
   }
 
-  get user(): UserType {
+  get data(): UserType {
     return this._data;
   }
 

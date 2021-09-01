@@ -5,15 +5,15 @@ import { useStorage } from './useStorage';
 
 export const useUserStore = () => {
   const {current: user} = useRef(new UserStore());
-  const {store} = useStorage('local');
+  const {set, clearStorage} = useStorage('local');
 
   useEffect(() => {
-    // TODO: Установить токен в заголовки?
+    // TODO: Установить токен в заголовки
+    // TODO: редирект в зависимости от роли
     if (user) {
-      store.set('token', user.token);
+      set('token', user.token);
     } else {
-      // TODO: нет метода очистки по ключу
-      store.set('token', null);
+      clearStorage('page');
     }
   }, [user, user.token]);
 

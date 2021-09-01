@@ -6,7 +6,7 @@ import { useUserStore } from '../../hooks/useUserStore';
 export const useLoginPage = () => {
   const [store] = React.useState(() => new LoginStore());
   const url = useUrl('login');
-  const {error} = useAlertMessage();
+
 
   const user = useUserStore();
   const superagent = useSuperagent(url, 'POST');
@@ -17,7 +17,6 @@ export const useLoginPage = () => {
     }
 
     superagent
-      .withCredentials()
       .send(store.userData)
       .then(({body}) => {
         // @ts-ignore
@@ -25,7 +24,7 @@ export const useLoginPage = () => {
       })
       .catch((err) => {
         // TODO: обработка ошибок
-        error('err');
+        alert('catch')
       })
       .finally(store.stopLoading);
   }, [store.isLoading]);

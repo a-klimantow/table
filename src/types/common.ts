@@ -9,10 +9,11 @@ export interface IUser {
 }
 
 export interface IServerResponse {
-  StatusCode: number,
+  status: number,
   Data: object | IUser | null,
   Errors?: {
     ErrorDescription: string,
   },
   IsSuccessStatusCode: boolean,
+  statusText: string
 }

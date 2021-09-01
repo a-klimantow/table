@@ -1,7 +1,6 @@
 import React from 'react';
 import { LoginStore } from './store';
-import { useAlertMessage, useUrl } from '../../hooks';
-import superagent from 'superagent';
+import { useAlertMessage, useSuperagent, useUrl } from '../../hooks';
 import { useUserStore } from '../../hooks/useUserStore';
 
 export const useLoginPage = () => {
@@ -10,6 +9,7 @@ export const useLoginPage = () => {
   const {error} = useAlertMessage();
 
   const user = useUserStore();
+  const superagent = useSuperagent(url, 'POST');
 
   React.useEffect(() => {
     if (!store.isLoading) {
@@ -17,7 +17,6 @@ export const useLoginPage = () => {
     }
 
     superagent
-      .post(url)
       .withCredentials()
       .send(store.userData)
       .then(({body}) => {

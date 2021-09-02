@@ -33,14 +33,13 @@ export const useBidsPage = () => {
     const GET = superagent
       .get(url)
       .query({ text: '' })
-      .query({ top: store.top })
-      .query({ skip: store.skip })
+      .query(store.pagination.query)
 
     store.fetchStart()
     GET.then((res) => store.getSuccess(res.body)).catch(() => store.fail())
 
     return () => GET.abort()
-  }, [store, store.top, store.skip, url])
+  }, [store, url, store.pagination.query])
 
   return store
 }

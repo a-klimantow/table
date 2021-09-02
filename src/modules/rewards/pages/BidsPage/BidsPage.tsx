@@ -41,14 +41,7 @@ export const BidsPage = observer(() => {
         <TableSection>
           <UploadButton type="export" onClick={() => exp.openModal()} />
           <UploadButton type="import" />
-          <TablePagination
-            component="div"
-            count={store.pagination.count}
-            page={store.pagination.page}
-            rowsPerPage={store.pagination.rowsPerPage}
-            onPageChange={(_, page) => store.changePage(page)}
-            onRowsPerPageChange={(e) => store.changePerPage(+e.target.value)}
-          />
+          <TablePagination component="div" {...store.pagination.props} />
         </TableSection>
       </TableWrapper>
       <SwipeableDrawer

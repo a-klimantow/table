@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { ICol } from 'components'
 import { IBidItem, IResponse } from 'modules/rewards/types'
+import { PaginationStore } from 'components/Pagination/Pagination'
 
 type Data = IResponse<IBidItem>
 type Columns<T> = (ICol & { key: keyof T })[]
@@ -9,11 +10,7 @@ type QuickFilterArr<T> = (keyof T)[]
 
 export class BidsStore {
   quickFilter = ''
-  pagination = {
-    page: 0,
-    rowsPerPage: 10,
-    count: 0,
-  }
+  pagination = new PaginationStore()
 
   loading = true
   private data: null | Data = null
@@ -43,7 +40,7 @@ export class BidsStore {
   }
 
   changePerPage(n: number) {
-    this.pagination.rowsPerPage = n
+    this.pagination.perPage = n
     if (this.pagination.count < n) {
       this.pagination.page = 0
     }
@@ -53,14 +50,6 @@ export class BidsStore {
     this.pagination.page = n
   }
 
-  get top() {
-    return this.pagination.rowsPerPage
-  }
-
-  get skip() {
-    return this.pagination.rowsPerPage * this.pagination.page
-  }
-
   fetchStart() {
     this.loading = true
   }
@@ -68,7 +57,8 @@ export class BidsStore {
   getSuccess(data: Data) {
     this.loading = false
     this.data = data
-    this.pagination.count = data.metadata.pagination.total_count
+    // this.pagination.count = data.metadata.pagination.total_count
+    this.pagination.setCount(data.metadata.pagination.total_count)
   }
 
   fail() {

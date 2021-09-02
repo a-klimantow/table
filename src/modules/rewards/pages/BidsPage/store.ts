@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx'
 import { ICol } from 'components'
 import { IBidItem, IResponse } from 'modules/rewards/types'
 import { PaginationStore } from 'components/Pagination/Pagination'
+import { FilterLevelOneStore } from 'components/FilterLelelOne'
 
 type Data = IResponse<IBidItem>
 type Columns<T> = (ICol & { key: keyof T })[]
@@ -11,6 +12,7 @@ type QuickFilterArr<T> = (keyof T)[]
 export class BidsStore {
   quickFilter = ''
   pagination = new PaginationStore()
+  flev1 = new FilterLevelOneStore()
 
   loading = true
   private data: null | Data = null

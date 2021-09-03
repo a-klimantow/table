@@ -12,11 +12,7 @@ type QuickFilterArr<T> = (keyof T)[]
 export class BidsStore {
   quickFilter = ''
   pagination = new PaginationStore()
-<<<<<<< HEAD
   flev1 = new FilterLevelOneStore(['country', 'panel_name'])
-=======
-  flev1 = new FilterLevelOneStore()
->>>>>>> a2e6a543b739fbb793c2c9cf2bc4b2d3c64de653
 
   loading = true
   private data: null | Data = null

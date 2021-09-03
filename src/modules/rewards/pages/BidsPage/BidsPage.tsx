@@ -8,7 +8,6 @@ import {
   TableSection,
   UploadButton,
   TableColMenu,
-  QuickFilter,
   PaymentRequestExport,
   FilterLevelOne,
   Pagination,
@@ -27,12 +26,6 @@ export const BidsPage = observer(() => {
         <TableSection toolbar>
           <TableColMenu columns={store.colMenu} />
           <FilterLevelOne {...store.flev1.props} />
-          {/* <QuickFilter
-            value={store.quickFilter}
-            onChange={(e) => store.changeQuickFilter(e.target.value)}
-            showCancel={store.showCancelQF}
-            onCancel={() => store.changeQuickFilter('')}
-          /> */}
         </TableSection>
 
         <Table

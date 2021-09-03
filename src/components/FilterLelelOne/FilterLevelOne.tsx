@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { observer } from 'mobx-react-lite'
+import f from 'odata-filter-builder'
+import buildQuery from 'odata-query'
 import {
   Paper,
   InputBase,
@@ -37,12 +39,14 @@ export const FilterLevelOne = observer<FilterLevelOneProps>(
 
 export class FilterLevelOneStore {
   private value = ''
+  private arrKeys: string[]
 
-  constructor() {
+  constructor(arrKeys?: string[]) {
     makeAutoObservable(this)
+    this.arrKeys = arrKeys ?? []
   }
 
-  changeValue(value: string) {
+  private changeValue(value: string) {
     this.value = value
   }
 
@@ -53,5 +57,17 @@ export class FilterLevelOneStore {
       onClear: () => this.changeValue(''),
       showClear: Boolean(this.value.trim()),
     }
+  }
+
+  get query(): string {
+    if (!this.arrKeys.length || !this.value) return ''
+
+    const qf = f('or')
+
+    this.arrKeys.forEach((key) => {
+      qf.contains((x) => x.toLower(key), this.value.toLowerCase())
+    })
+
+    return buildQuery({ filter: qf.toString() }).slice(1)
   }
 }

@@ -32,14 +32,16 @@ export const useBidsPage = () => {
   React.useEffect(() => {
     const GET = superagent
       .get(url)
-      .query({ text: '' })
+      .query(store.flev1.query)
       .query(store.pagination.query)
 
     store.fetchStart()
-    GET.then((res) => store.getSuccess(res.body)).catch(() => store.fail())
+    GET.then((res) => store.getSuccess(res.body)).catch((e) => {
+      if (e.message !== 'Aborted') store.fail()
+    })
 
     return () => GET.abort()
-  }, [store, url, store.pagination.query])
+  }, [store, url, store.pagination.query, store.flev1.query])
 
   return store
 }

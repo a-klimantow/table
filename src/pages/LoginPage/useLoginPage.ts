@@ -1,7 +1,8 @@
 import React from 'react';
 import { LoginStore } from './store';
-import { useAlertMessage, useSuperagent, useUrl } from '../../hooks';
+import { useSuperagent, useUrl } from '../../hooks';
 import { useUserStore } from '../../hooks/useUserStore';
+import { setAuthToken } from '../../utils/common';
 
 export const useLoginPage = () => {
   const [store] = React.useState(() => new LoginStore());
@@ -21,6 +22,8 @@ export const useLoginPage = () => {
       .then(({body}) => {
         // @ts-ignore
         user.setUser(body.data);
+        setAuthToken('accessToken', user.token);
+        setAuthToken('refreshToken', 'set refresh token');
       })
       .catch((err) => {
         // TODO: обработка ошибок

@@ -10,7 +10,7 @@ export interface IUser {
 
 export interface IServerResponse {
   status: number,
-  Data: object | IUser | null,
+  data: IUser | null,
   Errors?: {
     ErrorDescription: string,
   },

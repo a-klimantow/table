@@ -8,4 +8,5 @@ export enum AppRoute {
 
 export enum ServerUrl {
   LOGIN = 'login',
+  REFRESH = 'refresh',
 }

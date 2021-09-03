@@ -26,6 +26,15 @@ export const BidsPage = observer(() => {
         <TableSection toolbar>
           <TableColMenu columns={store.colMenu} />
           <FilterLevelOne {...store.flev1.props} />
+<<<<<<< HEAD
+=======
+          {/* <QuickFilter
+            value={store.quickFilter}
+            onChange={(e) => store.changeQuickFilter(e.target.value)}
+            showCancel={store.showCancelQF}
+            onCancel={() => store.changeQuickFilter('')}
+          /> */}
+>>>>>>> a2e6a543b739fbb793c2c9cf2bc4b2d3c64de653
         </TableSection>
 
         <Table

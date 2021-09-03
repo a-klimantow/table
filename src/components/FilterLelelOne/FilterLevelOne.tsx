@@ -1,7 +1,10 @@
 import { makeAutoObservable } from 'mobx'
 import { observer } from 'mobx-react-lite'
+<<<<<<< HEAD
 import f from 'odata-filter-builder'
 import buildQuery from 'odata-query'
+=======
+>>>>>>> a2e6a543b739fbb793c2c9cf2bc4b2d3c64de653
 import {
   Paper,
   InputBase,
@@ -39,6 +42,7 @@ export const FilterLevelOne = observer<FilterLevelOneProps>(
 
 export class FilterLevelOneStore {
   private value = ''
+<<<<<<< HEAD
   private arrKeys: string[]
 
   constructor(arrKeys?: string[]) {
@@ -47,6 +51,14 @@ export class FilterLevelOneStore {
   }
 
   private changeValue(value: string) {
+=======
+
+  constructor() {
+    makeAutoObservable(this)
+  }
+
+  changeValue(value: string) {
+>>>>>>> a2e6a543b739fbb793c2c9cf2bc4b2d3c64de653
     this.value = value
   }
 
@@ -58,6 +70,7 @@ export class FilterLevelOneStore {
       showClear: Boolean(this.value.trim()),
     }
   }
+<<<<<<< HEAD
 
   get query(): string {
     if (!this.arrKeys.length || !this.value) return ''
@@ -70,4 +83,6 @@ export class FilterLevelOneStore {
 
     return buildQuery({ filter: qf.toString() }).slice(1)
   }
+=======
+>>>>>>> a2e6a543b739fbb793c2c9cf2bc4b2d3c64de653
 }

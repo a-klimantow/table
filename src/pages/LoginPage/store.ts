@@ -1,28 +1,9 @@
 import React from 'react';
 import { makeAutoObservable } from 'mobx';
-import { IServerResponse, IUser } from '../../types/common';
 
 interface IData {
   login: string,
   password: string,
-}
-
-interface IUserServerResponse extends IServerResponse {
-  Data: IUser | null,
-}
-
-enum Error {
-  NO_VALUE = 'Заполните поле',
-  INVALID_EMAIL = 'Некорректный email',
-  INVALID_PASSWORD = 'Введен неверный пароль. Повторите попытку',
-  UNKNOWN_ERROR = 'Кажется, что-то пошло не так... Мы будем благодарны, если вы напишете нам об этом на адрес support@expertnoemnenie.ru',
-}
-
-enum ServerResponseCode {
-  OK = 200,
-  BAD_REQUEST = 400,
-  NOT_FOUND = 404,
-  SERVER_ERROR = 500,
 }
 
 const initialData: IData = {
@@ -34,6 +15,8 @@ const initialError: IData = {
   login: '',
   password: '',
 }
+
+const NO_VALUE = 'Заполните поле';
 
 export class LoginStore {
   private _data: IData = initialData;
@@ -83,11 +66,11 @@ export class LoginStore {
   validate() {
     let isValid = true;
     if (this.login.length === 0) {
-      this.setLoginError(Error.NO_VALUE);
+      this.setLoginError(NO_VALUE);
       isValid = false;
     }
     if (this.password.length === 0) {
-      this.setPasswordError(Error.NO_VALUE);
+      this.setPasswordError(NO_VALUE);
       isValid = false;
     }
 
@@ -130,35 +113,6 @@ export class LoginStore {
       return;
     }
     this.startLoading();
-
-    // TODO: Спиннер?
-    // TODO: Перенести обработку ошибок в catch, когда будет развёнут тестовый контур
-    // const request = new Promise((resolve) => {
-    //   setTimeout(() => resolve(MockServerResponse.SERVER_ERROR), 2000);
-    // });
-    // // TODO: Типизация ответа сервера
-    // request
-    //   // @ts-ignore  // временное решение. Как будет обёртка на запросы, в ней уже сделать типизацию
-    //   .then((res: IUserServerResponse) => {
-    //     switch (res.StatusCode) {
-    //       case ServerResponseCode.OK:
-    //         const user = res.Data;
-    //         console.log('Данные пользователя', user);
-    //         break;
-    //       case ServerResponseCode.BAD_REQUEST:
-    //         this.setPasswordError(res.Errors?.ErrorDescription ?? Error.INVALID_PASSWORD);
-    //         break;
-    //       case ServerResponseCode.NOT_FOUND:
-    //         this.setLoginError(res.Errors?.ErrorDescription ?? Error.INVALID_EMAIL);
-    //         break;
-    //       case ServerResponseCode.SERVER_ERROR:
-    //         // TODO: Общая ошибка на уровне приложения
-    //        alert(res.Errors?.ErrorDescription ?? Error.UNKNOWN_ERROR);
-    //         break;
-    //       default:
-    //         alert(Error.UNKNOWN_ERROR);
-    //     }
-    //   });
   }
 }
 

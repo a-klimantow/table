@@ -3,10 +3,11 @@ import { LoginStore } from './store';
 import { useSuperagent, useUrl } from '../../hooks';
 import { useUserStore } from '../../hooks/useUserStore';
 import { setAuthToken } from '../../utils/common';
+import { ServerUrl } from '../../consts/route';
 
 export const useLoginPage = () => {
   const [store] = React.useState(() => new LoginStore());
-  const url = useUrl('login');
+  const url = useUrl(ServerUrl.LOGIN);
 
 
   const user = useUserStore();

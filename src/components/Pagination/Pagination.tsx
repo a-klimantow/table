@@ -4,7 +4,7 @@ import { TablePagination, TablePaginationProps } from '@material-ui/core'
 import buildQuery from 'odata-query'
 
 export const Pagination = memo<TablePaginationProps>((props) => (
-  <TablePagination {...props} />
+  <TablePagination component="div" {...props} />
 ))
 
 export class PaginationStore {
@@ -22,6 +22,7 @@ export class PaginationStore {
 
   changePerPage(perPage: number) {
     this.perPage = perPage
+    this.page = 0
   }
 
   setCount(count: number) {

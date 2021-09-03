@@ -4,17 +4,20 @@ import { useAlertMessage } from './useAlertMessage';
 import { IServerResponse } from '../types/common';
 import { getAuthToken } from '../utils/common';
 import { AppRoute } from '../consts/route';
+import { useGlobalStore } from './useGlobalStore';
 
 type MethodType = 'GET' | 'POST'
 
 export const useSuperagent = (url: string, method?: MethodType) => {
-  const { replace } = useHistory()
-  const {error} = useAlertMessage();
+  const { location, replace } = useHistory();
+  const { error } = useAlertMessage();
+  const globalStore = useGlobalStore();
 
   const errorInterceptor = (req: any) => {
     req.on('response', (res: IServerResponse) => {
       switch (res.status) {
         case 401:
+          globalStore.setReturnUrl(location.pathname);
           replace(AppRoute.REFRESH);
           break;
         case 500:

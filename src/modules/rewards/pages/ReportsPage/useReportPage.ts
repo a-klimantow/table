@@ -15,10 +15,10 @@ import { useGet } from './useGet'
 class PageStore<T> {
   private readonly _columns: ICol[]
 
-  private _search: SearchProps['search'] = { value: '' }
-  private _colMenu: ColMenuProps['menu'] = { items: [] }
-  private _table: TableProps['table'] = { head: [], body: null, loading: true }
-  private _pagination: PaginationProps['pagination'] = {
+  search: SearchProps['search'] = { value: '' }
+  colMenu: ColMenuProps['menu'] = { items: [] }
+  table: TableProps['table'] = { head: [], body: null, loading: true }
+  pagination: PaginationProps['pagination'] = {
     count: 0,
     page: 0,
     rowsPerPage: 10,
@@ -28,12 +28,12 @@ class PageStore<T> {
     makeAutoObservable(this)
 
     this._columns = cols as unknown as ICol[]
-    this._colMenu.items = this._columns
-    this._table.head = this._columns
+    this.colMenu.items = this._columns
+    this.table.head = this._columns
   }
 
   loading(show: boolean) {
-    this._table.loading = show
+    this.table.loading = show
   }
 
   getSuccess() {
@@ -44,23 +44,7 @@ class PageStore<T> {
   fail() {
     this.loading(false)
     console.log('error')
-    this._pagination.count = 1000
-  }
-
-  get search() {
-    return this._search
-  }
-
-  get colMenu() {
-    return this._colMenu
-  }
-
-  get table() {
-    return this._table
-  }
-
-  get pagination() {
-    return this._pagination
+    this.pagination.count = 1000
   }
 }
 

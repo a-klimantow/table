@@ -1,1 +1,2 @@
-export { Pagination, PaginationStore } from './Pagination'
+export { Pagination } from './Pagination'
+export type { PaginationProps } from './Pagination'

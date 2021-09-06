@@ -1,41 +1,33 @@
-import { useLocalObservable, observer } from 'mobx-react-lite'
-import { PageLayout } from 'components'
+import { memo } from 'react'
 
-import { TablePaper, TableToolbar } from './components/atoms'
-import { Search } from './components/Search'
-import { TableColMenu } from './components/TableColMenu'
+import {
+  PageLayout,
+  ColMenu,
+  Search,
+  TableContainer,
+  TableSection,
+  Table,
+  Pagination,
+} from 'components'
 
-function usePage() {
-  const store = useLocalObservable(() => ({
-    search: '',
-    test: 1,
+import { useReportPage } from './useReportPage'
 
-    changeSearch(s: string) {
-      this.search = s
-    },
-
-    toString() {
-      return JSON.stringify(this)
-    },
-  }))
-
-  return store
-}
-
-export const ReportsPage = observer(() => {
-  const page = usePage()
-  console.log(page.toString())
+export const ReportsPage = memo(() => {
+  const page = useReportPage()
   return (
     <PageLayout>
-      <TablePaper>
-        <TableToolbar>
-          <TableColMenu />
-          <Search
-            search={page.search}
-            onSearchChange={(s) => page.changeSearch(s)}
-          />
-        </TableToolbar>
-      </TablePaper>
+      <TableContainer>
+        <TableSection section="toolbar">
+          <ColMenu menu={page.colMenu} />
+          <Search search={page.search} />
+        </TableSection>
+        <TableSection section="table">
+          <Table table={page.table} />
+        </TableSection>
+        <TableSection section="bottom">
+          <Pagination pagination={page.pagination} />
+        </TableSection>
+      </TableContainer>
     </PageLayout>
   )
 })

@@ -1,6 +1,4 @@
 import superagent from 'superagent'
-import { useHistory } from 'react-router-dom'
-import React from 'react'
 
 type MethodType = 'GET' | 'POST'
 
@@ -12,7 +10,5 @@ const baseUrl =
 console.log(process.env.NODE_ENV, baseUrl)
 
 export const useSuperagent = (url = '', method?: MethodType) => {
-  const { replace } = useHistory()
-
   return superagent(method ?? 'GET', `${baseUrl}${url}`)
 }

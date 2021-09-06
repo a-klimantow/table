@@ -1,48 +1,49 @@
-import { memo } from 'react'
-import { makeAutoObservable } from 'mobx'
-import { TablePagination, TablePaginationProps } from '@material-ui/core'
-import buildQuery from 'odata-query'
+import { observer } from 'mobx-react-lite'
+import { action } from 'mobx'
+import {
+  TablePagination,
+  TablePaginationProps as TPProps,
+} from '@material-ui/core'
 
-export const Pagination = memo<TablePaginationProps>((props) => (
-  <TablePagination component="div" {...props} />
-))
+type Props = Pick<TPProps, 'count' | 'page' | 'rowsPerPage'>
 
-export class PaginationStore {
-  count = 0
-  page = 0
-  perPage = 10
+export interface PaginationProps {
+  pagination: Props
+}
 
-  constructor() {
-    makeAutoObservable(this)
-  }
+export const Pagination = observer<PaginationProps>((props) => {
+  const p = usePagination(props)
+  return (
+    <TablePagination
+      component="div"
+      page={p.page}
+      count={p.count}
+      rowsPerPage={p.rowsPerPage}
+      onPageChange={p.onPageChange}
+      onRowsPerPageChange={p.onRowsPerPageChange}
+    />
+  )
+})
 
-  changePage(page: number) {
-    this.page = page
-  }
+function usePagination({ pagination }: PaginationProps): TPProps {
+  const changePage: TPProps['onPageChange'] = action(
+    'change_page',
+    (_, p) => (pagination.page = p)
+  )
 
-  changePerPage(perPage: number) {
-    this.perPage = perPage
-    this.page = 0
-  }
-
-  setCount(count: number) {
-    this.count = count
-  }
-
-  get props(): TablePaginationProps {
-    return {
-      count: this.count,
-      page: this.page,
-      rowsPerPage: this.perPage,
-      onPageChange: (_, page) => this.changePage(page),
-      onRowsPerPageChange: (e) => this.changePerPage(+e.target.value),
+  const changePerPage: TPProps['onRowsPerPageChange'] = action(
+    'chage_per_page',
+    (e) => {
+      pagination.page = 0
+      pagination.rowsPerPage = Number(e.target.value)
     }
-  }
+  )
 
-  get query(): string {
-    return buildQuery({
-      top: this.perPage,
-      skip: this.perPage * this.page,
-    }).slice(1)
+  return {
+    count: pagination.count,
+    page: pagination.page,
+    rowsPerPage: pagination.rowsPerPage,
+    onPageChange: changePage,
+    onRowsPerPageChange: changePerPage,
   }
 }

@@ -1,34 +1,51 @@
-import React from 'react'
-import { Stack, StackProps, Paper, PaperProps } from '@material-ui/core'
+import { FC, useMemo, memo } from 'react'
+import {
+  ThemeProvider,
+  createTheme,
+  TableRow,
+  TableCell,
+  Backdrop,
+  CircularProgress,
+} from '@material-ui/core'
 
-export const TableWrapper = React.memo<PaperProps>(({ children }) => (
-  <Paper
-    sx={{
-      overflow: 'hidden',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
-    {children}
-  </Paper>
-))
+import { TableProps } from './Table'
+import { observer } from 'mobx-react-lite'
 
-interface TableSectionProps extends StackProps {
-  toolbar?: boolean
+export const Provider: FC = ({ children }) => {
+  const theme = useMemo(() => createTheme({}), [])
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
-export const TableSection = React.memo<TableSectionProps>(({ toolbar, children }) => (
-  <Stack
-    bgcolor={toolbar ? 'grey.300' : 'inherit'}
-    direction="row"
-    alignItems="center"
-    gap={1}
-    p={1}
-    height={52}
-    borderTop={toolbar ? 0 : 1}
-    borderColor="divider"
+type HeadListProps = TableProps['table']['head']
+
+export const HeadList = memo<{ items: HeadListProps }>(({ items }) => (
+  <TableRow>
+    {items.map((item) => (
+      <HeadItem key={item.key} item={item} />
+    ))}
+  </TableRow>
+))
+
+type HeadItemProps = TableProps['table']['head'][number]
+
+const HeadItem = observer<{ item: HeadItemProps }>(({ item }) => (
+  <TableCell
+    sx={{
+      display: item.hidden ? 'none' : 'table-cell',
+    }}
   >
-    {children}
-  </Stack>
+    {item.name}
+  </TableCell>
+))
+
+export const Loader = observer<{ show: boolean }>(({ show }) => (
+  <Backdrop
+    open={show}
+    sx={{
+      position: 'absolute',
+      bgcolor: 'transparent',
+    }}
+  >
+    <CircularProgress />
+  </Backdrop>
 ))

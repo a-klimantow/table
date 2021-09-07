@@ -1,14 +1,39 @@
 import superagent from 'superagent'
+import { useHistory } from 'react-router-dom'
+import { useAlertMessage } from './useAlertMessage';
+import { IServerResponse } from '../types/common';
+import { getAuthToken } from '../utils/common';
+import { AppRoute } from '../consts/route';
+import { useGlobalStore } from './useGlobalStore';
 
 type MethodType = 'GET' | 'POST'
 
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://10.10.4.72:30101/v1/admin/'
-    : '/api/v1/admin/'
+export const useSuperagent = (url: string, method?: MethodType) => {
+  const { location, replace } = useHistory();
+  const { error } = useAlertMessage();
+  const globalStore = useGlobalStore();
 
-console.log(process.env.NODE_ENV, baseUrl)
+  const errorInterceptor = (req: any) => {
+    req.on('response', (res: IServerResponse) => {
+      switch (res.status) {
+        case 401:
+          globalStore.setReturnUrl(location.pathname);
+          replace(AppRoute.REFRESH);
+          break;
+        case 500:
+          error(res.statusText)
+          break;
+      }
+    })
+  }
 
-export const useSuperagent = (url = '', method?: MethodType) => {
-  return superagent(method ?? 'GET', `${baseUrl}${url}`)
+  const res = superagent(method ?? 'GET', url)
+    .use(errorInterceptor);
+
+  const accessToken = getAuthToken('accessToken');
+  if (accessToken) {
+    res.set('Authorization', `Bearer ${accessToken}`);
+  }
+
+  return res;
 }

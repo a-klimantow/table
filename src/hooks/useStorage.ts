@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 type Props = 'local' | 'session'
 
-type KeyType = 'widths' | 'hidden' | 'quickFilter'
+type KeyType = 'widths' | 'hidden' | 'quickFilter' | 'token'
 
 export const useStorage = (type: Props) => {
   const { pathname } = useLocation()

@@ -1,15 +1,17 @@
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
-import { App } from './App'
+import { App, AppProvider } from './App'
 import { GlobalThemeProvider } from './theme'
-import { Snackbar } from './components/Snackbar';
+import { Snackbar } from './components/Snackbar'
 
 ReactDOM.render(
   <BrowserRouter>
     <GlobalThemeProvider>
       <Snackbar>
-        <App />
+        <AppProvider>
+          <App />
+        </AppProvider>
       </Snackbar>
     </GlobalThemeProvider>
   </BrowserRouter>,

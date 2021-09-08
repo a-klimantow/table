@@ -17,6 +17,8 @@ export class AppStore {
     const user = localStorage.getItem(LSKeys.User)
     if (user) {
       this.user = JSON.parse(user)
+    } else {
+      this.history.push('/login')
     }
   }
 }

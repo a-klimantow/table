@@ -13,6 +13,7 @@ export const useSuperagent = (url: string, method?: MethodType) => {
   const { error } = useAlertMessage();
   const globalStore = useGlobalStore();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const errorInterceptor = (req: any) => {
     req.on('response', (res: IServerResponse) => {
       switch (res.status) {

@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { makeAutoObservable, autorun } from 'mobx'
 import { ButtonProps } from '@material-ui/core'
 import superagent from 'superagent'
@@ -109,6 +110,7 @@ class LoginStore {
 export function useLoginPage() {
   const url = useUrl('login')
   const app = useAppContext()
+  const history = useHistory()
 
   const [store] = useState(() => new LoginStore())
 
@@ -120,10 +122,11 @@ export function useLoginPage() {
         .send(store.data)
         .then((res) => {
           app.setUser(res.body.data)
+          history.push('/')
         })
         .catch(console.log)
     }
-  }, [store, store.data, url, app])
+  }, [store, store.data, url, app, history])
 
   return store
 }

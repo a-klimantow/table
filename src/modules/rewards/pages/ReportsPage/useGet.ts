@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
 import superagent from 'superagent'
 
+import { useAppContext } from 'hooks'
+
 export function useGet(url: string, success: Function, fail: Function) {
+  const app = useAppContext()
   useEffect(() => {
-    const GET = superagent.get(url)
+    const GET = superagent.get(url).set(app.authHeader)
     ;(async () => {
       try {
         const respose = await GET.then()
@@ -14,5 +17,5 @@ export function useGet(url: string, success: Function, fail: Function) {
     })()
 
     return () => GET.abort()
-  }, [url, success, fail])
+  }, [url, success, fail, app])
 }

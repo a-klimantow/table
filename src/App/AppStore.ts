@@ -20,8 +20,7 @@ export class AppStore {
     autorun(() => {
       if (this.user) {
         localStorage.setItem(Keys.User, JSON.stringify(this.user))
-        history.push('/')
-        console.log('user update', this.user)
+        console.log('user update', JSON.stringify(this.user, null, 2))
       } else {
         history.push('/login')
       }
@@ -30,5 +29,9 @@ export class AppStore {
 
   setUser(user: IUser) {
     this.user = user
+  }
+
+  get authHeader() {
+    return { Authorization: `Bearer ${this.user?.token}` }
   }
 }

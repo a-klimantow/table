@@ -1,24 +1,34 @@
-import { makeAutoObservable } from 'mobx'
-import { useHistory } from 'react-router-dom'
+import { makeAutoObservable, autorun } from 'mobx'
 
-import { LSKeys } from 'consts'
+import { History } from 'types'
+import { Keys } from 'consts'
 import { IUser } from './types'
 
-type History = ReturnType<typeof useHistory>
-
 export class AppStore {
-  private readonly user: IUser | null = null
+  user: IUser | null = null
   private readonly history: History
 
   constructor({ history }: { history: History }) {
     makeAutoObservable(this)
     this.history = history
 
-    const user = localStorage.getItem(LSKeys.User)
+    const user = localStorage.getItem(Keys.User)
     if (user) {
       this.user = JSON.parse(user)
-    } else {
-      this.history.push('/login')
     }
+
+    autorun(() => {
+      if (this.user) {
+        localStorage.setItem(Keys.User, JSON.stringify(this.user))
+        history.push('/')
+        console.log('user update', this.user)
+      } else {
+        history.push('/login')
+      }
+    })
+  }
+
+  setUser(user: IUser) {
+    this.user = user
   }
 }

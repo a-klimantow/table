@@ -27,7 +27,6 @@ export default createTheme(
       MuiInputBase: {
         styleOverrides: {
           root: {
-            background: '#fff',
             letterSpacing: 1,
           },
         },

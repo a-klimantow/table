@@ -6,7 +6,6 @@ import { LoginPage } from 'pages'
 import { RewardsModule } from 'modules/rewards'
 import { AppRoute } from '../consts/route'
 import { RefreshPage } from '../pages/RefreshPage'
-import {} from './hooks'
 
 
 export const App: FC = () => {

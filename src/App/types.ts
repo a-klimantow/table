@@ -6,7 +6,3 @@ export interface IUser {
   roles: Array<'ProjectManagement' | 'WebsiteManagement' | 'TemplateManagement'>
   token: string
 }
-
-export interface IAppStore {
-  user: IUser | null
-}

@@ -1,34 +1,54 @@
-import { memo, ReactNode } from 'react'
-import { action } from 'mobx'
+import { memo, ReactNode, FormEvent } from 'react'
 import { observer } from 'mobx-react-lite'
-import { TextField, TextFieldProps, Box } from '@material-ui/core'
+import { Box, Button, ButtonProps, LinearProgress } from '@material-ui/core'
 
 export const Page = memo<{ children: ReactNode }>(({ children }) => (
-  <Box>{children}</Box>
+  <Box
+    sx={{
+      display: 'grid',
+      minHeight: '100vh',
+      placeContent: 'center',
+    }}
+  >
+    {children}
+  </Box>
 ))
 
-export const Field = observer<{ field: TextFieldProps; password?: boolean }>(
-  ({ field, password }) => {
-    const change: TextFieldProps['onChange'] = action(
-      'change_email',
-      (e) => (field.value = e.target.value)
-    )
+interface FormProps {
+  children: ReactNode
+  submit(e: FormEvent): void
+}
 
-    const isPass = field.type === 'password'
+export const Form = memo<FormProps>(({ children, submit }) => (
+  <Box
+    component="form"
+    onSubmit={submit}
+    sx={{
+      minWidth: 380,
+      display: 'grid',
+      gap: 4,
+    }}
+  >
+    {children}
+  </Box>
+))
 
-    const click = action('change_hidden', () => {
-      isPass ? (field.type = 'text') : (field.type = 'password')
-    })
+export const SubmitButton = observer<{ button: ButtonProps }>(({ button }) => (
+  <Button {...button}>Войти</Button>
+))
 
-    return (
-      <TextField
-        value={field.value}
-        onChange={change}
-        InputProps={
-          password ? { endAdornment: <button onClick={click}>1</button> } : {}
-        }
-        type={field.type}
-      />
-    )
-  }
+export interface PageLoaderProps {
+  show: boolean
+}
+export const PageLoader = observer<{ loader: PageLoaderProps }>(({ loader }) =>
+  loader.show ? (
+    <LinearProgress
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
+    />
+  ) : null
 )

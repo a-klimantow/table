@@ -16,8 +16,8 @@ export const Provider: FC = ({ children }) => {
           MuiOutlinedInput: {
             defaultProps: {
               sx: {
-                bgcolor: 'background.paper',
                 letterSpacing: 1,
+                bgcolor: 'background.paper',
               },
             },
           },
@@ -28,7 +28,7 @@ export const Provider: FC = ({ children }) => {
                 position: 'absolute',
                 top: '100%',
                 whiteSpace: 'nowrap',
-                left: -14
+                left: -14,
               },
             },
           },

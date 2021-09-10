@@ -2,27 +2,27 @@ import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import superagent from 'superagent'
 
-import { useUrl, useAppContext } from 'hooks'
+import { useUrl, useAppStore } from 'hooks'
 import { Store } from './useLoginForm'
 
-export function useLoginRequest(store: Store) {
-  const url = useUrl('login')
-  const app = useAppContext()
+export function useLoginRequest(form: Store) {
   const history = useHistory()
+  const { user } = useAppStore()
+  const url = useUrl('login')
 
   useEffect(() => {
-    if (store.data) {
+    if (form.data) {
       superagent
         .post(url)
         .type('application/json')
-        .send(store.data)
+        .send(form.data)
         .then((res) => {
-          store.success()
-          app.setUser(res.body.data)
+          form.success()
+          user.update(res.body.data)
         })
         .catch((e) => {
-          store.fail(e.response.body.errors)
+          form.fail(e.response.body.errors)
         })
     }
-  }, [store, store.data, url, app, history])
+  }, [form, form.data, url, user, history])
 }

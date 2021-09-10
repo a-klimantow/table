@@ -1,1 +1,1 @@
-export { GlobalThemeProvider } from './GlobalThemeProvider'
+export { GlobalTheme } from './GlobalTheme'

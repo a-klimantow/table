@@ -1,19 +1,14 @@
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
-import { App, AppProvider } from './App'
-import { GlobalThemeProvider } from './theme'
-import { Snackbar } from './components/Snackbar'
+import { App } from './App'
+import React from 'react'
 
 ReactDOM.render(
-  <BrowserRouter>
-    <GlobalThemeProvider>
-      <Snackbar>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Snackbar>
-    </GlobalThemeProvider>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 )

@@ -1,2 +1,4 @@
-export * from './LoginPage1'
-
+export * from './LoginPage'
+export * from './LogoutPage'
+export * from './RefreshPage'
+export * from './AuthenticationPage'

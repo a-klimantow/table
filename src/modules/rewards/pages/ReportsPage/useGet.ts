@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import superagent from 'superagent'
 
-import { useAppContext } from 'hooks'
+import { useAppStore } from 'hooks'
 
 export function useGet(url: string, success: Function, fail: Function) {
-  const app = useAppContext()
+  const app = useAppStore()
   useEffect(() => {
-    const GET = superagent.get(url).set(app.authHeader)
+    const GET = superagent.get(url)
     ;(async () => {
       try {
         const respose = await GET.then()

@@ -1,19 +1,18 @@
 import { observer } from 'mobx-react-lite'
 
 import { Field } from 'components'
-import { Page, Form, SubmitButton, PageLoader } from './atoms'
-import { useLoginPage } from './useLoginPage'
+import { Page, Title, Form } from './atoms'
+import { useLoginForm } from './useLoginForm'
 
 export const LoginPage = observer(() => {
-  const page = useLoginPage()
+  const form = useLoginForm()
   return (
     <Page>
-      <Form submit={(e) => page.submit(e)}>
-        <Field field={page.email} />
-        <Field field={page.password} />
-        <SubmitButton button={page.button} />
+      <Title />
+      <Form form={form}>
+        <Field field={form.email} />
+        <Field field={form.password} />
       </Form>
-      <PageLoader loader={page.loader} />
     </Page>
   )
 })

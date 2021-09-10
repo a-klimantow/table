@@ -1,16 +1,14 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { makeAutoObservable, autorun } from 'mobx'
-import { ButtonProps } from '@material-ui/core'
-import superagent from 'superagent'
+import { FormEvent, useState } from 'react'
+import { makeAutoObservable } from 'mobx'
 
+import { Errors } from 'types'
 import { FieldProps } from 'components'
-import { useUrl, useAppContext } from 'hooks'
-import { PageLoaderProps } from './atoms'
+import { FormProps } from './atoms'
+import { useLoginRequest } from './useLoginRequest'
 
-class LoginStore {
+class LoginForm implements FormProps {
   email: FieldProps = {
-    value: 'admin@expertnoemnenie.ru',
+    value: 'liliya.faizullina@socinform.ru',
     label: 'E-mail',
   }
 
@@ -20,15 +18,7 @@ class LoginStore {
     label: 'Пароль',
   }
 
-  button: ButtonProps = {
-    variant: 'contained',
-    disabled: true,
-    size: 'large',
-    type: 'submit',
-  }
-  loader: PageLoaderProps = {
-    show: false,
-  }
+  data: { email: string; password: string } | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -39,31 +29,48 @@ class LoginStore {
     this.password.onChange = (e) => this.changeValue('password', e.target.value)
     this.password.onPassToggle = () => this.toggleHidden()
     this.password.onBlur = () => this.blurPass()
-
-    autorun(() => {
-      const validateArr = [
-        this.emailValid,
-        this.passwordValid,
-        !this.loader.show,
-      ]
-
-      this.button.disabled = validateArr.some((v) => !v)
-    })
   }
 
   submit(e: FormEvent) {
     e.preventDefault()
-    this.loader.show = true
+    this.data = {
+      email: String(this.email.value).trim(),
+      password: String(this.password.value).trim(),
+    }
   }
 
-  get data() {
-    if (this.loader.show) {
-      return {
-        email: String(this.email.value).trim(),
-        password: String(this.password.value),
-      }
+  success() {
+    this.data = null
+  }
+
+  fail({ code, notes }: Errors) {
+    switch (code) {
+      case '404':
+        this.email.error = true
+        this.email.helperText = notes
+        break
+      default:
+        this.password.error = true
+        this.password.helperText = notes
+        this.password.type = 'text'
+        break
     }
-    return null
+    this.data = null
+  }
+
+  get loading() {
+    return Boolean(this.data)
+  }
+
+  get disabled() {
+    const validArr = [
+      this.emailValid,
+      this.passwordValid,
+      !this.loading,
+      !this.email.error,
+      !this.password.error,
+    ]
+    return validArr.some((v) => !v)
   }
 
   private blurEmail() {
@@ -107,26 +114,11 @@ class LoginStore {
   }
 }
 
-export function useLoginPage() {
-  const url = useUrl('login')
-  const app = useAppContext()
-  const history = useHistory()
-
-  const [store] = useState(() => new LoginStore())
-
-  useEffect(() => {
-    if (store.data) {
-      superagent
-        .post(url)
-        .type('application/json')
-        .send(store.data)
-        .then((res) => {
-          app.setUser(res.body.data)
-          history.push('/')
-        })
-        .catch(console.log)
-    }
-  }, [store, store.data, url, app, history])
+export function useLoginForm() {
+  const [store] = useState(() => new LoginForm())
+  useLoginRequest(store)
 
   return store
 }
+
+export type Store = ReturnType<typeof useLoginForm>

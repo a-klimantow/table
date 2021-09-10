@@ -27,6 +27,8 @@ export const Provider: FC = ({ children }) => {
               sx: {
                 position: 'absolute',
                 top: '100%',
+                whiteSpace: 'nowrap',
+                left: -14
               },
             },
           },

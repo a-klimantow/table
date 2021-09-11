@@ -1,25 +1,39 @@
-import { memo, ReactNode, FormEvent } from 'react'
+import { memo, FC } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Box, Button, LinearProgress, Typography } from '@material-ui/core'
+import {
+  Button,
+  ButtonProps,
+  IconButton,
+  LinearProgress,
+  Typography,
+  TextFieldProps,
+  TextField,
+  InputAdornment,
+  Box,
+  BoxProps,
+} from '@material-ui/core'
 
-export const Page = memo<{ children: ReactNode }>(({ children }) => (
+import { Icon } from 'components'
+
+export const Layout: FC<BoxProps> = ({ children }) => (
   <Box
     sx={{
+      border: 1,
       minHeight: '100vh',
       display: 'grid',
-      p: 2,
       gridTemplate: `
-      ". . ." 1fr 
-      ". T ." auto
+      ". . ." 1fr
+      ". T ." 80px
       ". F ." auto
-      ". . ." 1fr / 1fr minmax(auto, 380px) 1fr
+      ". . ." 1fr/ auto minmax(auto, 400px) auto
       `,
-      rowGap: 6,
+      gap: 2,
+      '& form': { display: 'inherit', gridArea: 'F', gap: 4 },
     }}
   >
     {children}
   </Box>
-))
+)
 
 export const Title = memo(() => (
   <Typography variant="h1" fontSize={30} align="center" gridArea="T">
@@ -27,44 +41,66 @@ export const Title = memo(() => (
   </Typography>
 ))
 
-export interface FormProps {
-  submit(e: FormEvent): void
-  disabled: boolean
-  loading: boolean
+export type EmailProps = TextFieldProps
+
+export const Email = observer<{ email: EmailProps }>(({ email }) => (
+  <TextField {...email} />
+))
+
+export type PasswordProps = TextFieldProps & { onToggle?(): void }
+
+export const Password = observer<{ password: PasswordProps }>(
+  ({ password }) => {
+    const { onToggle, ...rest } = password
+    return (
+      <TextField
+        {...rest}
+        InputProps={{
+          endAdornment: (
+            <ToggleButton
+              hidden={password.type === 'password'}
+              click={onToggle}
+            />
+          ),
+        }}
+      />
+    )
+  }
+)
+
+const ToggleButton = observer<{ hidden: boolean; click?(): void }>(
+  ({ hidden, click }) => (
+    <InputAdornment position="end">
+      <IconButton onClick={click}>
+        <Icon type={hidden ? 'eye_off' : 'eye_on'} />
+      </IconButton>
+    </InputAdornment>
+  )
+)
+
+export type SubmitButtonProps = ButtonProps & {
+  isLoading(): boolean
+  isDisabled(): boolean
 }
 
-export const Form = observer<{ form: FormProps }>(({ children, form }) => (
-  <Box
-    component="form"
-    onSubmit={(e: FormEvent) => form.submit(e)}
-    sx={{ gridArea: 'F', display: 'grid', gap: 4, position: 'relative' }}
-  >
-    {children}
-    <SubmitButton form={form} />
-    <Loader form={form} />
-  </Box>
-))
+export const SubmitButton = observer<{ button: SubmitButtonProps }>(
+  ({ button }) => {
+    const { isDisabled, isLoading, ...rest } = button
+    return (
+      <Button
+        type="submit"
+        variant="contained"
+        size="large"
+        disabled={isDisabled()}
+        {...rest}
+      >
+        Войти
+        {isLoading() && <Loader />}
+      </Button>
+    )
+  }
+)
 
-export const SubmitButton = observer<{ form: FormProps }>(({ form }) => (
-  <Button
-    variant="contained"
-    size="large"
-    type="submit"
-    disabled={form.disabled}
-  >
-    Войти
-  </Button>
-))
-
-export const Loader = observer<{ form: FormProps }>(({ form }) =>
-  form.loading ? (
-    <LinearProgress
-      sx={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-      }}
-    />
-  ) : null
+const Loader = () => (
+  <LinearProgress sx={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
 )

@@ -1,24 +1,16 @@
 import { FC } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
-import { ModuleLayout, ModuleHeader } from 'components'
-import { LoginPage, RefreshPage, LogoutPage, AuthenticationPage } from 'pages'
-import { RewardsModule } from 'modules/rewards'
+import { RewardsModule } from 'modules'
+import { Pages } from 'pages'
+import { ModuleHeader } from 'components'
 import { Provider } from './Provider'
 
 export const App: FC = () => (
   <Provider>
-    <Switch>
-      <Route path="/login/" component={LoginPage} />
-      <Route path="/logout/" component={LogoutPage} />
-      <Route path="/refresh/" component={RefreshPage} />
-      <Route path="/auth/" component={AuthenticationPage} />
-      <Route>
-        <ModuleLayout>
-          <ModuleHeader />
-          <Route path="/rewards/" component={RewardsModule} />
-        </ModuleLayout>
-      </Route>
-    </Switch>
+    <Pages />
+    {/* modules */}
+    <Route path={['/rewards/', '/panels/']} children={<ModuleHeader />} />
+    <Route path="/rewards/" component={RewardsModule} />
   </Provider>
 )

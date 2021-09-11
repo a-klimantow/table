@@ -1,11 +1,10 @@
 import { useCallback, useState, useEffect } from 'react'
-import { runInAction } from 'mobx'
 import { OutlinedInputProps as OIProps } from '@material-ui/core'
 
 import { SearchProps } from './Search'
 
-export function useSearch({ search }: SearchProps) {
-  const [value, setValue] = useState(search.value)
+export function useSearch(search: SearchProps) {
+  const [value, setValue] = useState(search.value as string)
 
   const change: OIProps['onChange'] = useCallback(
     (e) => setValue(e.target.value),
@@ -14,10 +13,7 @@ export function useSearch({ search }: SearchProps) {
   const clear = useCallback(() => setValue(''), [])
 
   const memoUpdate = useCallback(
-    () =>
-      runInAction(() => {
-        search.value = value.trim()
-      }),
+    () => search.update && search.update(value),
     [search, value]
   )
 

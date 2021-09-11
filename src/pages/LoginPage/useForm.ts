@@ -1,21 +1,25 @@
-import { FormEvent, useState } from 'react'
+import { useState, MouseEvent } from 'react'
 import { makeAutoObservable } from 'mobx'
 
 import { Errors } from 'types'
-import { FieldProps } from 'components'
-import { FormProps } from './atoms'
-import { useLoginRequest } from './useLoginRequest'
+import { EmailProps, PasswordProps, SubmitButtonProps } from './atoms'
+import { useRequest } from './useRequest'
 
-class LoginForm implements FormProps {
-  email: FieldProps = {
+class LoginForm {
+  email: EmailProps = {
     value: 'liliya.faizullina@socinform.ru',
     label: 'E-mail',
   }
 
-  password: FieldProps = {
+  password: PasswordProps = {
     value: '111111',
     type: 'password',
     label: 'Пароль',
+  }
+
+  button: SubmitButtonProps = {
+    isLoading: () => false,
+    isDisabled: () => false,
   }
 
   data: { email: string; password: string } | null = null
@@ -27,12 +31,17 @@ class LoginForm implements FormProps {
     this.email.onBlur = () => this.blurEmail()
 
     this.password.onChange = (e) => this.changeValue('password', e.target.value)
-    this.password.onPassToggle = () => this.toggleHidden()
+    this.password.onToggle = () => this.toggleHidden()
     this.password.onBlur = () => this.blurPass()
+
+    this.button.onClick = (e) => this.submit(e)
+    this.button.isDisabled = () => this.disabled
+    this.button.isLoading = () => this.loading
   }
 
-  submit(e: FormEvent) {
+  submit(e: MouseEvent) {
     e.preventDefault()
+    console.log('a')
     this.data = {
       email: String(this.email.value).trim(),
       password: String(this.password.value).trim(),
@@ -58,11 +67,11 @@ class LoginForm implements FormProps {
     this.data = null
   }
 
-  get loading() {
+  private get loading() {
     return Boolean(this.data)
   }
 
-  get disabled() {
+  private get disabled() {
     const validArr = [
       this.emailValid,
       this.passwordValid,
@@ -77,7 +86,6 @@ class LoginForm implements FormProps {
     if (!this.emailValid) {
       this.email.error = true
       this.email.helperText = 'Введите корректный e-mail'
-    } else {
     }
   }
 
@@ -116,9 +124,9 @@ class LoginForm implements FormProps {
 
 export function useLoginForm() {
   const [store] = useState(() => new LoginForm())
-  useLoginRequest(store)
+  useRequest(store)
 
   return store
 }
 
-export type Store = ReturnType<typeof useLoginForm>
+export type FormType = ReturnType<typeof useLoginForm>

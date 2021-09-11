@@ -1,14 +1,11 @@
 import { FC } from 'react'
-import { useHistory } from 'react-router-dom'
 
 import { GlobalTheme } from 'theme'
-import { AppStore } from 'stores'
+import { UserStore } from 'stores'
 import { AppStoreProvider } from './context'
 
-export const Provider: FC = ({ children }) => {
-  return (
-    <AppStoreProvider store={new AppStore(useHistory())}>
-      <GlobalTheme>{children}</GlobalTheme>
-    </AppStoreProvider>
-  )
-}
+export const Provider: FC = ({ children }) => (
+  <AppStoreProvider store={{ user: new UserStore() }}>
+    <GlobalTheme>{children}</GlobalTheme>
+  </AppStoreProvider>
+)

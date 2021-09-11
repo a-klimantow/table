@@ -21,7 +21,10 @@ export class UserStore {
 
     reaction(
       () => this.name,
-      () => localStorage.setItem('user', JSON.stringify(this))
+      (name) =>
+        name
+          ? localStorage.setItem('user', JSON.stringify(this))
+          : localStorage.removeItem('user')
     )
   }
 
@@ -32,6 +35,10 @@ export class UserStore {
     this.roles = user.roles
     this.token = user.token
     this.refresh_token = user.refresh_token
+  }
+
+  logout() {
+    this.name = ''
   }
 
   get defaultUrl() {

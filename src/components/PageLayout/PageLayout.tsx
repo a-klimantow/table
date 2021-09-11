@@ -1,11 +1,29 @@
 import { observer } from 'mobx-react-lite'
-import { Box } from '@material-ui/core'
+import { Box, BoxProps } from '@material-ui/core'
+import { useRouteMatch } from 'react-router-dom'
 
-export const PageLayout = observer((props) => (
-  <Box
-    {...props}
-    sx={{
-      m: 2,
-    }}
-  />
-))
+interface PageLayoutProps {
+  layout?: 'page' | 'module'
+}
+
+export const PageLayout = observer<PageLayoutProps>(
+  ({ children, layout = 'page' }) => {
+    const template = useLayout(layout)
+    return (
+      <Box
+        sx={{
+          border: 1,
+          display: 'grid',
+        }}
+      >
+        {children}
+      </Box>
+    )
+  }
+)
+
+export function useLayout(layout: PageLayoutProps['layout']): BoxProps['sx'] {
+  const { path } = useRouteMatch<{ path: 'state' }>()
+  console.log(path)
+  return {}
+}

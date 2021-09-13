@@ -3,17 +3,11 @@ import { observer } from 'mobx-react-lite'
 import {
   Button,
   ButtonProps,
-  IconButton,
   LinearProgress,
   Typography,
-  TextFieldProps,
-  TextField,
-  InputAdornment,
   Box,
   BoxProps,
 } from '@material-ui/core'
-
-import { Icon } from 'components'
 
 export const Layout: FC<BoxProps> = ({ children }) => (
   <Box
@@ -41,61 +35,15 @@ export const Title = memo(() => (
   </Typography>
 ))
 
-export type EmailProps = TextFieldProps
-
-export const Email = observer<{ email: EmailProps }>(({ email }) => (
-  <TextField {...email} />
-))
-
-export type PasswordProps = TextFieldProps & { onToggle?(): void }
-
-export const Password = observer<{ password: PasswordProps }>(
-  ({ password }) => {
-    const { onToggle, ...rest } = password
-    return (
-      <TextField
-        {...rest}
-        InputProps={{
-          endAdornment: (
-            <ToggleButton
-              hidden={password.type === 'password'}
-              click={onToggle}
-            />
-          ),
-        }}
-      />
-    )
-  }
-)
-
-const ToggleButton = observer<{ hidden: boolean; click?(): void }>(
-  ({ hidden, click }) => (
-    <InputAdornment position="end">
-      <IconButton onClick={click}>
-        <Icon type={hidden ? 'eye_off' : 'eye_on'} />
-      </IconButton>
-    </InputAdornment>
-  )
-)
-
-export type SubmitButtonProps = ButtonProps & {
-  isLoading(): boolean
-  isDisabled(): boolean
-}
+export type SubmitButtonProps = ButtonProps & { loading: boolean }
 
 export const SubmitButton = observer<{ button: SubmitButtonProps }>(
   ({ button }) => {
-    const { isDisabled, isLoading, ...rest } = button
+    const { loading, ...rest } = button
     return (
-      <Button
-        type="submit"
-        variant="contained"
-        size="large"
-        disabled={isDisabled()}
-        {...rest}
-      >
+      <Button type="submit" variant="contained" size="large" {...rest}>
         Войти
-        {isLoading() && <Loader />}
+        {loading && <Loader />}
       </Button>
     )
   }

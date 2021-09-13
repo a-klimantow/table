@@ -1,1 +1,1 @@
-export * from './RewardsModule'
+export * from './rewards'

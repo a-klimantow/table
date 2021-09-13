@@ -1,1 +1,1 @@
-export * from '../modules/RewardsModule/types'
+export type Modules = 'rewards'

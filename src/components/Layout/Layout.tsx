@@ -1,17 +1,18 @@
 import { memo } from 'react'
-import { Box, BoxProps } from '@material-ui/core'
-import { useRouteMatch } from 'react-router-dom'
+import { Box, BoxProps, useTheme } from '@material-ui/core'
 
-import { PageLink } from 'types'
+import { useIsModule } from 'hooks'
 
-export const Layout = memo<BoxProps>(({ children }) => {
-  const layout = useLayout()
+type LayoutProps = Pick<BoxProps, 'children'>
+
+export const Layout = memo<LayoutProps>(({ children }) => {
+  const template = useLayout()
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        height: '100vh',
         display: 'grid',
-        ...layout,
+        gridTemplate: template,
       }}
     >
       {children}
@@ -19,25 +20,17 @@ export const Layout = memo<BoxProps>(({ children }) => {
   )
 })
 
-export function useLayout(): BoxProps['sx'] {
-  const { path } = useRouteMatch() as { path: PageLink }
-  switch (path) {
-    case '/login/':
-      return {
-        gridTemplate: `
-          ". . ." 1fr
-          ". T ." 0.3fr
-          ". E ." auto
-          ". P ." auto 
-          ". B ." 1fr / 
-          ". . ." 1fr minmax(auto, 400px) 1fr
-          `,
-        rowGap: 4,
-        '& form': {
-          display: 'contents',
-        },
-      }
-    default:
-      return {}
-  }
+function useLayout() {
+  const isModule = useIsModule()
+  const { spacing } = useTheme()
+
+  const H = spacing(7)
+  const M = spacing(6)
+
+  const moduleTemplate = `
+    "H H" ${H}
+    "M ." 1fr / ${M} 1fr
+    `
+
+  return isModule ? moduleTemplate : `"P" 1fr / 1fr`
 }

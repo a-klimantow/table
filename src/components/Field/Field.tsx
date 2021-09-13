@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
-import { TextField, TextFieldProps } from '@material-ui/core'
+import { TextField, TextFieldProps, IconButton } from '@material-ui/core'
 
-import { Provider, Button } from './atoms'
+import { Icon } from 'components'
 
 export type FieldProps = TextFieldProps & {
   onPassToggle?(): void
@@ -10,22 +10,15 @@ export type FieldProps = TextFieldProps & {
 export const Field = observer<{ field: FieldProps }>(({ field }) => {
   const { onPassToggle, ...rest } = field
   return (
-    <Provider>
-      <TextField
-        {...rest}
-        InputProps={
-          onPassToggle
-            ? {
-                endAdornment: (
-                  <Button
-                    click={onPassToggle}
-                    hidden={field.type === 'password'}
-                  />
-                ),
-              }
-            : undefined
-        }
-      />
-    </Provider>
+    <TextField
+      {...rest}
+      InputProps={{
+        endAdornment: onPassToggle ? (
+          <IconButton onClick={onPassToggle}>
+            <Icon type={rest.type === 'password' ? 'eye_off' : 'eye_on'} />
+          </IconButton>
+        ) : null,
+      }}
+    />
   )
 })

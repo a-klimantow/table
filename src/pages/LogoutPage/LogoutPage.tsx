@@ -3,10 +3,10 @@ import { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 export const LogoutPage: FC = () => {
-  const { user } = useAppStore()
+  const app = useAppStore()
   const history = useHistory()
   useEffect(() => {
-    user.logout()
+    app.clearUser()
     history.replace('/login/')
   })
   return <div>logout</div>

@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import { makeAutoObservable, reaction } from 'mobx'
 
-import { useRequest } from 'hooks/useRequest'
+import { useRequest, useAppStore } from 'hooks'
 import { FieldProps } from 'components'
 import { SubmitButtonProps } from './atoms'
-import { Errors } from 'types'
+import { Errors, UserType } from 'types'
 
 class LoginFrom {
   email = {
@@ -126,10 +126,14 @@ class LoginFrom {
 
 export function useLoginForm() {
   const form = useRef(new LoginFrom()).current
+  const app = useAppStore()
 
   useRequest('login', 'post', {
     data: form.data,
-    success: () => form.success(),
+    success: (user: UserType) => {
+      form.success()
+      app.setUser(user)
+    },
     fail: ({ errors }) => form.fail(errors),
   })
 

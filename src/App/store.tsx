@@ -1,5 +1,5 @@
 import { createContext, useContext, FC } from 'react'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, autorun } from 'mobx'
 
 const roles = [
   'Accruals Manager',
@@ -12,7 +12,7 @@ const roles = [
   'Unknown',
 ] as const
 
-type RoleType = typeof roles[number]
+export type RoleType = typeof roles[number]
 
 const defaultUser = {
   id: 0,
@@ -23,13 +23,16 @@ const defaultUser = {
   refresh_token: '',
 }
 
-type UserType = typeof defaultUser
+export type UserType = typeof defaultUser
+
+const jsonUser = localStorage.getItem('user')
 
 class AppStore {
-  private user = defaultUser
-
+  private user = jsonUser ? JSON.parse(jsonUser) : defaultUser
   constructor() {
     makeAutoObservable(this)
+
+    autorun(() => localStorage.setItem('user', JSON.stringify(this.user)))
   }
 
   setUser(user: UserType) {

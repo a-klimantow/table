@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { observer } from 'mobx-react-lite'
 import { Box, BoxProps } from '@material-ui/core'
 import { useRouteMatch } from 'react-router-dom'

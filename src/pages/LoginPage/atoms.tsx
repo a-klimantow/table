@@ -12,7 +12,6 @@ import {
 export const Layout: FC<BoxProps> = ({ children }) => (
   <Box
     sx={{
-      border: 1,
       minHeight: '100vh',
       display: 'grid',
       gridTemplate: `

@@ -5,10 +5,10 @@ import { MenuProps, MenuItemProps, ButtonProps } from '@material-ui/core'
 import { MenuAppProps } from './MenuApp'
 
 const homeMenu = [
-  // ['projects', 'Проекты'],
-  // ['panels', 'Панели'],
+  ['projects', 'Проекты'],
+  ['panels', 'Панели'],
   ['rewards', 'Вознаграждения'],
-  // ['administration', 'Администрирование'],
+  ['administration', 'Администрирование'],
 ] as const
 
 const userMenu = [

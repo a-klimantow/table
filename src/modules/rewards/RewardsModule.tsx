@@ -9,6 +9,7 @@ const router = [
 ] as RouteProps<'request' | 'reports' | 'accruals'>[]
 
 export const RewardsModule = () => {
+  
   return (
     <Route path="/rewards/">
       <Switch>

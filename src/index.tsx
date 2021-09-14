@@ -1,14 +1,17 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
-import { App, AppStoreProvider } from './App'
-import React from 'react'
+import { GlobalTheme } from 'theme'
+import { App, AppStoreProvider } from 'App'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AppStoreProvider>
-        <App />
+        <GlobalTheme>
+          <App />
+        </GlobalTheme>
       </AppStoreProvider>
     </BrowserRouter>
   </React.StrictMode>,

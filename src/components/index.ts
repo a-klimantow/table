@@ -1,4 +1,3 @@
-export * from './atoms'
 export * from './ModuleLayout'
 export * from './ModuleMenu'
 export * from './MenuApp'

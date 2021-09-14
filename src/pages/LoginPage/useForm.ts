@@ -1,25 +1,24 @@
-import { useEffect, useRef } from 'react'
-import { makeAutoObservable, autorun } from 'mobx'
+import { useRef } from 'react'
+import { makeAutoObservable, reaction } from 'mobx'
 
-import { useRequest, Request } from 'hooks/useRequest'
+import { useRequest } from 'hooks/useRequest'
 import { FieldProps } from 'components'
 import { SubmitButtonProps } from './atoms'
+import { Errors } from 'types'
 
 class LoginFrom {
-  req = new Request('/login/')
-
   email = {
-    value: 'liliya.faizullina@socinform.ru',
+    value: '',
     label: 'E-mail',
   } as FieldProps
 
   password = {
-    value: '111111',
+    value: '',
     type: 'password',
     label: 'Пароль',
   } as FieldProps
 
-  button = {} as SubmitButtonProps
+  button = { disabled: true } as SubmitButtonProps
 
   data = null as { email: string; password: string } | null
 
@@ -35,40 +34,52 @@ class LoginFrom {
 
     this.button.onClick = this.submit
 
-    autorun(() => {
-      this.button.disabled = this.disabled
-    })
+    reaction(
+      () => [
+        this.isEmailValid,
+        this.isPasswordValid,
+        !this.data,
+        !this.email.error,
+        !this.password.error,
+      ],
+      (arr) => (this.button.disabled = arr.some((valid) => !valid))
+    )
 
-    autorun(() => {
-      this.button.loading = Boolean(this.data)
-    })
+    reaction(
+      () => this.data,
+      (data) => (this.button.loading = Boolean(data))
+    )
   }
 
   submit: SubmitButtonProps['onSubmit'] = (e) => {
     e.preventDefault()
-    this.req.data = {
+    this.data = {
       email: String(this.email.value).trim(),
       password: String(this.password.value).trim(),
     }
-
-    // this.req.setData(this.data)
-    this.req.login.then()
   }
 
   success() {
-    console.log('form success')
     this.data = null
   }
 
-  private get disabled() {
-    const validArr = [
-      this.isEmailValid,
-      this.isPasswordValid,
-      !this.data,
-      !this.email.error,
-      !this.password.error,
-    ]
-    return validArr.some((v) => !v)
+  fail({ code, notes }: Errors) {
+    switch (code) {
+      case '400':
+        this.password.error = true
+        this.password.helperText = notes
+        this.password.type = 'text'
+        break
+      case '404':
+        this.email.error = true
+        this.email.helperText = notes
+        break
+
+      default:
+        break
+    }
+
+    this.data = null
   }
 
   private get isPasswordValid() {
@@ -116,13 +127,11 @@ class LoginFrom {
 export function useLoginForm() {
   const form = useRef(new LoginFrom()).current
 
-  // useRequest('login', 'post', {
-  //   data: form.data,
-  //   success: () => form.success(),
-  //   fail: ({ errors }) => console.log(errors.code, 'errro'),
-  // })
-
-  useEffect(() => () => form.req.abort(), [form])
+  useRequest('login', 'post', {
+    data: form.data,
+    success: () => form.success(),
+    fail: ({ errors }) => form.fail(errors),
+  })
 
   return form
 }

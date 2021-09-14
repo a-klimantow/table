@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import sa, { SuperAgent, SuperAgentRequest } from 'superagent'
+import sa, { ResponseError } from 'superagent'
 import { autorun, reaction, toJS, when } from 'mobx'
 
 import { useUrl } from 'hooks'
@@ -40,7 +40,10 @@ export const useRequest: Hook = (url, method = 'get', config) => {
           const { body } = await POST.send(data ?? {}).then()
           success(body.data)
         } catch (error) {
-          fail && fail(error.response.body)
+          if (error) {
+            const { response } = error as ResponseError
+            fail && fail(response?.body as Errors)
+          }
         }
       })()
     }

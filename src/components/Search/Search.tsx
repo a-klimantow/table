@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 
-import { OutlinedInput, OutlinedInputProps } from '@material-ui/core'
+import { OutlinedInput } from '@material-ui/core'
 
 import { Provider, SearchIcon, Button } from './atoms'
 import { useSearch } from './useSearch'

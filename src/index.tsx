@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
 import { GlobalTheme } from 'theme'
-import { App, AppStoreProvider } from 'App'
+import { App, AppStoreProvider } from 'app'
 
 ReactDOM.render(
   <React.StrictMode>

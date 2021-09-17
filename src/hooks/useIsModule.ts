@@ -1,5 +1,7 @@
 import { useRouteMatch } from 'react-router-dom'
 
+import { modules } from 'app/settings'
+
 export function useIsModule() {
-  return Boolean(useRouteMatch(['/rewards/', '/panels/']))
+  return Boolean(useRouteMatch(modules.map((m) => `/${m}/`)))
 }

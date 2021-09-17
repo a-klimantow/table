@@ -4,7 +4,7 @@ import { makeAutoObservable, reaction } from 'mobx'
 import { useRequest, useAppStore } from 'hooks'
 import { FieldProps } from 'components'
 import { SubmitButtonProps } from './atoms'
-import { Errors, UserType } from 'types'
+import { Errors, IUser } from 'types'
 
 class LoginFrom {
   email = {
@@ -63,16 +63,16 @@ class LoginFrom {
     this.data = null
   }
 
-  fail({ code, notes }: Errors) {
-    switch (code) {
+  fail(e: Errors) {
+    switch (e.code) {
       case '400':
         this.password.error = true
-        this.password.helperText = notes
+        this.password.helperText = e.notes
         this.password.type = 'text'
         break
       case '404':
         this.email.error = true
-        this.email.helperText = notes
+        this.email.helperText = e.notes
         break
 
       default:
@@ -126,15 +126,12 @@ class LoginFrom {
 
 export function useLoginForm() {
   const form = useRef(new LoginFrom()).current
-  const app = useAppStore()
+  const { user } = useAppStore()
 
   useRequest('login', 'post', {
     data: form.data,
-    success: (user: UserType) => {
-      form.success()
-      app.setUser(user)
-    },
-    fail: ({ errors }) => form.fail(errors),
+    success: (data: IUser) => user.setUser(data),
+    fail: (data) => form.fail(data?.errors),
   })
 
   return form

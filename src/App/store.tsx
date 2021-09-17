@@ -1,63 +1,46 @@
 import { createContext, useContext, FC } from 'react'
-import { makeAutoObservable, autorun } from 'mobx'
+import { makeAutoObservable, reaction } from 'mobx'
+import store from 'store'
 
-const roles = [
-  'Accruals Manager',
-  'Administrator',
-  'Panelist Management',
-  'Payments Manager',
-  'Project Management',
-  'Template Management',
-  'Website Management',
-  'Unknown',
-] as const
+import { IUser } from 'types'
 
-export type RoleType = typeof roles[number]
+class User {
+  private user: IUser | null = store.get('user') ?? null
 
-const defaultUser = {
-  id: 0,
-  name: '',
-  email: '',
-  roles: ['Unknown'] as RoleType[],
-  token: '',
-  refresh_token: '',
-}
-
-export type UserType = typeof defaultUser
-
-const jsonUser = localStorage.getItem('user')
-
-class AppStore {
-  private user = jsonUser ? JSON.parse(jsonUser) : defaultUser
-  constructor() {
-    makeAutoObservable(this)
-
-    autorun(() => localStorage.setItem('user', JSON.stringify(this.user)))
-  }
-
-  setUser(user: UserType) {
+  setUser(user: IUser) {
     this.user = user
   }
 
   clearUser() {
-    this.user = defaultUser
+    this.user = null
   }
 
-  get userRoles() {
-    return this.user.roles
+  get userRoles(): IUser['roles'] {
+    return this.user?.roles ?? ['Unknown']
+  }
+
+  constructor() {
+    makeAutoObservable(this)
+    reaction(
+      () => this.user,
+      (user) => store.set('user', user)
+    )
   }
 }
 
 // context
 
-const Context = createContext({} as AppStore)
+const Context = createContext({} as typeof appStore)
 
 // hook
 
 export const useAppStore = () => useContext(Context)
 
 // provider
+const appStore = {
+  user: new User(),
+}
 
 export const AppStoreProvider: FC = ({ children }) => (
-  <Context.Provider value={new AppStore()}>{children}</Context.Provider>
+  <Context.Provider value={appStore}>{children}</Context.Provider>
 )

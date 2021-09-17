@@ -1,11 +1,11 @@
-import { memo } from 'react'
+import { observer } from 'mobx-react-lite'
 import { Box, BoxProps, useTheme } from '@material-ui/core'
 
-import { useIsModule } from 'hooks'
+import { useAppStore, useIsModule } from 'hooks'
 
 type LayoutProps = Pick<BoxProps, 'children'>
 
-export const Layout = memo<LayoutProps>(({ children }) => {
+export const Layout = observer<LayoutProps>(({ children }) => {
   const template = useLayout()
   return (
     <Box
@@ -21,6 +21,7 @@ export const Layout = memo<LayoutProps>(({ children }) => {
 })
 
 function useLayout() {
+  const { user } = useAppStore()
   const isModule = useIsModule()
   const { spacing } = useTheme()
 
@@ -32,5 +33,5 @@ function useLayout() {
     "M ." 1fr / ${M} 1fr
     `
 
-  return isModule ? moduleTemplate : `"P" 1fr / 1fr`
+  return !user.isUnknown && isModule ? moduleTemplate : `"P" 1fr / 1fr`
 }

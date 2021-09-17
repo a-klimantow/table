@@ -1,12 +1,12 @@
-import { memo } from 'react'
+import { observer } from 'mobx-react-lite'
 import { Stack } from '@material-ui/core'
 
-import { useIsModule } from 'hooks'
+import { useAppStore, useIsModule } from 'hooks'
 import { MenuApp } from 'components'
 
-export const Header = memo(() => {
-  const isModule = useIsModule()
-  return isModule ? (
+export const Header = observer(() => {
+  const { user } = useAppStore()
+  return !user.isUnknown ? (
     <Stack
       gridArea="H"
       direction="row"

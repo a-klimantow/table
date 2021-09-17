@@ -1,25 +1,8 @@
-import { ReactNode, FC } from 'react'
-import { roles, modules } from 'app/settings'
+import { pages } from 'pages'
+import { roles } from 'router/settings'
 
 export type RoleType = typeof roles[number]
-export type ModuleType = typeof modules[number]
-
-interface IPage {
-  type: 'page'
-  path: string
-  perm: RoleType[]
-  page: FC
-}
-
-interface IModule {
-  type: 'module'
-  path: ModuleType
-  perm: RoleType[]
-  module: ReactNode
-  pages: IPage[]
-}
-
-export type RouterType = IModule[] | IPage[]
+export type PageType = keyof typeof pages
 
 // user
 export interface IUser {

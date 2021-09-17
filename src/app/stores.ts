@@ -1,10 +1,9 @@
-import { createContext, useContext, FC } from 'react'
 import { makeAutoObservable, reaction } from 'mobx'
 import store from 'store'
 
 import { IUser } from 'types'
 
-class User {
+export class User {
   private user: IUser | null = store.get('user') ?? null
 
   setUser(user: IUser) {
@@ -19,6 +18,10 @@ class User {
     return this.user?.roles ?? ['Unknown']
   }
 
+  get isUnknown(): boolean {
+    return !Boolean(this.user)
+  }
+
   constructor() {
     makeAutoObservable(this)
     reaction(
@@ -27,20 +30,3 @@ class User {
     )
   }
 }
-
-// context
-
-const Context = createContext({} as typeof appStore)
-
-// hook
-
-export const useAppStore = () => useContext(Context)
-
-// provider
-const appStore = {
-  user: new User(),
-}
-
-export const AppStoreProvider: FC = ({ children }) => (
-  <Context.Provider value={appStore}>{children}</Context.Provider>
-)

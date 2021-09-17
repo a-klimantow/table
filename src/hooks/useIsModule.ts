@@ -1,7 +1,7 @@
 import { useRouteMatch } from 'react-router-dom'
 
-import { modules } from 'app/settings'
+import { modules } from 'modules'
 
-export function useIsModule() {
-  return Boolean(useRouteMatch(modules.map((m) => `/${m}/`)))
-}
+const allModules = Object.entries(modules).map(([mod]) => `/${mod}/`)
+
+export const useIsModule = () => Boolean(useRouteMatch(allModules))

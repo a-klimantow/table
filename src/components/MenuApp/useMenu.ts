@@ -12,8 +12,8 @@ const homeMenu = [
 ] as const
 
 const userMenu = [
-  // ['settings', 'Настройки'],
-  ['logout', 'Выход'],
+  ['user', 'Настройки'],
+  ['user/logout/', 'Выход'],
 ] as const
 
 type MenuItems = typeof homeMenu | typeof userMenu

@@ -3,10 +3,10 @@ import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
 import { ListItem, Typography, Collapse } from '@material-ui/core'
 
 import { Icon, IconType } from 'components'
-import { RewardsPageType, UserPageType } from 'types'
+
 import { useMenu } from '../store'
 
-type LinkType = RewardsPageType | UserPageType
+type LinkType = string
 
 export type MenuItemProps =
   | { type: 'menu_btn'; name: string; link?: string }

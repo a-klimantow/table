@@ -5,7 +5,6 @@ import { useRequest, useAppStore } from 'hooks'
 import { FieldProps } from 'components'
 import { SubmitButtonProps } from './atoms'
 import { Errors, IUser } from 'types'
-import { useHistory } from 'react-router'
 
 class LoginFrom {
   email = {
@@ -128,14 +127,10 @@ class LoginFrom {
 export function useLoginForm() {
   const form = useRef(new LoginFrom()).current
   const { user } = useAppStore()
-  const history = useHistory()
 
   useRequest('login', 'post', {
     data: form.data,
-    success: (data: IUser) => {
-      history.replace('/rewards/')
-      user.setUser(data)
-    },
+    success: (data: IUser) => user.setUser(data),
     fail: (data) => form.fail(data?.errors),
   })
 

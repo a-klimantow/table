@@ -1,1 +1,0 @@
-export { RewardsModule } from './RewardsModule'

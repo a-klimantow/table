@@ -1,1 +1,0 @@
-export { UserModule } from './UserModule'

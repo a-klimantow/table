@@ -1,23 +1,31 @@
-import { observer } from 'mobx-react-lite'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { useAppStore } from 'hooks'
-import { LoginPage } from 'pages'
-import { modules, ModuleType } from 'modules'
-
-const modulePaths: ModuleType[] = ['rewards', 'user']
+import { observer } from 'mobx-react-lite'
 
 export const Router = observer(() => {
   const { user } = useAppStore()
-  console.log(user.isUnknown)
-
-  if (user.isUnknown) return <LoginPage />
-
+  console.log(
+    user.pages,
+    user.modules,
+    user.router,
+    user.userRoles,
+    user.defaultUrl
+  )
   return (
     <Switch>
-      {modulePaths.map((path) => (
-        <Route key={path} path={`/${path}/`} component={modules[path]} />
+      {user.modules.map((m) => (
+        <Route key={m.path} path={m.path}>
+          {m.pages.map((page) => (
+            <Route key={page.path as string} {...page} />
+          ))}
+          <Redirect from={m.path} to={m.pages[0].path as string} />
+        </Route>
       ))}
+      {user.pages.map((page) => (
+        <Route key={page.path as string} {...page} />
+      ))}
+      <Redirect to={user.defaultUrl} />
     </Switch>
   )
 })

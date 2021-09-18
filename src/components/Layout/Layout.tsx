@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { Box, BoxProps, useTheme } from '@material-ui/core'
 
-import { useAppStore, useIsModule } from 'hooks'
+import { useAppStore } from 'hooks'
 
 type LayoutProps = Pick<BoxProps, 'children'>
 

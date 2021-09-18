@@ -18,6 +18,7 @@ class Store {
   toggleSubmenu(name: string) {
     if (this.activeSubmenu === name) {
       this.activeSubmenu = ''
+      this.open = false
     } else {
       this.activeSubmenu = name
       this.open = true

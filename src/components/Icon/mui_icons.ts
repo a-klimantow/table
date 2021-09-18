@@ -6,6 +6,11 @@ import {
   Visibility,
   VisibilityOff,
   HomeOutlined,
+  Menu,
+  Close,
+  AddBoxOutlined,
+  IndeterminateCheckBoxOutlined,
+  ArrowDropDown,
 } from '@material-ui/icons'
 
 export default {
@@ -16,4 +21,9 @@ export default {
   home: HomeOutlined,
   search: Search,
   search_clear: Cancel,
+  menu: Menu,
+  close: Close,
+  plus: AddBoxOutlined,
+  minus: IndeterminateCheckBoxOutlined,
+  dropdown: ArrowDropDown,
 }

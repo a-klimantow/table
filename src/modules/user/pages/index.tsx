@@ -9,4 +9,4 @@ export const pages = {
   refresh: RefreshPage,
 }
 
-export type PagePath = keyof typeof pages
+export type UserPageType = keyof typeof pages

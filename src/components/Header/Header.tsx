@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import { Stack } from '@material-ui/core'
 
-import { useAppStore, useIsModule } from 'hooks'
+import { useAppStore } from 'hooks'
 import { MenuApp } from 'components'
 
 export const Header = observer(() => {
   const { user } = useAppStore()
-  return !user.isUnknown ? (
+  if (user.isUnknown) return null
+
+  return (
     <Stack
       gridArea="H"
       direction="row"
@@ -20,5 +22,5 @@ export const Header = observer(() => {
       <MenuApp />
       <MenuApp type="user" />
     </Stack>
-  ) : null
+  )
 })

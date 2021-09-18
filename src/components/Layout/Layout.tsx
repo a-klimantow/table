@@ -22,7 +22,7 @@ export const Layout = observer<LayoutProps>(({ children }) => {
 
 function useLayout() {
   const { user } = useAppStore()
-  const isModule = useIsModule()
+
   const { spacing } = useTheme()
 
   const H = spacing(7)
@@ -33,5 +33,5 @@ function useLayout() {
     "M ." 1fr / ${M} 1fr
     `
 
-  return !user.isUnknown && isModule ? moduleTemplate : `"P" 1fr / 1fr`
+  return user.isUnknown ? `"P" 1fr / 1fr` : moduleTemplate
 }

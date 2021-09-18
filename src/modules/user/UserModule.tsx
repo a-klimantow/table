@@ -2,9 +2,9 @@ import { observer } from 'mobx-react-lite'
 
 import { useAppStore } from 'hooks'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import { pages, PagePath } from './pages'
+import { pages, UserPageType } from './pages'
 
-const pagePaths = ['settings', 'logout', 'refresh'] as PagePath[]
+const pathes = ['settings', 'logout', 'refresh'] as UserPageType[]
 
 export const UserModule = observer(() => {
   const { user } = useAppStore()
@@ -12,10 +12,10 @@ export const UserModule = observer(() => {
   if (user.isUnknown) return null
   return (
     <Switch>
-      {pagePaths.map((path) => (
+      {pathes.map((path) => (
         <Route key={path} path={`/:m/${path}/`} component={pages[path]} />
       ))}
-      <Redirect from="/:m/" to={`/:m/${pagePaths[0]}/`} />
+      <Redirect from="/:m/" to={`/:m/${pathes[0]}/`} />
     </Switch>
   )
 })

@@ -1,24 +1,16 @@
-import { Route, RouteProps, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
-import { ReportsPage, RequestPage, AccrualPage } from './pages'
+import { pages, RewardsPageType } from './pages'
 
-const router = [
-  { path: 'request', component: RequestPage },
-  { path: 'reports', component: ReportsPage },
-  { path: 'accruals', component: AccrualPage },
-] as RouteProps<'request' | 'reports' | 'accruals'>[]
+const pathes: RewardsPageType[] = ['requests', 'reports', 'accrual']
 
 export const RewardsModule = () => {
   return (
     <Switch>
-      {router.map(({ path, component }) => (
-        <Route
-          key={path as string}
-          path={`/:module/${path}`}
-          component={component}
-        />
+      {pathes.map((path) => (
+        <Route key={path} path={`/:module/${path}`} component={pages[path]} />
       ))}
-      <Redirect from="/:module" to={`/:module/${router[0].path}`} />
+      <Redirect from="/:module" to={`/:module/${pathes[0]}`} />
     </Switch>
   )
 }

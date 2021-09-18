@@ -3,8 +3,10 @@ import { SvgIconProps } from '@material-ui/core'
 
 import mui from './mui_icons'
 
+export type IconType = keyof typeof mui
+
 interface IconProps extends SvgIconProps {
-  type: keyof typeof mui
+  type: IconType
 }
 
 export const Icon = memo<IconProps>(({ type, ...rest }) => {

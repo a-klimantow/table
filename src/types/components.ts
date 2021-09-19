@@ -11,4 +11,5 @@ export interface ICol<I = string> {
   name: string
   hidden?: boolean
   renderCell?: RenderCellType<I>
+  quickFilter?: boolean
 }

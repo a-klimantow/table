@@ -1,51 +1,93 @@
 import { FC, useMemo, memo } from 'react'
+import { observer, Observer } from 'mobx-react-lite'
 import {
   ThemeProvider,
   createTheme,
+  LinearProgress,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
   TableRow,
   TableCell,
-  Backdrop,
-  CircularProgress,
 } from '@material-ui/core'
 
+import { ICol } from 'types'
 import { TableProps } from './Table'
-import { observer } from 'mobx-react-lite'
 
-export const Provider: FC = ({ children }) => {
-  const theme = useMemo(() => createTheme({}), [])
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+export const Provider: FC<TableProps> = ({ children, loading }) => {
+  const theme = useMemo(
+    () =>
+      createTheme({
+        components: {
+          MuiTableContainer: {
+            styleOverrides: {
+              root: {
+                position: 'relative',
+              },
+            },
+          },
+          MuiLinearProgress: {
+            styleOverrides: {
+              root: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+              },
+            },
+          },
+        },
+      }),
+    []
+  )
+  return (
+    <ThemeProvider theme={theme}>
+      <TableContainer>
+        {loading && <LinearProgress />}
+        <Table>{children}</Table>
+      </TableContainer>
+    </ThemeProvider>
+  )
 }
 
-type HeadListProps = TableProps['table']['head']
-
-export const HeadList = memo<{ items: HeadListProps }>(({ items }) => (
-  <TableRow>
-    {items.map((item) => (
-      <HeadItem key={item.key} item={item} />
-    ))}
-  </TableRow>
+export const Head = memo<TableProps>(({ columns }) => (
+  <TableHead>
+    <TableRow>
+      {columns?.map((col) => (
+        <HeadItem key={col.key} item={col} />
+      ))}
+    </TableRow>
+  </TableHead>
 ))
 
-type HeadItemProps = TableProps['table']['head'][number]
-
-const HeadItem = observer<{ item: HeadItemProps }>(({ item }) => (
+const HeadItem = observer<{ item: ICol }>(({ item }) => (
   <TableCell
     sx={{
-      display: item.hidden ? 'none' : 'table-cell',
+      display: item.hidden ? 'none' : '',
+      fontWeight: item.quickFilter ? 500 : 400,
     }}
   >
     {item.name}
   </TableCell>
 ))
 
-export const Loader = observer<{ show: boolean }>(({ show }) => (
-  <Backdrop
-    open={show}
-    sx={{
-      position: 'absolute',
-      bgcolor: 'transparent',
-    }}
-  >
-    <CircularProgress />
-  </Backdrop>
-))
+export const Body = memo<TableProps>(({ columns, data }) => {
+  return (
+    <TableBody>
+      {data?.map((d, i) => (
+        <TableRow key={i}>
+          {columns?.map((c) => (
+            <Observer key={c.key}>
+              {() => (
+                <TableCell sx={{ display: c.hidden ? 'none' : '' }}>
+                  {c.renderCell ? c.renderCell(d) : d[c.key]}
+                </TableCell>
+              )}
+            </Observer>
+          ))}
+        </TableRow>
+      ))}
+    </TableBody>
+  )
+})

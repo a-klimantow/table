@@ -19,4 +19,4 @@ export * from './Table'
 export * from './Field'
 export * from './Layout'
 export * from './Header'
-
+export * from './Toolbar'

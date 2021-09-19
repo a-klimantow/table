@@ -1,39 +1,66 @@
-import { observer } from 'mobx-react-lite'
-import { Box, Popover } from '@material-ui/core'
+import { memo, useRef, useMemo } from 'react'
+import { useLocalObservable, Observer } from 'mobx-react-lite'
+import { action } from 'mobx'
+import {
+  Popover,
+  IconButton,
+  IconButtonProps,
+  PopoverProps,
+  Switch,
+} from '@material-ui/core'
 
-import { Provider, MenuButton, MenuItem, Buttons } from './atoms'
-import { useColMenu } from './useColMenu'
 import { ICol } from 'types'
+import { Icon } from 'components'
 
-export interface ColMenuProps {
-  menu: {
-    items: ICol[]
-  }
+const initialState = {
+  open: false,
+  toggle() {
+    this.open = !this.open
+  },
 }
 
-export const ColMenu = observer<ColMenuProps>((props) => {
-  const {
-    isOpenMenu,
-    menuOpen,
-    menuClose,
-    ref,
-    anchorEl,
-    items,
-    hiddenOne,
-    onHiddenAll,
-    onShowAll,
-  } = useColMenu(props)
+interface ColMenuProps {
+  columns: ICol[]
+}
+
+export const ColMenu = memo<ColMenuProps>(({ columns }) => {
+  const menu = useLocalObservable(() => initialState)
+  const ref = useRef(null)
+
+  const renderList = useMemo(
+    () =>
+      columns.map((c) => (
+        <div key={c.key}>
+          <Observer>
+            {() => (
+              <Switch
+                checked={!c.hidden}
+                onChange={action(() => (c.hidden = !c.hidden))}
+              />
+            )}
+          </Observer>
+          {c.name}
+        </div>
+      )),
+    [columns]
+  )
+
   return (
-    <Provider>
-      <MenuButton ref={ref} click={menuOpen} />
-      <Popover open={isOpenMenu} onClose={menuClose} anchorEl={anchorEl}>
-        <Box sx={{ p: 1 }}>
-          {items.map((item, idx) => (
-            <MenuItem key={item.name} item={item} change={hiddenOne(idx)} />
-          ))}
-          <Buttons onHidden={onHiddenAll} onShow={onShowAll} />
-        </Box>
-      </Popover>
-    </Provider>
+    <>
+      <IconButton ref={ref} onClick={() => menu.toggle()}>
+        <Icon type="col_menu" />
+      </IconButton>
+      <Observer>
+        {() => (
+          <Popover
+            open={menu.open}
+            onClose={() => menu.toggle()}
+            anchorEl={ref.current}
+          >
+            {renderList}
+          </Popover>
+        )}
+      </Observer>
+    </>
   )
 })

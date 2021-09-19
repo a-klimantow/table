@@ -26,6 +26,10 @@ export class User {
     return !Boolean(this.user)
   }
 
+  get token(): string {
+    return this.user?.token ?? ''
+  }
+
   get router() {
     return createRouter(this.userRoles)
   }

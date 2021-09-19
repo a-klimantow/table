@@ -1,36 +1,20 @@
 import { observer } from 'mobx-react-lite'
-
-import { Table as MuiTable, TableHead, TableBody } from '@material-ui/core'
+import { ReactNode } from 'react'
 
 import { ICol } from 'types'
-import { Provider, HeadList, Loader } from './atoms'
+import { Provider, Head, Body } from './atoms'
 
 export interface TableProps {
-  table: {
-    head: ICol[]
-    body: null | { [key: string]: unknown }[]
-    loading?: boolean
-  }
+  columns?: ICol[]
+  data?: { [key: string]: ReactNode }[]
+  loading?: boolean
 }
 
 export const Table = observer<TableProps>((props) => {
-  const table = useTable(props)
   return (
-    <Provider>
-      <Loader show={table.showLoadder} />
-      <MuiTable>
-        <TableHead>
-          <HeadList items={table.head} />
-        </TableHead>
-        <TableBody></TableBody>
-      </MuiTable>
+    <Provider loading={props.loading}>
+      <Head columns={props.columns} />
+      <Body columns={props.columns} data={props.data} />
     </Provider>
   )
 })
-
-function useTable({ table }: TableProps) {
-  return {
-    head: table.head,
-    showLoadder: Boolean(table.loading),
-  }
-}

@@ -36,14 +36,14 @@ type PermissoinsType = Map<
 const permissoins: PermissoinsType = new Map([])
 permissoins.set('AccrualsManager', {
   modules: ['rewards', 'user'],
-  pages: ['accrural'],
+  pages: ['accrual'],
 })
 permissoins.set('Administrator', {
-  modules: [],
+  modules: ['user'],
   pages: [],
 })
 permissoins.set('PanelistManagement', {
-  modules: [],
+  modules: ['user'],
   pages: [],
 })
 permissoins.set('PaymentsManager', {
@@ -51,11 +51,11 @@ permissoins.set('PaymentsManager', {
   pages: ['requests', 'reports'],
 })
 permissoins.set('ProjectManagement', {
-  modules: [],
+  modules: ['user'],
   pages: [],
 })
 permissoins.set('TemplateManagement', {
-  modules: [],
+  modules: ['user'],
   pages: [],
 })
 permissoins.set('Unknown', {
@@ -63,7 +63,7 @@ permissoins.set('Unknown', {
   pages: ['login'],
 })
 permissoins.set('WebsiteManagement', {
-  modules: [],
+  modules: ['user'],
   pages: [],
 })
 
@@ -74,18 +74,8 @@ const modPages: ModulePagesType = new Map()
 modPages.set('administration', [])
 modPages.set('panels', [])
 modPages.set('projects', [])
-modPages.set('rewards', ['requests', 'reports', 'accrural'])
-modPages.set('user', ['logout', 'login'])
-
-type ModPermType = Record<ModuleType, PageType[]>
-
-export const modulePages: ModPermType = {
-  administration: [],
-  panels: [],
-  projects: [],
-  rewards: ['requests', 'reports', 'accrural'],
-  user: ['logout', 'login'],
-}
+modPages.set('rewards', ['requests', 'reports', 'accrual'])
+modPages.set('user', ['settings', 'logout', 'login'])
 
 export function getModules(roles: RoleType[]) {
   const res = roles.flatMap((r) => permissoins.get(r)?.modules)

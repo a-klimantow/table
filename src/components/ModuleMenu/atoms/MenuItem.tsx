@@ -58,7 +58,7 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
 
     case 'menu_item':
       return (
-        <ListItem button onClick={pushTo(item.link)}>
+        <ListItem button selected={isActive} onClick={pushTo(item.link)}>
           <Icon type={item.icon} color={color} />
           <Typography color={color}>{item.name}</Typography>
         </ListItem>

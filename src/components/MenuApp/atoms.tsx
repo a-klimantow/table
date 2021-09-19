@@ -17,7 +17,7 @@ export const Provider = observer<MenuAppProps>(({ children, type }) => (
         MuiButton: {
           defaultProps: {
             startIcon: type === 'home' && <Icon type={type} />,
-            endIcon: type !== 'home' && <Icon type="col_menu" />,
+            endIcon: type !== 'home' && <Icon type="dropdown" />,
             color: 'inherit',
             sx: {
               textTransform: 'unset',

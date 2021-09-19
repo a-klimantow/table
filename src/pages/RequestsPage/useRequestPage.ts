@@ -2,20 +2,22 @@ import { useEffect, useRef } from 'react'
 import { makeAutoObservable, reaction, runInAction } from 'mobx'
 import superagent from 'superagent'
 import f from 'odata-filter-builder'
+import store from 'store'
 
 import { ICol, IDataItem } from 'types'
 import { useUrl, useAppStore } from 'hooks'
 
 type QFType = keyof IDataItem
 
-const initialTable = {
-  columns: [],
-  search: { value: '' },
-}
+const KEY = 'rewards'
 
 class Requests {
-  columns: ICol[]
-  search = { value: '' }
+  private state = {
+    columns: [] as ICol[],
+    search: { value: '' },
+  }
+  private qfArr: QFType[]
+
   data = []
   loading = true
   pagi = {
@@ -23,7 +25,14 @@ class Requests {
     page: 0,
     perPage: 10,
   }
-  private qfArr: QFType[]
+
+  get search() {
+    return this.state.search
+  }
+
+  get columns() {
+    return this.state.columns
+  }
 
   get top() {
     return this.pagi.perPage
@@ -46,7 +55,10 @@ class Requests {
   }
 
   constructor(columns: ICol<IDataItem>[], qfArr: QFType[]) {
-    this.columns = columns as unknown as ICol[]
+    const state = store.get(KEY) as Requests['state'] | null
+
+    this.state.columns = state ? state.columns : (columns as unknown as ICol[])
+    this.state.search.value = state ? state.search.value : ''
     this.qfArr = qfArr
 
     this.columns.forEach((c) => {
@@ -55,7 +67,7 @@ class Requests {
     makeAutoObservable(this)
 
     reaction(
-      () => [this.pagi.page, this.pagi.perPage, this.search.value],
+      () => [this.pagi.page, this.pagi.perPage, this.state.search.value],
       () => (this.loading = true)
     )
     reaction(
@@ -64,15 +76,13 @@ class Requests {
     )
 
     reaction(
-      () => this.columns.map((c) => c.hidden),
-      () => console.log(this.columns)
+      () => this.state.columns.map((c) => c.hidden),
+      () => store.set(KEY, this.state)
     )
 
     reaction(
-      () => this.search.value,
-      () => {
-        console.log(JSON.stringify(this, null, 2))
-      }
+      () => this.state.search.value,
+      () => store.set(KEY, this.state)
     )
   }
 }

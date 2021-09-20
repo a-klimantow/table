@@ -34,6 +34,10 @@ export class UserStore {
     return this.user?.token ?? ''
   }
 
+  get name() {
+    return this.user.name
+  }
+
   get isAuthorized() {
     return !this.roles.includes('Unknown')
   }

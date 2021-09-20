@@ -1,32 +1,5 @@
-import { memo, FC } from 'react'
-import { observer } from 'mobx-react-lite'
-import {
-  Button,
-  ButtonProps,
-  LinearProgress,
-  Typography,
-  Box,
-  BoxProps,
-} from '@material-ui/core'
-
-export const Layout: FC<BoxProps> = ({ children }) => (
-  <Box
-    sx={{
-      minHeight: '100vh',
-      display: 'grid',
-      gridTemplate: `
-      ". . ." 1fr
-      ". T ." 80px
-      ". F ." auto
-      ". . ." 1fr/ auto minmax(auto, 400px) auto
-      `,
-      gap: 2,
-      '& form': { display: 'inherit', gridArea: 'F', gap: 4 },
-    }}
-  >
-    {children}
-  </Box>
-)
+import { memo } from 'react'
+import { Typography, Box, BoxProps } from '@material-ui/core'
 
 export const Title = memo(() => (
   <Typography variant="h1" fontSize={30} align="center" gridArea="T">
@@ -34,20 +7,24 @@ export const Title = memo(() => (
   </Typography>
 ))
 
-export type SubmitButtonProps = ButtonProps & { loading: boolean }
-
-export const SubmitButton = observer<{ button: SubmitButtonProps }>(
-  ({ button }) => {
-    const { loading, ...rest } = button
-    return (
-      <Button type="submit" variant="contained" size="large" {...rest}>
-        Войти
-        {loading && <Loader />}
-      </Button>
-    )
-  }
-)
-
-const Loader = () => (
-  <LinearProgress sx={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} />
-)
+export const Page = memo<BoxProps>((props) => (
+  <Box
+    {...props}
+    sx={{
+      display: 'grid',
+      gridColumn: '1 / -1',
+      gridRow: '1 / -1',
+      gridTemplate: `
+      ". . ." 1fr
+      ". T ." auto
+      ". F ." auto
+      ". . ." 1fr / auto minmax(auto, 400px) auto
+      `,
+      p: 2,
+      rowGap: 5,
+      '& form': {
+        gridArea: 'F',
+      },
+    }}
+  />
+))

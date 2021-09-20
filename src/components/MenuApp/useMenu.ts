@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx'
 import { MenuProps, MenuItemProps, ButtonProps } from '@material-ui/core'
 
 import { MenuAppProps } from './MenuApp'
+import { useAppStore } from 'hooks'
 
 const homeMenu = [
   ['projects', 'Проекты'],
@@ -12,7 +13,7 @@ const homeMenu = [
 ] as const
 
 const userMenu = [
-  ['user', 'Настройки'],
+  ['user/settings', 'Настройки'],
   ['user/logout', 'Выход'],
 ] as const
 
@@ -58,9 +59,10 @@ class Store {
 }
 
 export function useMenu(props: MenuAppProps) {
+  const { user } = useAppStore()
   return useRef(
     new Store({
-      name: props.type !== 'home' ? 'User' : '',
+      name: props.type !== 'home' ? user.name : '',
       items: props.type === 'home' ? homeMenu : userMenu,
     })
   ).current

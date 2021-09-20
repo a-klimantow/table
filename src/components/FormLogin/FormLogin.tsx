@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, memo, FormEvent } from 'react'
 import { Observer, observer } from 'mobx-react-lite'
 import {
   TextField,
@@ -6,6 +6,8 @@ import {
   InputAdornment,
   IconButton,
   LinearProgress,
+  Box,
+  BoxProps,
 } from '@material-ui/core'
 
 import { Icon } from 'components'
@@ -28,7 +30,7 @@ export const FormLogin = observer(() => {
   )
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <Form>
       <Observer>{() => <TextField {...form.email} />}</Observer>
       <Observer>
         {() => (
@@ -48,10 +50,27 @@ export const FormLogin = observer(() => {
             onClick={() => form.submit()}
           >
             Войти
+            {form.loading && (
+              <LinearProgress
+                sx={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+              />
+            )}
           </Button>
         )}
       </Observer>
-      <Observer>{() => (form.loading ? <LinearProgress /> : null)}</Observer>
-    </form>
+    </Form>
   )
 })
+
+const Form = memo<BoxProps>((props) => (
+  <Box
+    component="form"
+    onSubmit={(e: FormEvent) => e.preventDefault()}
+    {...props}
+    sx={{
+      display: 'grid',
+      gridAutoRows: 80,
+      alignItems: 'start',
+    }}
+  />
+))

@@ -14,5 +14,7 @@ export function useRouter() {
     return `/${module}/${page}/`
   }, [router])
 
-  return { router, defaultUrl }
+  const modulesPath = useMemo(() => router.map((m) => m.path), [router])
+
+  return { router, defaultUrl, modulesPath }
 }

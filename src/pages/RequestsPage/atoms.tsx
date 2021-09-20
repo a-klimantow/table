@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Paper, PaperProps, Stack, StackProps } from '@material-ui/core'
+import { Paper, PaperProps } from '@material-ui/core'
 
 type PageProps = Pick<PaperProps, 'children'> & { template?: string }
 
@@ -16,5 +16,3 @@ export const Page = memo<PageProps>(({ children, template = 'unset' }) => (
     {children}
   </Paper>
 ))
-
-

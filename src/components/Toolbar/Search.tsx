@@ -5,7 +5,6 @@ import {
   InputAdornment,
   IconButton,
   IconButtonProps,
-  Box,
 } from '@material-ui/core'
 
 import { Icon } from 'components'

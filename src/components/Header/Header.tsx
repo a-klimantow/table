@@ -6,7 +6,7 @@ import { MenuApp } from 'components'
 
 export const Header = observer(() => {
   const { user } = useAppStore()
-  if (user.isUnknown) return null
+  if (!user.isAuthorized) return null
 
   return (
     <Stack

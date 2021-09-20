@@ -33,5 +33,5 @@ function useLayout() {
     "M ." 1fr / ${M} 1fr
     `
 
-  return user.isUnknown ? `"P" 1fr / 1fr` : moduleTemplate
+  return user.isAuthorized ? moduleTemplate : `"P" 1fr / 1fr`
 }

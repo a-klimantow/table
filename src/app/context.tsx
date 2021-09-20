@@ -1,13 +1,10 @@
 import { createContext, useContext, FC } from 'react'
 
-import { UserStore, RouterStore } from 'stores'
+import { UserStore } from 'stores'
 
 const appStore = {
   user: new UserStore(),
-  router: new RouterStore(),
 }
-
-console.log(JSON.stringify(appStore.router, null, 2))
 
 // context
 const Context = createContext({} as typeof appStore)

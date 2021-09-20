@@ -1,37 +1,20 @@
-import { observer } from 'mobx-react-lite'
-import { Box, BoxProps, useTheme } from '@material-ui/core'
+import { FC } from 'react'
+import { Box } from '@material-ui/core'
 
-import { useAppStore } from 'hooks'
-
-type LayoutProps = Pick<BoxProps, 'children'>
-
-export const Layout = observer<LayoutProps>(({ children }) => {
-  const template = useLayout()
+export const Layout: FC = ({ children }) => {
   return (
     <Box
       sx={{
         height: '100vh',
         display: 'grid',
-        gridTemplate: template,
+        gridTemplate: `
+        ". ." auto
+        ". ." 1fr / auto 1fr
+        `,
+        bgcolor: 'grey.100',
       }}
     >
       {children}
     </Box>
   )
-})
-
-function useLayout() {
-  const { user } = useAppStore()
-
-  const { spacing } = useTheme()
-
-  const H = spacing(7)
-  const M = spacing(6)
-
-  const moduleTemplate = `
-    "H H" ${H}
-    "M ." 1fr / ${M} 1fr
-    `
-
-  return user.isAuthorized ? moduleTemplate : `"P" 1fr / 1fr`
 }

@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite'
 
 export * from './MenuItem'
 import { useMenu, MenuContextProvider } from '../store'
+import { Box } from '@material-ui/system'
 
 // theme provider
 
@@ -23,8 +24,7 @@ export const Provider: FC = ({ children }) => {
           MuiList: {
             defaultProps: {
               sx: {
-                gridArea: 'M',
-                bgcolor: 'grey.200',
+                bgcolor: 'background.paper',
                 borderRight: 1,
                 borderColor: 'divider',
                 minWidth: '100%',
@@ -74,7 +74,9 @@ export const Provider: FC = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <MenuContextProvider>
-        <MenuList>{children}</MenuList>
+        <Box sx={{ width: 48, display: 'grid', zIndex: 'drawer' }}>
+          <MenuList>{children}</MenuList>
+        </Box>
       </MenuContextProvider>
     </ThemeProvider>
   )

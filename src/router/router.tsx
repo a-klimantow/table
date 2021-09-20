@@ -1,28 +1,24 @@
-import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { toJS } from 'mobx'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { useAppStore } from 'hooks'
+import { useRouter } from './useRouter'
 
 export const Router = observer(() => {
-  const { router, user } = useAppStore()
-
-  useEffect(() => {
-    console.log(toJS(router.render))
-
-    router.create(user.roles)
-  }, [router, user])
-
+  const { router, defaultUrl } = useRouter()
+  console.log(router)
   return (
     <Switch>
-      {/* {router.render.map((m) => (
-        <Route key={m.path} path={m.path}>
-          {m.pages.map((p) => (
-            <Route key={p.path} component={p.component} />
-          ))}
+      {router.map(({ module, pages, path }) => (
+        <Route key={module} path={path}>
+          <Switch>
+            {pages.map(({ page, ...rest }) => (
+              <Route key={page} {...rest} />
+            ))}
+            <Redirect from="/:module" to={pages[0].path} />
+          </Switch>
         </Route>
-      ))} */}
+      ))}
+      <Redirect to={defaultUrl} />
     </Switch>
   )
 })

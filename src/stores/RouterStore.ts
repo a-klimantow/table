@@ -9,7 +9,8 @@ export class RouterStore {
   private router = [] as RouterType
 
   create(roles: RoleType[]) {
-    this.router = createRouter(roles)
+    const router = createRouter(roles)
+    console.log('router', router)
   }
 
   get render() {

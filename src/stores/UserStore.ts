@@ -17,7 +17,7 @@ const initialUser = {
 }
 
 export class UserStore {
-  private user = store.get(USER) ?? initialUser
+  private user = store.get(USER) ?? null
 
   setUser(user: UserType) {
     this.user = user
@@ -43,10 +43,7 @@ export class UserStore {
 
     reaction(
       () => this.user,
-      (user) => {
-        console.log('reaction', user)
-        store.set(USER, this.user)
-      }
+      (user) => store.set(USER, user)
     )
   }
 }

@@ -13,7 +13,7 @@ const homeMenu = [
 
 const userMenu = [
   ['user', 'Настройки'],
-  ['user/logout/', 'Выход'],
+  ['user/logout', 'Выход'],
 ] as const
 
 type MenuItems = typeof homeMenu | typeof userMenu

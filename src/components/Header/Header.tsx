@@ -10,7 +10,6 @@ export const Header = observer(() => {
 
   return (
     <Stack
-      gridArea="H"
       direction="row"
       alignItems="center"
       justifyContent="space-between"
@@ -18,6 +17,8 @@ export const Header = observer(() => {
       p={1}
       border={1}
       borderColor="divider"
+      gridColumn="1 / -1"
+      gridRow="1"
     >
       <MenuApp />
       <MenuApp type="user" />

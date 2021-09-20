@@ -50,12 +50,12 @@ const allPage = Object.keys(pages) as PageType[]
 
 pagePerm.set('AccrualsManager', ['accrual', 'settings', 'logout'])
 pagePerm.set('Administrator', allPage)
-pagePerm.set('PanelistManagement', [])
+pagePerm.set('PanelistManagement', ['settings', 'logout'])
 pagePerm.set('PaymentsManager', ['requests', 'reports', 'settings', 'logout'])
-pagePerm.set('ProjectManagement', [])
-pagePerm.set('TemplateManagement', [])
+pagePerm.set('ProjectManagement', ['settings', 'logout'])
+pagePerm.set('TemplateManagement', ['settings', 'logout'])
 pagePerm.set('Unknown', ['login'])
-pagePerm.set('WebsiteManagement', [])
+pagePerm.set('WebsiteManagement', ['settings', 'logout'])
 
 // modules structure
 type ModuleStuctureType = Record<ModuleType, PageType[]>
@@ -68,33 +68,38 @@ const moduleStructure: ModuleStuctureType = {
   user: ['settings', 'logout', 'login'],
 }
 
+// get unic modules
 function getModules(roles: RoleType[]) {
   const modules = roles.flatMap((r) => modulePerm.get(r)).filter(Boolean)
   return [...new Set(modules)] as ModuleType[]
 }
 
+// get unic pages
 function getPages(roles: RoleType[]) {
   const pages = roles.flatMap((r) => pagePerm.get(r)).filter(Boolean)
   return [...new Set(pages)] as PageType[]
 }
 
-function filterByCurrentPage(module: ModuleType, pages: PageType[]) {
-  return pages.filter((page) => moduleStructure[module].includes(page))
-}
-
+// create render pages
 function createRenderPage(page: PageType) {
   return { page, path: `/:module/${page}/`, component: pages[page] }
 }
 
-export function createRouter(roles: RoleType[]) {
-  const promittedPages = getPages(roles)
-  const promittedModules = getModules(roles)
+// filter pages
+function filterByCurrentPage(module: ModuleType, pages: PageType[]) {
+  return pages.filter((page) => moduleStructure[module].includes(page))
+}
 
-  return promittedModules.map((module) => {
-    const currentPages = filterByCurrentPage(module, promittedPages).map(
+export function createRouter(roles: RoleType[]) {
+  // prommited modules & pages
+  const promPages = getPages(roles)
+  const promModules = getModules(roles)
+
+  // create router for render
+  return promModules.map((module) => {
+    const currentPages = filterByCurrentPage(module, promPages).map(
       createRenderPage
     )
-
     return { module, path: `/${module}/`, pages: currentPages }
   })
 }

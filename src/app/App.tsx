@@ -4,7 +4,7 @@ import { Router } from 'router'
 export const App = () => (
   <Layout>
     <Header />
-    <Router />
     <ModuleMenu />
+    <Router />
   </Layout>
 )

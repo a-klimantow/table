@@ -10,16 +10,19 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  useTheme,
 } from '@material-ui/core'
 
 import { ICol } from 'types'
 import { TableProps } from './Table'
 
 export const Provider: FC<TableProps> = ({ children, loading }) => {
+  const t = useTheme()
   const theme = useMemo(
     () =>
       createTheme({
         components: {
+          // container
           MuiTableContainer: {
             styleOverrides: {
               root: {
@@ -27,6 +30,34 @@ export const Provider: FC<TableProps> = ({ children, loading }) => {
               },
             },
           },
+          // table
+          MuiTable: {
+            styleOverrides: {
+              root: {
+                borderSpacing: 0,
+                borderCollapse: 'separate',
+              },
+            },
+          },
+          // table head
+          MuiTableHead: {
+            styleOverrides: {
+              root: {
+                position: 'sticky',
+                top: '0',
+                zIndex: 3,
+              },
+            },
+          },
+          // table cells
+          MuiTableCell: {
+            styleOverrides: {
+              head: {
+                backgroundColor: t.palette.grey["50"],
+              },
+            },
+          },
+
           MuiLinearProgress: {
             styleOverrides: {
               root: {
@@ -39,7 +70,7 @@ export const Provider: FC<TableProps> = ({ children, loading }) => {
           },
         },
       }),
-    []
+    [t]
   )
   return (
     <ThemeProvider theme={theme}>

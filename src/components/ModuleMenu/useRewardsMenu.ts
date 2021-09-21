@@ -21,7 +21,7 @@ export function useRewardsMenu(): MenuItemProps[] {
         type: 'menu_item',
         name: 'Начисления',
         icon: 'plus',
-        link: 'accrual',
+        link: 'accruals',
       },
     ],
     []

@@ -7,3 +7,15 @@ export interface IDataItem {
   old_requests_sum: number
   panel_name: string
 }
+
+export interface IAccrualItem {
+  amount: number
+  author_id: number
+  count_rows: number
+  created: Date
+  file: {
+    file_name: string
+  }
+  file_id: number
+  id: number
+}

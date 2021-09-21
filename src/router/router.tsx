@@ -5,6 +5,7 @@ import { useRouter } from './useRouter'
 
 export const Router = observer(() => {
   const { router, defaultUrl, modulesPath } = useRouter()
+  console.log(router)
   console.log(modulesPath)
   return (
     <Switch>

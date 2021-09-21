@@ -48,7 +48,7 @@ const pagePerm: PagePermType = new Map()
 
 const allPage = Object.keys(pages) as PageType[]
 
-pagePerm.set('AccrualsManager', ['accrual', 'settings', 'logout'])
+pagePerm.set('AccrualsManager', ['accruals', 'settings', 'logout'])
 pagePerm.set('Administrator', allPage)
 pagePerm.set('PanelistManagement', ['settings', 'logout'])
 pagePerm.set('PaymentsManager', ['requests', 'reports', 'settings', 'logout'])
@@ -64,7 +64,7 @@ const moduleStructure: ModuleStuctureType = {
   administration: [],
   panels: [],
   projects: [],
-  rewards: ['requests', 'reports', 'accrual'],
+  rewards: ['requests', 'reports', 'accruals'],
   user: ['settings', 'logout', 'login'],
 }
 

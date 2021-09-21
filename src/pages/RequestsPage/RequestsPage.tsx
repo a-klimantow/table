@@ -4,7 +4,7 @@ import { Stack } from '@material-ui/core'
 import { useRequestsPage } from './useRequestPage'
 import { Page } from './atoms'
 
-import { Toolbar, Table, Pagination } from 'components'
+import { Toolbar, Table, Pagination, ImportRewards } from 'components'
 
 export const RequestsPage = observer(() => {
   const page = useRequestsPage()
@@ -24,7 +24,15 @@ export const RequestsPage = observer(() => {
           />
         )}
       </Observer>
-      <Stack px={1} borderTop={1} borderColor="divider">
+      <Stack
+        px={1}
+        borderTop={1}
+        borderColor="divider"
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <ImportRewards />
         <Pagination pagination={page.pagi} />
       </Stack>
     </Page>

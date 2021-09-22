@@ -1,22 +1,18 @@
 import { Observer, observer } from 'mobx-react-lite'
 import { Button, Popover, Input, ListItem } from '@material-ui/core'
 
-import { useState } from './useState'
-import { useImport } from './useImport'
+import { useImportStore } from './store'
 
 export const ImportRewards = observer(() => {
-  const state = useState()
-  useImport(state)
-
-  const { button, popover, items } = state
+  const store = useImportStore()
 
   return (
     <>
-      <Observer>{() => <Button {...button}>Импорт</Button>}</Observer>
+      <Observer>{() => <Button {...store.button} />}</Observer>
       <Observer>
         {() => (
-          <Popover {...popover}>
-            {items.map((item) => (
+          <Popover {...store.popover}>
+            {store.items.map((item) => (
               <Item key={item.name} item={item} />
             ))}
           </Popover>
@@ -26,7 +22,7 @@ export const ImportRewards = observer(() => {
   )
 })
 
-type ItemProps = ReturnType<typeof useState>['items'][number]
+type ItemProps = ReturnType<typeof useImportStore>['items'][number]
 
 const Item = observer<{ item: ItemProps }>(({ item }) => (
   <ListItem button component="form">

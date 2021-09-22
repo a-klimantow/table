@@ -11,6 +11,9 @@ import {
   AddBoxOutlined,
   IndeterminateCheckBoxOutlined,
   ArrowDropDown,
+  WarningOutlined,
+  ErrorOutline,
+  CheckCircleOutlineOutlined,
 } from '@material-ui/icons'
 
 export default {
@@ -26,4 +29,7 @@ export default {
   plus: AddBoxOutlined,
   minus: IndeterminateCheckBoxOutlined,
   dropdown: ArrowDropDown,
+  warning: WarningOutlined,
+  error: ErrorOutline,
+  success: CheckCircleOutlineOutlined,
 }

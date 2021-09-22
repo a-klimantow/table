@@ -3,7 +3,7 @@ import { action } from 'mobx'
 import { useLocalObservable } from 'mobx-react-lite'
 import { PopoverProps, ButtonProps, InputProps } from '@material-ui/core'
 
-import { useCreateFile } from 'hooks'
+import { useImport } from './useImport'
 
 type PayType = 'ЮKassa' | 'WebMoney'
 
@@ -12,16 +12,25 @@ const initialState = {
   data: null as FormData | null,
   items: ['ЮKassa', 'WebMoney'] as PayType[],
   pay: null as PayType | null,
+
+  setData(data: FormData, name = '') {
+    this.data = data
+    this.pay = name as PayType
+  },
+
+  get loading() {
+    return Boolean(this.data)
+  },
 }
+
+export type StateType = typeof initialState
 
 export function useState() {
   const ref = useRef(null)
   const state = useLocalObservable(() => initialState)
-  const { file, handleSetFrom } = useCreateFile()
+  useImport(state)
 
   return {
-    file,
-    activePay: state.pay,
     button: {
       ref,
       onClick: action(() => (state.open = true)),
@@ -36,11 +45,15 @@ export function useState() {
 
     items: state.items.map((name) => ({
       name,
-      onChange: handleSetFrom,
+      onChange: action((e) => {
+        const name = e.currentTarget.name
+        const form = e.currentTarget.closest('form')
+        if (form) {
+          state.setData(new FormData(form), name)
+        }
+      }),
       type: 'file',
       sx: { display: 'none' },
     })) as InputProps[],
   }
 }
-
-export type StateType = ReturnType<typeof useState>

@@ -1,31 +1,26 @@
-import { action } from 'mobx'
-import { useLocalObservable } from 'mobx-react-lite'
-import { PopoverProps, ButtonProps, InputProps } from '@material-ui/core'
+import { useAppStore, useUrl } from 'hooks'
+import { useEffect } from 'react'
+import sup from 'superagent'
 
-export function useImport() {
-  return useLocalObservable(() => ({
-    open: false,
-    data: null as FormData | null,
+import { StateType } from './useState'
 
-    get popover(): PopoverProps {
-      return {
-        open: this.open,
-        onClose: action(() => (this.open = false)),
-        anchorOrigin: { horizontal: 'right', vertical: 'top' },
-      }
-    },
+export function useImport(state: StateType) {
+  const { file, activePay } = state
+  const { user } = useAppStore()
+  const url = useUrl(
+    activePay === 'WebMoney'
+      ? 'withdrawal/importwebmoney'
+      : 'withdrawal/importyookassa'
+  )
+  const id = file?.id
 
-    get button(): ButtonProps {
-      return {
-        onClick: action(() => (this.open = true)),
-      }
-    },
+  const request = sup
+    .post(url)
+    .auth(user.token, { type: 'bearer' })
+    .query({ fileId: id })
 
-    get uKassa(): InputProps {
-      return {
-        type: 'file',
-        sx: { display: 'none' },
-      }
-    },
-  }))
+  useEffect(() => {
+    id && request.then(console.log).catch(console.log)
+    return () => request.abort()
+  }, [id, request])
 }

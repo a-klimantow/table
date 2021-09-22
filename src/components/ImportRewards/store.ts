@@ -26,7 +26,7 @@ class ImportStore {
   private file = null as null | IFile
 
   // fetch
-  get loading() {
+  get startCreate() {
     return Boolean(this.formData)
   }
 
@@ -36,18 +36,19 @@ class ImportStore {
       .auth(this.token, { type: 'bearer' })
 
     if (this.formData) {
-      req
-        .send(this.formData)
-        .then(({ body }) =>
+      req.send(this.formData)
+      ;(async () => {
+        try {
+          const { body } = await req.then()
           runInAction(() => {
-            this.formData = null
-            this.ancor = null
             this.file = body.data
+            this.formData = null
           })
-        )
-        .catch(console.log)
+        } catch (error) {
+          console.log(error)
+        }
+      })()
     }
-
     return req
   }
 
@@ -63,11 +64,29 @@ class ImportStore {
     }
   }
 
+  get startImport() {
+    return Boolean(this.file)
+  }
+
   importFile() {
-    const req = sup.post(this.importUrl).auth(this.token, { type: 'bearer' })
+    const req = sup
+      .post(this.importUrl)
+      .auth(this.token, { type: 'bearer' })
+      .query({ fileId: this.file?.id })
 
     if (this.file) {
-      req.query({ fileId: this.file.id }).then(console.log).catch(console.log)
+      ;(async () => {
+        try {
+          const { body } = await req.then()
+          console.log(body)
+        } catch (error) {
+        } finally {
+          runInAction(() => {
+            this.file = null
+            this.ancor = null
+          })
+        }
+      })()
     }
 
     return req
@@ -130,12 +149,12 @@ export const useImportStore = () => {
   useEffect(() => {
     const request = store.createFile()
     return () => request.abort()
-  }, [store, store.loading])
+  }, [store, store.startCreate])
 
   useEffect(() => {
     const request = store.importFile()
     return () => request.abort()
-  }, [store, store.loading])
+  }, [store, store.startImport])
 
   return store
 }

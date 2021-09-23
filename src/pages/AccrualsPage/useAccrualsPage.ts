@@ -93,10 +93,18 @@ export function useAccrualsPage() {
       [
         { key: 'file', name: 'Файл' },
         { key: 'author_id', name: 'ID пользователя' },
-        { key: 'created', name: 'Дата и время загрузки' },
+        {
+          key: 'created',
+          name: 'Дата и время загрузки',
+          renderCell: (i) =>
+            new Intl.DateTimeFormat('ru-Ru', {
+              dateStyle: 'short',
+              timeStyle: 'short',
+            }).format(new Date(i.created)),
+        },
         { key: 'amount', name: 'Сумма' },
       ],
-      ["file", "author_id"]
+      ['file', 'author_id']
     )
   ).current
 
@@ -124,7 +132,10 @@ function useFetch(store: Accruals) {
         const { items, metadata } = response.body
         const { total_count } = metadata.pagination
         runInAction(() => {
-          store.data = items
+          store.data = items.map((i: IAccrualItem) => ({
+            ...i,
+            file: i.file.file_name,
+          }))
           store.pagi.count = total_count
         })
       } catch (error) {

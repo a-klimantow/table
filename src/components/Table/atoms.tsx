@@ -65,6 +65,7 @@ export const Provider: FC<TableProps> = ({ children, loading }) => {
                 top: 0,
                 left: 0,
                 right: 0,
+                zIndex: 10,
               },
             },
           },

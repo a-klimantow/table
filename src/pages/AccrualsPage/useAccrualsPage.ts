@@ -91,7 +91,7 @@ export function useAccrualsPage() {
   const store = useRef(
     new Accruals(
       [
-        { key: 'file', name: 'Файл' },
+        { key: 'file_name', name: 'Файл' },
         { key: 'author_id', name: 'ID пользователя' },
         {
           key: 'created',
@@ -104,7 +104,7 @@ export function useAccrualsPage() {
         },
         { key: 'amount', name: 'Сумма' },
       ],
-      ['file', 'author_id']
+      ['file_name', 'author_id']
     )
   ).current
 
@@ -132,10 +132,7 @@ function useFetch(store: Accruals) {
         const { items, metadata } = response.body
         const { total_count } = metadata.pagination
         runInAction(() => {
-          store.data = items.map((i: IAccrualItem) => ({
-            ...i,
-            file: i.file.file_name,
-          }))
+          store.data = items
           store.pagi.count = total_count
         })
       } catch (error) {

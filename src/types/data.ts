@@ -1,4 +1,4 @@
-export interface IDataItem {
+export interface IRequestItem {
   accept_requests: number
   all_requests: number
   all_requests_sum: number

@@ -9,7 +9,7 @@ export const PageLayout = memo<{ children: ReactNode }>((props) => {
         sx={{
           gridArea: 'PAGE',
           display: 'grid',
-          gridTemplateRows: '56px auto 1fr 48px',
+          gridTemplateRows: '56px 1fr 56px',
         }}
         {...props}
       />

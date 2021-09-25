@@ -1,31 +1,59 @@
-import { observer, useLocalObservable } from 'mobx-react-lite'
-import { TablePagination, TablePaginationProps } from '@material-ui/core'
+import { observer } from 'mobx-react-lite'
+import {
+  TablePagination,
+  TablePaginationProps as Props,
+} from '@material-ui/core'
+import { makeAutoObservable, action } from 'mobx'
+import { useRef } from 'react'
 
-export const usePagination = (): TablePaginationProps =>
-  useLocalObservable(() => ({
-    count: 0,
-    page: 0,
-    rowsPerPage: 10,
-    onPageChange(_, page) {
-      this.page = page
-    },
-    onRowsPerPageChange(e) {
-      this.rowsPerPage = Number(e.target.value)
-    },
-  }))
+export class PaginationStore {
+  private count = 0
+  private page = 0
+  private rowsPerPage = 10
 
-export type PaginationType = ReturnType<typeof usePagination>
+  constructor() {
+    makeAutoObservable(this, {}, { proxy: false })
+  }
+
+  setCount(count: number) {
+    this.count = count
+    if (this.skip > count) this.page = 0
+  }
+
+  get props(): Props {
+    return {
+      count: this.count,
+      page: this.page,
+      rowsPerPage: this.rowsPerPage,
+      onPageChange: action((_, page) => (this.page = page)),
+      onRowsPerPageChange: action((e) => {
+        this.rowsPerPage = +e.target.value
+        this.page = 0
+      }),
+    }
+  }
+
+  get top() {
+    return this.rowsPerPage
+  }
+
+  get skip() {
+    return this.top * this.page
+  }
+
+  get query() {
+    return { $top: this.top || {}, $skip: this.skip || {} }
+  }
+}
+
+export const usePagination = () => useRef(new PaginationStore()).current
 
 export const Pagination = observer<{
-  pagination: PaginationType
-}>(({ pagination: p }) => (
+  pagination: PaginationStore
+}>(({ pagination }) => (
   <TablePagination
     component="div"
     data-name="pagination"
-    count={p.count}
-    page={p.page}
-    rowsPerPage={p.rowsPerPage}
-    onPageChange={p.onPageChange}
-    onRowsPerPageChange={p.onRowsPerPageChange}
+    {...pagination.props}
   />
 ))

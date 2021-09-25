@@ -22,4 +22,4 @@ export * from './Header'
 export * from './Toolbar'
 export * from './FormLogin'
 export * from './ImportRewards'
-
+export * from './Grid'

@@ -9,10 +9,10 @@ export const AccrualsPage = observer(() => {
   const page = useAccrualsPage()
   return (
     <Page template="auto 1fr auto">
-      <Toolbar.Wrapper>
+      {/* <Toolbar.Wrapper>
         <Toolbar.ColMenu columns={page.columns} />
         <Toolbar.Search search={page.search} />
-      </Toolbar.Wrapper>
+      </Toolbar.Wrapper> */}
       <Observer>
         {() => (
           <Table

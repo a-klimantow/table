@@ -1,70 +1,41 @@
-import { FC, useMemo, memo, forwardRef } from 'react'
-import { observer } from 'mobx-react-lite'
-import {
-  IconButton,
-  Button,
-  Stack,
-  Typography,
-  Switch,
-  createTheme,
-  ThemeProvider,
-} from '@material-ui/core'
+import { memo } from 'react'
+import { Stack, Switch, Typography, Button } from '@material-ui/core'
+import { Observer } from 'mobx-react-lite'
 
-import { Icon } from 'components'
-// import { ColMenuProps } from './ColMenu'
+import { ICol } from 'types'
+import { action } from 'mobx'
 
-// export const Provider: FC = ({ children }) => {
-//   const theme = useMemo(
-//     () =>
-//       createTheme({
-//         components: {
-//           MuiPopover: {
-//             defaultProps: {
-//               anchorOrigin: { horizontal: 'left', vertical: 'bottom' },
-//             },
-//           },
-
-//           MuiSwitch: {
-//             defaultProps: {
-//               size: 'small',
-//             },
-//           },
-
-//           MuiButton: {
-//             defaultProps: {
-//               size: 'small',
-//             },
-//           },
-//         },
-//       }),
-//     []
-//   )
-//   return <ThemeProvider theme={theme}>{children}</ThemeProvider>
-// }
-
-// export const MenuButton = forwardRef<HTMLButtonElement, { click(): void }>(
-//   ({ click }, ref) => (
-//     <IconButton ref={ref} onClick={click}>
-//       <Icon type="col_menu" />
-//     </IconButton>
-//   )
-// )
-
-// interface MenuItemProps {
-//   item: ColMenuProps['menu']['items'][number]
-//   change(): void
-// }
-
-// export const MenuItem = observer<MenuItemProps>(({ item, change }) => (
-//   <Stack direction="row" gap={1}>
-//     <Switch checked={!item.hidden} onChange={change} />
-//     <Typography>{item.name}</Typography>
-//   </Stack>
-// ))
-
-// export const Buttons = memo<{ onHidden(): void; onShow(): void }>((props) => (
-//   <Stack direction="row" justifyContent="space-between" gap={1} mt={1}>
-//     <Button onClick={props.onHidden}>скрыть все</Button>
-//     <Button onClick={props.onShow}>показать все</Button>
-//   </Stack>
-// ))
+export const Menu = memo<{ columns: ICol[] }>(({ columns }) => (
+  <Stack p={1} gap={1}>
+    {columns.map((c) => (
+      <Stack key={c.key} direction="row" alignItems="center" gap={1}>
+        <Observer>
+          {() => (
+            <Switch
+              size="small"
+              checked={!c.hidden}
+              onChange={action(() => {
+                c.hidden = !c.hidden
+              })}
+            />
+          )}
+        </Observer>
+        <Typography>{c.name}</Typography>
+      </Stack>
+    ))}
+    <Stack direction="row" justifyContent="space-between" gap={1}>
+      {['Скрыть', 'Показать'].map((act) => (
+        <Button
+          key={act}
+          onClick={action(() => {
+            columns.forEach((c) => {
+              c.hidden = act.startsWith('Скрыть')
+            })
+          })}
+        >
+          {act} все
+        </Button>
+      ))}
+    </Stack>
+  </Stack>
+))

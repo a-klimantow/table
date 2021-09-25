@@ -1,60 +1,27 @@
-import { memo, useRef, useMemo } from 'react'
-import { useLocalObservable, Observer } from 'mobx-react-lite'
-import { action } from 'mobx'
-import { Popover, IconButton, Switch } from '@material-ui/core'
+import { observer } from 'mobx-react-lite'
+import { Popover, IconButton } from '@material-ui/core'
 
 import { ICol } from 'types'
 import { Icon } from 'components'
+import { useColMenu } from './useColMenu'
+import { Menu } from './atoms'
 
-const initialState = {
-  open: false,
-  toggle() {
-    this.open = !this.open
-  },
-}
-
-interface ColMenuProps {
-  columns: ICol[]
-}
-
-export const ColMenu = memo<ColMenuProps>(({ columns }) => {
-  const menu = useLocalObservable(() => initialState)
-  const ref = useRef(null)
-
-  const renderList = useMemo(
-    () =>
-      columns.map((c) => (
-        <div key={c.key}>
-          <Observer>
-            {() => (
-              <Switch
-                checked={!c.hidden}
-                onChange={action(() => (c.hidden = !c.hidden))}
-              />
-            )}
-          </Observer>
-          {c.name}
-        </div>
-      )),
-    [columns]
-  )
+export const ColMenu = observer<{ columns: ICol[] }>(({ columns }) => {
+  const { menu, ref } = useColMenu()
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => menu.toggle()}>
+      <IconButton ref={ref} onClick={() => menu.toggle('open')}>
         <Icon type="col_menu" />
       </IconButton>
-      <Observer>
-        {() => (
-          <Popover
-            open={menu.open}
-            onClose={() => menu.toggle()}
-            anchorEl={ref.current}
-          >
-            {renderList}
-          </Popover>
-        )}
-      </Observer>
+      <Popover
+        open={menu.open}
+        onClose={() => menu.toggle('close')}
+        anchorEl={ref.current}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+      >
+        <Menu columns={columns} />
+      </Popover>
     </>
   )
 })

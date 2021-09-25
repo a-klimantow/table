@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite'
 
 export * from './MenuItem'
 import { useMenu, MenuContextProvider } from '../store'
-import { Box } from '@material-ui/system'
 
 // theme provider
 

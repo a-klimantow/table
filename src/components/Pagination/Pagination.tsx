@@ -1,32 +1,31 @@
-import { observer } from 'mobx-react-lite'
-import { action } from 'mobx'
-import { TablePagination, TablePaginationProps as TP } from '@material-ui/core'
+import { observer, useLocalObservable } from 'mobx-react-lite'
+import { TablePagination, TablePaginationProps } from '@material-ui/core'
 
-interface PaginationProps {
-  count: number
-  page: number
-  perPage: number
-}
+export const usePagination = (): TablePaginationProps =>
+  useLocalObservable(() => ({
+    count: 0,
+    page: 0,
+    rowsPerPage: 10,
+    onPageChange(_, page) {
+      this.page = page
+    },
+    onRowsPerPageChange(e) {
+      this.rowsPerPage = Number(e.target.value)
+    },
+  }))
 
-export const Pagination = observer<{ pagination: PaginationProps }>(
-  ({ pagination }) => {
-    const pageChange: TP['onPageChange'] = action((_, page) => {
-      pagination.page = page
-    })
+export type PaginationType = ReturnType<typeof usePagination>
 
-    const perPageChage: TP['onRowsPerPageChange'] = action(({ target }) => {
-      pagination.perPage = Number(target.value)
-    })
-
-    return (
-      <TablePagination
-        component="div"
-        page={pagination.page}
-        count={pagination.count}
-        rowsPerPage={pagination.perPage}
-        onPageChange={pageChange}
-        onRowsPerPageChange={perPageChage}
-      />
-    )
-  }
-)
+export const Pagination = observer<{
+  pagination: PaginationType
+}>(({ pagination: p }) => (
+  <TablePagination
+    component="div"
+    data-name="pagination"
+    count={p.count}
+    page={p.page}
+    rowsPerPage={p.rowsPerPage}
+    onPageChange={p.onPageChange}
+    onRowsPerPageChange={p.onRowsPerPageChange}
+  />
+))

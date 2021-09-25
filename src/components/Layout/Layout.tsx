@@ -1,15 +1,23 @@
 import { FC } from 'react'
-import { Box } from '@material-ui/core'
+import { Box, useTheme } from '@material-ui/core'
 
 export const Layout: FC = ({ children }) => {
+  const { spacing } = useTheme()
+  const head = spacing(7)
+  const menu = spacing(6)
+  const gapY = spacing(3)
+  const gapX = spacing(2)
+
   return (
     <Box
       sx={{
         height: '100vh',
         display: 'grid',
         gridTemplate: `
-        ". ." auto
-        ". ." 1fr / auto 1fr
+        "HEAD HEAD HEAD HEAD" ${head}
+        "MENU .    .    .   " ${gapX}
+        "MENU .    PAGE .   " calc(100vh - ${head} - (${gapX} * 2))
+        "MENU .    .    .   " ${gapX} / ${menu} ${gapY} 1fr ${gapY}
         `,
         bgcolor: 'grey.100',
       }}

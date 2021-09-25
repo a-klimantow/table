@@ -23,7 +23,7 @@ export const AccrualsPage = observer(() => {
         )}
       </Observer>
       <Stack px={1} borderTop={1} borderColor="divider">
-        <Pagination pagination={page.pagi} />
+        {/* <Pagination pagination={page.pagi} /> */}
       </Stack>
     </Page>
   )

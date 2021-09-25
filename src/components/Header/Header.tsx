@@ -10,15 +10,14 @@ export const Header = observer(() => {
 
   return (
     <Stack
+      gridArea="HEAD"
       direction="row"
       alignItems="center"
       justifyContent="space-between"
       gap={1}
       p={1}
-      border={1}
+      borderBottom={1}
       borderColor="divider"
-      gridColumn="1 / -1"
-      gridRow="1"
     >
       <MenuApp />
       <MenuApp type="user" />

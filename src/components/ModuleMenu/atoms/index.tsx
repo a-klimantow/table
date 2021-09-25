@@ -22,11 +22,13 @@ export const Provider: FC = ({ children }) => {
         components: {
           MuiBackdrop: { defaultProps: { invisible: true } },
           MuiList: {
-            defaultProps: {
-              sx: {
-                bgcolor: 'background.paper',
-                borderRight: 1,
-                borderColor: 'divider',
+            styleOverrides: {
+              root: {
+                gridArea: 'MENU',
+                zIndex: t.zIndex.drawer,
+                backgroundColor: t.palette.background.paper,
+                borderRight: '1px solid',
+                borderColor: t.palette.divider,
                 minWidth: '100%',
                 transition: 'min-width .3s ease',
                 overflow: 'hidden',
@@ -74,9 +76,7 @@ export const Provider: FC = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <MenuContextProvider>
-        <Box sx={{ width: 48, display: 'grid', zIndex: 'drawer' }}>
-          <MenuList>{children}</MenuList>
-        </Box>
+        <MenuList>{children}</MenuList>
       </MenuContextProvider>
     </ThemeProvider>
   )

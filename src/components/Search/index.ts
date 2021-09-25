@@ -1,2 +1,3 @@
 export { Search } from './Search'
-export type { SearchProps } from './Search'
+export { useSearch, SearchStore } from './useSearch'
+export type { SearchType } from './useSearch'

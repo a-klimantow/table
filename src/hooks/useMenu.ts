@@ -1,9 +1,5 @@
-import { useRef, useMemo } from 'react'
-import { action } from 'mobx'
+import { useRef } from 'react'
 import { useLocalObservable } from 'mobx-react-lite'
-import { ButtonProps, PopoverProps, SwitchProps } from '@material-ui/core'
-
-import { ICol } from 'types'
 
 const initialState = {
   open: false,
@@ -12,7 +8,7 @@ const initialState = {
   },
 }
 
-export function useColMenu() {
+export function useMenu() {
   const menu = useLocalObservable(() => initialState)
   const ref = useRef(null)
   return { menu, ref }

@@ -1,31 +1,36 @@
-import { useCallback, useState, useEffect } from 'react'
-import { OutlinedInputProps as OIProps } from '@material-ui/core'
+import { useRef } from 'react'
+import { makeAutoObservable, action } from 'mobx'
+import { InputProps, ButtonProps } from '@material-ui/core'
 
-import { SearchProps } from './Search'
+export class SearchStore {
+  current: string
+  constructor(private value = '') {
+    this.current = value
+    makeAutoObservable(this, {}, { proxy: false })
+  }
 
-export function useSearch(search: SearchProps) {
-  const [value, setValue] = useState(search.value as string)
+  updateCurrent() {
+    this.current = this.value
+  }
 
-  const change: OIProps['onChange'] = useCallback(
-    (e) => setValue(e.target.value),
-    []
-  )
-  const clear = useCallback(() => setValue(''), [])
+  get input(): InputProps {
+    return {
+      value: this.value,
+      onChange: action((e) => (this.value = e.target.value)),
+    }
+  }
 
-  const memoUpdate = useCallback(
-    () => search.update && search.update(value),
-    [search, value]
-  )
+  get button(): ButtonProps {
+    return {
+      onClick: action(() => (this.value = '')),
+    }
+  }
 
-  useEffect(() => {
-    const timer = setTimeout(memoUpdate, 1000)
-    return () => clearTimeout(timer)
-  }, [memoUpdate])
-
-  return {
-    value,
-    change,
-    clear,
-    showClear: Boolean(value.trim()),
+  get showButton(): boolean {
+    return !!this.value.trim()
   }
 }
+
+export const useSearch = (value = '') => useRef(new SearchStore(value)).current
+
+export type SearchType = SearchStore

@@ -1,11 +1,17 @@
 import { useEffect, useRef } from 'react'
-import { makeAutoObservable, reaction, runInAction } from 'mobx'
+import { autorun, makeAutoObservable, reaction, runInAction, when } from 'mobx'
 import superagent from 'superagent'
 import f from 'odata-filter-builder'
 import store from 'store'
 
 import { ICol, IDataItem } from 'types'
 import { useUrl, useAppStore } from 'hooks'
+import {
+  SearchType,
+  useSearch,
+  PaginationType,
+  usePagination,
+} from 'components'
 
 type QFType = keyof IDataItem
 
@@ -26,10 +32,6 @@ class Requests {
     perPage: 10,
   }
 
-  get search() {
-    return this.state.search
-  }
-
   get columns() {
     return this.state.columns
   }
@@ -43,18 +45,12 @@ class Requests {
     return page * perPage
   }
 
-  get quickFilter() {
-    if (!this.search.value) return {}
-    const filter = f('or')
-
-    this.qfArr.forEach((name) => {
-      filter.contains((x) => x.toLower(name), this.search.value.toLowerCase())
-    })
-
-    return filter.toString()
-  }
-
-  constructor(columns: ICol<IDataItem>[], qfArr: QFType[]) {
+  constructor(
+    columns: ICol<IDataItem>[],
+    qfArr: QFType[],
+    public search: SearchType,
+    public pagination: PaginationType
+  ) {
     const state = store.get(KEY) as Requests['state'] | null
 
     this.state.columns = state ? state.columns : (columns as unknown as ICol[])
@@ -65,25 +61,35 @@ class Requests {
       c.quickFilter = (qfArr as string[]).includes(c.key)
     })
     makeAutoObservable(this)
+    reaction(
+      () => this.search.current,
+      (v) => console.log(v)
+    )
+    // reaction(
+    //   () => [this.pagi.page, this.pagi.perPage, this.state.search.value],
+    //   () => (this.loading = true)
+    // )
+    // reaction(
+    //   () => [this.pagi.count, this.pagi.perPage],
+    //   () => (this.pagi.page = 0)
+    // )
 
-    reaction(
-      () => [this.pagi.page, this.pagi.perPage, this.state.search.value],
-      () => (this.loading = true)
-    )
-    reaction(
-      () => [this.pagi.count, this.pagi.perPage],
-      () => (this.pagi.page = 0)
-    )
+    // reaction(
+    //   () => this.state.columns.map((c) => c.hidden),
+    //   () => store.set(KEY, this.state)
+    // )
 
-    reaction(
-      () => this.state.columns.map((c) => c.hidden),
-      () => store.set(KEY, this.state)
-    )
+    // reaction(
+    //   () => this.state.search.value,
+    //   () => store.set(KEY, this.state)
+    // )
 
-    reaction(
-      () => this.state.search.value,
-      () => store.set(KEY, this.state)
-    )
+    // reaction(
+    //   () => [this.srch.typing, this.search.value],
+    //   ([t, v]) => {
+    //     !t && console.log(v)
+    //   }
+    // )
   }
 }
 
@@ -102,11 +108,13 @@ export function useRequestsPage() {
         { key: 'all_requests_sum', name: 'Сумма (на рассмотрении)' },
         { key: 'accept_requests', name: 'В обработке' },
       ],
-      ['panel_name', 'country']
+      ['panel_name', 'country'],
+      useSearch(),
+      usePagination()
     )
   ).current
 
-  useFetch(store)
+  // useFetch(store)
   return store
 }
 
@@ -120,7 +128,6 @@ function useFetch(store: Requests) {
     .auth(user.token, { type: 'bearer' })
     .query({ $top: store.top })
     .query({ $skip: store.skip })
-    .query({ $filter: store.quickFilter })
 
   useEffect(() => {
     if (!store.loading) return

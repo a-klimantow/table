@@ -1,26 +1,52 @@
+import { memo, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import {
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  IconButtonProps,
+} from '@material-ui/core'
 
-import { OutlinedInput } from '@material-ui/core'
-
-import { Provider, SearchIcon, Button } from './atoms'
-import { useSearch } from './useSearch'
+import { Icon } from 'components'
+import { SearchStore } from './useSearch'
 
 export interface SearchProps {
-  value: string
-  update?(s: string): void
+  search: SearchStore
 }
 
-export const Search = observer<{ search: SearchProps }>(({ search }) => {
-  const state = useSearch(search)
+export const Search = observer<SearchProps>(({ search }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      search.updateCurrent()
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [search, search.input])
 
   return (
-    <Provider>
-      <OutlinedInput
-        startAdornment={<SearchIcon />}
-        endAdornment={<Button show={state.showClear} clear={state.clear} />}
-        value={state.value}
-        onChange={state.change}
-      />
-    </Provider>
+    <OutlinedInput
+      {...search.input}
+      size="small"
+      sx={{
+        minWidth: 300,
+        bgcolor: 'background.paper',
+        fontSize: 14,
+      }}
+      startAdornment={<SearchIcon />}
+      endAdornment={search.showButton && <ClearBtn {...search.button} />}
+    />
   )
 })
+
+const SearchIcon = memo(() => (
+  <InputAdornment position="start">
+    <Icon type="search" fontSize="small" />
+  </InputAdornment>
+))
+
+const ClearBtn = memo<IconButtonProps>((props) => (
+  <InputAdornment position="end" sx={{ mr: -1 }}>
+    <IconButton {...props}>
+      <Icon type="search_clear" fontSize="small" />
+    </IconButton>
+  </InputAdornment>
+))

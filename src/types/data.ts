@@ -13,7 +13,9 @@ export interface IAccrualItem {
   author_id: number
   count_rows: number
   created: Date
+  file: {
+    file_name: string
+  }
   file_id: number
-  file_name: string
   id: number
 }

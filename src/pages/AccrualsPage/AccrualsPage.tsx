@@ -1,30 +1,32 @@
-import { Stack } from '@material-ui/core'
+import { useRef } from 'react'
+import { observer } from 'mobx-react-lite'
 
-import { Toolbar, Table, Pagination } from 'components'
-import { observer, Observer } from 'mobx-react-lite'
-import { Page } from './atoms'
-import { useAccrualsPage } from './useAccrualsPage'
+import {
+  PageLayout,
+  Toolbar,
+  ColMenu,
+  Search,
+  Pagination,
+  Grid,
+  GridBottom,
+} from 'components'
+import { PageStore } from './store'
+import { useFetch } from './useFetch'
 
 export const AccrualsPage = observer(() => {
-  const page = useAccrualsPage()
+  const page = useRef(new PageStore()).current
+  useFetch(page)
   return (
-    <Page template="auto 1fr auto">
-      {/* <Toolbar.Wrapper>
-        <Toolbar.ColMenu columns={page.columns} />
-        <Toolbar.Search search={page.search} />
-      </Toolbar.Wrapper> */}
-      <Observer>
-        {() => (
-          <Table
-            columns={page.columns}
-            data={page.data}
-            loading={page.loading}
-          />
-        )}
-      </Observer>
-      <Stack px={1} borderTop={1} borderColor="divider">
-        {/* <Pagination pagination={page.pagi} /> */}
-      </Stack>
-    </Page>
+    <PageLayout>
+      <Toolbar>
+        <ColMenu columns={page.columns} />
+        <Search search={page.search} />
+      </Toolbar>
+      <Grid grid={page.grid} />
+      <GridBottom>
+        <div />
+        <Pagination pagination={page.pagination} />
+      </GridBottom>
+    </PageLayout>
   )
 })

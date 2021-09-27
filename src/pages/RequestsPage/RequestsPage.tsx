@@ -1,6 +1,5 @@
-import { useRef, FC } from 'react'
+import { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Stack, StackProps } from '@material-ui/core'
 
 import {
   PageLayout,
@@ -9,6 +8,7 @@ import {
   Search,
   Pagination,
   Grid,
+  GridBottom,
 } from 'components'
 import { PageStore } from './store'
 import { useFetch } from './useFetch'
@@ -23,23 +23,10 @@ export const RequestsPage = observer(() => {
         <Search search={page.search} />
       </Toolbar>
       <Grid grid={page.grid} />
-      <Bottom>
+      <GridBottom>
         <div />
         <Pagination pagination={page.pagination} />
-      </Bottom>
+      </GridBottom>
     </PageLayout>
   )
 })
-
-const Bottom: FC<StackProps> = (props) => (
-  <Stack
-    display="grid"
-    gridTemplateColumns="1fr auto"
-    alignItems="center"
-    gap={1}
-    pl={1}
-    borderTop={1}
-    borderColor="divider"
-    {...props}
-  />
-)

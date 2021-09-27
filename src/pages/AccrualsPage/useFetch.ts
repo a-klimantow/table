@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import superagent from 'superagent'
 
 import { useAppStore, useUrl } from 'hooks'
-import { PageStore } from './store'
 import { IAccrualItem } from 'types'
+import { dateFormate } from 'utils'
+import { PageStore } from './store'
 
 export function useFetch(store: PageStore) {
   const url = useUrl('withdrawal-arbitrary')
@@ -33,11 +34,8 @@ export function useFetch(store: PageStore) {
 function createRow(item: IAccrualItem) {
   return {
     ...item,
-    file_name: item.file.file_name,
-    created: new Intl.DateTimeFormat('ru-Ru', {
-      dateStyle: 'short',
-      timeStyle: 'short',
-    }).format(new Date(item.created)),
+    file: item.file.file_name,
+    created: dateFormate(item.created),
     amount: Number(item.amount).toLocaleString(),
   }
 }

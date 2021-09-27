@@ -69,7 +69,7 @@ export const GridTheme: FC = ({ children }) => {
               },
             },
           }),
-        []
+        [theme]
       )}
     >
       {children}

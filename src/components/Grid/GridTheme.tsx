@@ -48,7 +48,6 @@ export const GridTheme: FC = ({ children }) => {
               MuiTableCell: {
                 styleOverrides: {
                   root: {
-                    fontWeight: 400,
                     backgroundColor: 'inherit',
 
                     '&[data-hidden]': {
@@ -60,6 +59,7 @@ export const GridTheme: FC = ({ children }) => {
                     },
                   },
                   head: {
+                    fontWeight: 300,
                     padding: theme.spacing(1.4, 2),
                   },
                   body: {

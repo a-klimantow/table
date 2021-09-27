@@ -4,7 +4,7 @@ import { ICol, IAccrualItem } from 'types'
 import { SearchStore, PaginationStore, GridStore } from 'components'
 
 const template = [
-  ['Файл', 'file_name'],
+  ['Файл', 'file'],
   ['ID пользователя', 'author_id'],
   ['Дата и время загрузки', 'created'],
   ['Сумма', 'amount'],

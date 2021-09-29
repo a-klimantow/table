@@ -2,7 +2,7 @@ import { makeAutoObservable, observable } from 'mobx'
 
 export class ExportStore {
   // drawer
-  isOpen = true
+  isOpen = false
 
   open = () => (this.isOpen = true)
   close = () => {

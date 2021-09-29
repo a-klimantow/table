@@ -1,7 +1,12 @@
 import { observable } from 'mobx'
 
 import { ICol, IRequestItem } from 'types'
-import { SearchStore, PaginationStore, GridStore } from 'components'
+import {
+  SearchStore,
+  PaginationStore,
+  GridStore,
+  ExportStore,
+} from 'components'
 
 const template = [
   ['Назавние панели', 'panel_name'],
@@ -22,4 +27,5 @@ export class PageStore {
   search = new SearchStore()
   pagination = new PaginationStore()
   grid = new GridStore(this.columns, ['Назавние панели'])
+  exp = new ExportStore()
 }

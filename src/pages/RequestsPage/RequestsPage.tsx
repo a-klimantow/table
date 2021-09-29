@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Stack } from '@material-ui/core'
 
 import {
   PageLayout,
@@ -9,6 +10,7 @@ import {
   Pagination,
   Grid,
   GridBottom,
+  ExportRrewards,
 } from 'components'
 import { PageStore } from './store'
 import { useFetch } from './useFetch'
@@ -24,7 +26,9 @@ export const RequestsPage = observer(() => {
       </Toolbar>
       <Grid grid={page.grid} />
       <GridBottom>
-        <div />
+        <Stack direction="row">
+          <ExportRrewards exp={page.exp} />
+        </Stack>
         <Pagination pagination={page.pagination} />
       </GridBottom>
     </PageLayout>

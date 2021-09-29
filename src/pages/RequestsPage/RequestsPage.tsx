@@ -11,6 +11,7 @@ import {
   Grid,
   GridBottom,
   ExportRrewards,
+  ImportRewards,
 } from 'components'
 import { PageStore } from './store'
 import { useFetch } from './useFetch'
@@ -26,8 +27,9 @@ export const RequestsPage = observer(() => {
       </Toolbar>
       <Grid grid={page.grid} />
       <GridBottom>
-        <Stack direction="row">
-          <ExportRrewards exp={page.exp} />
+        <Stack direction="row" gap={1}>
+          <ExportRrewards exp={page.exp} /> 
+          <ImportRewards />
         </Stack>
         <Pagination pagination={page.pagination} />
       </GridBottom>

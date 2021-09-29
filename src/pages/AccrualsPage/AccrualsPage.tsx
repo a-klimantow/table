@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Stack } from '@material-ui/core'
 
 import {
   PageLayout,
@@ -9,6 +10,7 @@ import {
   Pagination,
   Grid,
   GridBottom,
+  ImportRewards,
 } from 'components'
 import { PageStore } from './store'
 import { useFetch } from './useFetch'
@@ -24,7 +26,9 @@ export const AccrualsPage = observer(() => {
       </Toolbar>
       <Grid grid={page.grid} />
       <GridBottom>
-        <div />
+        <Stack direction="row">
+          <ImportRewards />
+        </Stack>
         <Pagination pagination={page.pagination} />
       </GridBottom>
     </PageLayout>

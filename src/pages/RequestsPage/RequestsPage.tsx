@@ -22,13 +22,13 @@ export const RequestsPage = observer(() => {
   return (
     <PageLayout>
       <Toolbar>
-        <ColMenu columns={page.columns} />
+        <ColMenu colMenu={page.colMenu} />
         <Search search={page.search} />
       </Toolbar>
       <Grid grid={page.grid} />
       <GridBottom>
         <Stack direction="row" gap={1}>
-          <ExportRrewards exp={page.exp} /> 
+          <ExportRrewards exp={page.exp} />
           <ImportRewards />
         </Stack>
         <Pagination pagination={page.pagination} />

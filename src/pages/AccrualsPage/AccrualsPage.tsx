@@ -21,7 +21,7 @@ export const AccrualsPage = observer(() => {
   return (
     <PageLayout>
       <Toolbar>
-        <ColMenu columns={page.columns} />
+        <ColMenu colMenu={page.colMenu} />
         <Search search={page.search} />
       </Toolbar>
       <Grid grid={page.grid} />

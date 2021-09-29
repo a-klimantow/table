@@ -1,7 +1,12 @@
 import { observable } from 'mobx'
 
 import { ICol, IAccrualItem } from 'types'
-import { SearchStore, PaginationStore, GridStore } from 'components'
+import {
+  SearchStore,
+  PaginationStore,
+  GridStore,
+  ColMenuStore,
+} from 'components'
 
 const template = [
   ['Файл', 'file'],
@@ -10,14 +15,17 @@ const template = [
   ['Сумма', 'amount'],
 ] as [string, keyof IAccrualItem][]
 
-const columns: ICol[] = observable.array(
+const cols: ICol[] = observable.array(
   template.map(([name, key]) => ({ name, key })),
   { proxy: false }
 )
 
 export class PageStore {
-  columns = columns
-  search = new SearchStore()
-  pagination = new PaginationStore()
-  grid = new GridStore(this.columns, ['Файл', 'ID пользователя'])
+  constructor(
+    public columns = cols,
+    public colMenu = new ColMenuStore(cols),
+    public search = new SearchStore(),
+    public pagination = new PaginationStore(),
+    public grid = new GridStore(columns, ['Файл', 'ID пользователя'])
+  ) {}
 }

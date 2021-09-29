@@ -1,1 +1,0 @@
-export { MenuUser } from './MenuUser'

@@ -2,6 +2,7 @@ import { observable } from 'mobx'
 
 import { ICol, IRequestItem } from 'types'
 import {
+  ColMenuStore,
   SearchStore,
   PaginationStore,
   GridStore,
@@ -17,15 +18,18 @@ const template = [
   ['В обработке', 'accept_requests'],
 ] as [string, keyof IRequestItem][]
 
-const columns: ICol[] = observable.array(
+const cols: ICol[] = observable.array(
   template.map(([name, key]) => ({ name, key })),
   { proxy: false }
 )
 
 export class PageStore {
-  columns = columns
-  search = new SearchStore()
-  pagination = new PaginationStore()
-  grid = new GridStore(this.columns, ['Назавние панели'])
-  exp = new ExportStore()
+  constructor(
+    public columns = cols,
+    public colMenu = new ColMenuStore(cols),
+    public search = new SearchStore(),
+    public pagination = new PaginationStore(),
+    public grid = new GridStore(cols, []),
+    public exp = new ExportStore()
+  ) {}
 }

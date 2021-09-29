@@ -3,4 +3,4 @@ export { useSnackbar } from 'snackbar/useSnackbar'
 
 export { useUrl } from './useUrl'
 export { useMenu } from './useMenu'
-export { useGetLists } from './useGetLists'
+export { useGetList } from './useGetList'

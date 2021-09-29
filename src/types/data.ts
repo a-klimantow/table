@@ -19,3 +19,9 @@ export interface IAccrualItem {
   file_id: number
   id: number
 }
+
+export interface IListItem {
+  common_name: string
+  id: number
+  name: string
+}

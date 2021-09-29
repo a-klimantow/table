@@ -7,6 +7,7 @@ export const Toolbar = memo<StackProps>((props) => (
     direction="row"
     alignItems="center"
     bgcolor="grey.300"
+    gap={1}
     p={1}
   />
 ))

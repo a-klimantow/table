@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import superagent from 'superagent'
 
-import { useAppStore, useUrl } from 'hooks'
+import { useUser, useUrl } from 'hooks'
 import { PageStore } from './store'
 import { IRequestItem } from 'types'
 
 export function useFetch(store: PageStore) {
   const url = useUrl('withdrawal')
-  const { user } = useAppStore()
+  const user = useUser()
 
   const req = superagent
     .get(url)

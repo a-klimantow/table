@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import sup, { ResponseError } from 'superagent'
 import { runInAction } from 'mobx'
 
-import { useAppStore, useUrl, useSnackbar } from 'hooks'
+import { useUser, useUrl, useSnackbar } from 'hooks'
 import { StateType } from './useState'
 
 export function useImport(state: StateType) {
-  const { user } = useAppStore()
+  const user = useUser()
   const msg = useSnackbar()
   const url = useUrl(
     state.pay === 'WebMoney'

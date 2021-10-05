@@ -1,34 +1,40 @@
 import { useEffect } from 'react'
-import superagent from 'superagent'
+import superagent, { ResponseError } from 'superagent'
 
-import { useAppStore, useUrl } from 'hooks'
+import { useUser, useUrl } from 'hooks'
 import { IAccrualItem } from 'types'
 import { dateFormate } from 'utils'
 import { PageStore } from './store'
+import { useHistory } from 'react-router'
 
 export function useFetch(store: PageStore) {
   const url = useUrl('withdrawal-arbitrary')
-  const { user } = useAppStore()
+  const user = useUser()
+  const history = useHistory()
 
   const req = superagent
     .get(url)
     .auth(user.token, { type: 'bearer' })
     .query(store.pagination.query)
+    .on('error', (err: ResponseError) => {
+      err.response?.unauthorized && history.push('#refresh')
+    })
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await req.then()
-        const { metadata, items } = response.body
-        const { total_count } = metadata.pagination
-        store.pagination.setCount(total_count)
-        store.grid.setRows(items.map(createRow))
-      } catch (error) {
-        console.log(error)
-      }
-    })()
+    if (!history.location.hash)
+      (async () => {
+        try {
+          const response = await req.then()
+          const { metadata, items } = response.body
+          const { total_count } = metadata.pagination
+          store.pagination.setCount(total_count)
+          store.grid.setRows(items.map(createRow))
+        } catch (error) {
+          console.log(error)
+        }
+      })()
     return () => req.abort()
-  }, [req, store])
+  }, [req, store, history])
 }
 
 function createRow(item: IAccrualItem) {

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import store from 'store'
 import sup from 'superagent'
 
-import { useAppStore, useUrl } from 'hooks'
+import { useUser, useUrl } from 'hooks'
 import { IListItem } from 'types'
 
 type UrlType = Parameters<typeof useUrl>[number]
@@ -11,7 +11,7 @@ type UrlType = Parameters<typeof useUrl>[number]
 export const useGetList = (type: UrlType) => {
   const [list, setList] = useState<IListItem[] | null>(store.get(type))
   const url = useUrl(type)
-  const { user } = useAppStore()
+  const user = useUser()
 
   const request = sup.get(url).auth(user.token, { type: 'bearer' })
 

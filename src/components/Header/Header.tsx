@@ -1,14 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import { Stack } from '@material-ui/core'
 
-import { useAppStore } from 'hooks'
+import { useUser } from 'hooks'
 import { MenuApp } from 'components'
 
-export const Header = observer(() => {
-  const { user } = useAppStore()
-  if (!user.isAuthorized) return null
-
-  return (
+export const Header = observer(() =>
+  !useUser().isAuthorized ? null : (
     <Stack
       gridArea="HEAD"
       direction="row"
@@ -23,4 +20,4 @@ export const Header = observer(() => {
       <MenuApp type="user" />
     </Stack>
   )
-})
+)

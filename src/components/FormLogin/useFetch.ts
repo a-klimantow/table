@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
 import s from 'superagent'
 
-import { useAppStore, useUrl } from 'hooks'
+import { useUser, useUrl } from 'hooks'
 import { FromType } from './useFormLogin'
-import { UserType } from 'stores'
 
 export function useFetch(form: FromType) {
-  const { user } = useAppStore()
+  const user = useUser()
   const url = useUrl('login')
   const login = s
     .post(url)
@@ -17,7 +16,7 @@ export function useFetch(form: FromType) {
     if (!form.loading) return
     login
       .then(({ body }) => {
-        const data = body.data as UserType
+        const data = body.data
         user.setUser(data)
       })
       .catch((err) => {

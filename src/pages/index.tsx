@@ -6,7 +6,7 @@ import { AccrualsPage } from './AccrualsPage'
 
 export type PageType = keyof typeof pages
 
-export const pages = {
+const pages = {
   login: LoginPage,
   logout: LogoutPage,
   requests: RequestsPage,
@@ -14,3 +14,6 @@ export const pages = {
   settings: SettingsPage,
   reports: () => <div>reports</div>,
 }
+
+export const getPage = (page: PageType) => pages[page]
+export const getPages = (...page: PageType[]) => page.map((p) => pages[p])

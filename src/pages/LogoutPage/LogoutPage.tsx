@@ -1,9 +1,9 @@
-import { useAppStore } from 'hooks'
+import { useUser } from 'hooks'
 import { FC, useEffect } from 'react'
 
 export const LogoutPage: FC = () => {
-  const { user } = useAppStore()
-  useEffect(() => user.clearUser(), [user])
+  const user = useUser()
+  useEffect(() => user.setUser(null), [user])
 
   return <div>logout</div>
 }

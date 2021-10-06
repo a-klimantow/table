@@ -1,18 +1,19 @@
 import { observer } from 'mobx-react-lite'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { getPage } from 'pages'
 
-import { useRoutes } from 'hooks'
+const Login = getPage('login')
+
 import { Layout, Header, ModuleMenu } from 'components'
 
 export const App = observer(() => {
-  const routes = useRoutes()
-
   return (
     <Layout>
       <Header />
       <ModuleMenu />
+      <Login />
       <Switch>
-        {routes.allModules.map((route) => {
+        {/* {routes.allModules.map((route) => {
           if (!route) return null
           const { path, pages } = route
           const [firstPage] = pages
@@ -34,7 +35,7 @@ export const App = observer(() => {
           )
         })}
 
-        <Redirect to={routes.defPath} />
+        <Redirect to={routes.defPath} /> */}
       </Switch>
     </Layout>
   )

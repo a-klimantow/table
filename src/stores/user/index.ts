@@ -1,39 +1,34 @@
-import { makeAutoObservable, reaction } from 'mobx'
+import { action, autorun, makeAutoObservable, reaction } from 'mobx'
 import storage from 'store'
 
 import { IUser } from 'types'
 
 const USER = 'user'
 
-export class User {
-  private state: IUser | null
+export class User implements IUser {
+  id = 0
+  email = ''
+  name = ''
+  refresh_token = ''
+  roles = ['Unknown'] as IUser['roles']
+  token = ''
 
   constructor() {
-    this.state = storage.get(USER, null)
-    makeAutoObservable(this, {}, { proxy: false })
-
-    reaction(
-      () => this.state,
-      (state) => store.set(USER, state)
-    )
+    makeAutoObservable(this, { save: false })
+    this.setUser(storage.get('user'))
   }
+
   setUser(user: IUser | null) {
-    this.state = user
+    if (!user) return
+    this.id = user.id
+    this.email = user.email
+    this.name = user.name
+    this.refresh_token = user.refresh_token
+    this.token = user.token
+    this.roles = user.roles
   }
 
-  get roles() {
-    return this.state?.roles ?? ['Unknown']
-  }
-
-  get token() {
-    return this.state?.token ?? ''
-  }
-
-  get name() {
-    return this.state?.name ?? ''
-  }
-
-  get isAuthorized() {
-    return !this.roles.includes('Unknown')
+  save() {
+    storage.set('user', this)
   }
 }

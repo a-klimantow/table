@@ -4,19 +4,19 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { SnackbarProvider } from 'snackbar'
 import { GlobalTheme } from 'theme'
-import { AppContextProvider } from 'stores'
+import { AppStoreProvider } from 'stores'
 import { App } from 'app'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AppContextProvider>
+      <AppStoreProvider>
         <GlobalTheme>
           <SnackbarProvider>
             <App />
           </SnackbarProvider>
         </GlobalTheme>
-      </AppContextProvider>
+      </AppStoreProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,8 +1,7 @@
-import { useAppStore } from 'stores'
+import { useAppStore } from 'stores/app'
 export { useSnackbar } from 'snackbar/useSnackbar'
 
 export const useUser = () => useAppStore().user
-export const useRoutes = () => useAppStore().routes
 
 export { useUrl } from './useUrl'
 export { useMenu } from './useMenu'

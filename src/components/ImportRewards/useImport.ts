@@ -16,7 +16,7 @@ export function useImport(state: StateType) {
 
   const createFile = sup
     .post('/api/v1/admin/1029695/content')
-    .auth(user.token, { type: 'bearer' })
+    // .auth(user.token, { type: 'bearer' })
     .send(state.data ?? {})
     .on('error', (res: ResponseError) => {
       if (res?.status === 400) msg(res.response?.body.errors.message, 'error')
@@ -24,7 +24,7 @@ export function useImport(state: StateType) {
 
   const importFile = sup
     .post(url)
-    .auth(user.token, { type: 'bearer' })
+    // .auth(user.token, { type: 'bearer' })
     .on('response', console.log)
     .on('error', console.log)
 

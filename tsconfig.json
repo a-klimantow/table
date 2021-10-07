@@ -18,5 +18,5 @@
     "baseUrl": "src",
     "downlevelIteration": true
   },
-  "include": ["src"]
+  "include": ["src", "src/accets"]
 }

@@ -140,7 +140,8 @@ export const useImportStore = () => {
   const user = useUser()
   const store = useRef(
     new ImportStore(
-      user.token,
+      // user.token,
+      '',
       useUrl('withdrawal/importwebmoney'),
       useUrl('withdrawal/importyookassa')
     )

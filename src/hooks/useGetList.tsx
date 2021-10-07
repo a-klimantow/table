@@ -13,7 +13,8 @@ export const useGetList = (type: UrlType) => {
   const url = useUrl(type)
   const user = useUser()
 
-  const request = sup.get(url).auth(user.token, { type: 'bearer' })
+  const request = sup.get(url)
+  // .auth(user.token, { type: 'bearer' })
 
   useEffect(() => {
     if (list) return

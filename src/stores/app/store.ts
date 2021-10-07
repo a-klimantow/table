@@ -1,14 +1,17 @@
-import { reaction } from 'mobx'
-import { User } from '../user'
+import { observable } from 'mobx'
 
-const user = new User()
+import { IUser } from 'types'
 
-export const store = { user }
+const user = observable({ id: 0, email: '', name: '' })
+const token = observable({ access: '', refresh: '' })
+const roles = observable.array(['Unknown'] as IUser['roles'])
 
-reaction(
-  () => user.roles,
-  (roles) => {
-    console.log(roles)
-    user.save()
-  }
-)
+
+
+
+
+export const store = {
+  user,
+  token,
+  roles,
+}

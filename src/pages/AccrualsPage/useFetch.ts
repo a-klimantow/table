@@ -14,7 +14,7 @@ export function useFetch(store: PageStore) {
 
   const req = superagent
     .get(url)
-    .auth(user.token, { type: 'bearer' })
+    // .auth(user.token, { type: 'bearer' })
     .query(store.pagination.query)
     .on('error', (err: ResponseError) => {
       err.response?.unauthorized && history.push('#refresh')

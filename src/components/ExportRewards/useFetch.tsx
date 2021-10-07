@@ -13,7 +13,7 @@ export function useFetch(store: ExportStore) {
 
   const request = sup
     .post(url)
-    .auth(user.token, { type: 'bearer' })
+    // .auth(user.token, { type: 'bearer' })
     .query(store.query)
 
   store.isWebMoney && request.send(store.postData)

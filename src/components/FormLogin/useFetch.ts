@@ -17,7 +17,7 @@ export function useFetch(form: FromType) {
     login
       .then(({ body }) => {
         const data = body.data
-        user.setUser(data)
+        // user.setUser(data)
       })
       .catch((err) => {
         form.fail(err.response.body)

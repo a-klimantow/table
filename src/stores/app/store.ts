@@ -1,8 +1,8 @@
 import { makeAutoObservable, reaction } from 'mobx'
 import storage from 'store'
 
-import { IUser, PageType, ModuleType } from 'types'
-import { getPerms, getRoutes, names } from 'assets'
+import { IUser } from 'types'
+import * as utils from 'utils'
 
 type R = IUser['roles']
 type U = typeof initialUser
@@ -37,19 +37,19 @@ export class AppStore {
     this.token = token
   }
 
-  // все разрешенные модули для роли
+  // все разрешенные модули для ролей
   get modules() {
-    return getPerms('modules', this.user.roles) as ModuleType[]
+    return utils.getPermsModules(this.user.roles)
   }
 
-  // все разрешенные страницы для роли
+  // все разрешенные страницы для ролей
   get pages() {
-    return getPerms('pages', this.user.roles) as PageType[]
+    return utils.getPermsPages(this.user.roles)
   }
 
-  // структура приложения отфильтрованная по modules и pages
+  // структура приложения отфильтрованная по pages
   private get structure() {
-    return getRoutes(this.modules, this.pages)
+    return utils.getStructure(this.pages)
   }
 
   // корректные роуты для роли
@@ -69,16 +69,16 @@ export class AppStore {
 
   // меню в хедере
   get moduleMenu() {
-    return this.structure.map(([module, pages]) => ({
-      path: `/${module}/`,
-      name: names.get(module),
-      disabled: !pages.length,
-    }))
+    return utils.getModuleMenuHeader(this.structure)
   }
 
   // меню в хедере
   get userMenu() {
-    const items = ['settings', 'logout'] as PageType[]
-    return items.map((page) => ({ name: names.get(page), hash: page }))
+    return utils.getUserMenuHeader('settings', 'logout')
+  }
+
+  // меню выплат
+  get pageMenus() {
+    return []
   }
 }

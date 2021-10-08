@@ -1,6 +1,5 @@
-export function dateFormate(date: Date) {
-  return new Intl.DateTimeFormat('ru-Ru', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(new Date(date))
-}
+export * from './dateFormate'
+export * from './getPermissions'
+export * from './getStructure'
+export * from './createMenuItem'
+export * from './menus'

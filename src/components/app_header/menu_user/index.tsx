@@ -28,8 +28,8 @@ const Item = observer<{ item: ItemProps }>(({ item }) => {
   const { replace } = useHistory()
   return (
     <Mui.MenuItem
-      selected={hash.endsWith(item.hash)}
-      onClick={() => replace({ hash: item.hash })}
+      selected={hash === item.path}
+      onClick={() => replace({ hash: item.path })}
     >
       {item.name}
     </Mui.MenuItem>

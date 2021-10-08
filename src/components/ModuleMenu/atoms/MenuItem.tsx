@@ -2,7 +2,8 @@ import { observer } from 'mobx-react-lite'
 import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
 import { ListItem, Typography, Collapse } from '@material-ui/core'
 
-import { Icon, IconType } from 'components'
+import { Icon } from 'components'
+import { IconType } from 'types'
 
 import { useMenu } from '../store'
 

@@ -16,7 +16,7 @@ const Button = memo<{ state: StateType }>(({ state }) => (
 const Menu = observer<{ state: StateType }>(({ state }) => (
   <Mui.Menu {...state.menu}>
     {state.items.map((item) => (
-      <Item key={item.name} item={item} />
+      <Item key={item.path} item={item} />
     ))}
   </Mui.Menu>
 ))

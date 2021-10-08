@@ -1,9 +1,13 @@
+import * as React from 'react'
 import { useLocalObservable } from 'mobx-react-lite'
 import { ButtonProps, MenuProps } from '@material-ui/core'
+//
 import { useAppStore } from 'hooks'
+import { getUserMenuHeader } from 'utils'
 
 export const useMenuUser = () => {
   const app = useAppStore()
+  const items = React.useMemo(() => getUserMenuHeader('settings', 'logout'), [])
 
   return useLocalObservable(() => ({
     anchor: null as null | Element,
@@ -12,7 +16,7 @@ export const useMenuUser = () => {
       this.anchor = el
     },
 
-    items: app.userMenu,
+    items,
 
     get button(): ButtonProps {
       return {

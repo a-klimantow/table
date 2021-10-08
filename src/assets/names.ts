@@ -1,19 +1,34 @@
-import { PageType, ModuleType } from '../types'
+import { PageType as P, ModuleType as M, IconType as Ic } from '../types'
 
-type K = PageType | ModuleType
+type K = P | M | `${M}_submenu`
 
-export const names = new Map<K, string>()
+const names = new Map<K, string>([
+  ['accruals', 'Начисления'],
+  ['administration', 'Администрирование'],
+  ['login', 'Вход'],
+  ['logout', 'Выход'],
+  ['reports', 'Отчеты'],
+  ['requests', 'Заявки'],
+  ['rewards', 'Вознаграждения'],
+  ['rewards_submenu', 'Выплаты'],
+  ['panels', 'Панели'],
+  ['projects', 'Проекты'],
+  ['settings', 'Настройки'],
+] as const)
 
-// pages
-names.set('accruals', '')
-names.set('login', 'Вход')
-names.set('logout', 'Выход')
-names.set('reports', '')
-names.set('requests', '')
-names.set('settings', 'Настройки')
+export const name = (key: K) => {
+  if (!names.has(key)) console.error(key, 'не найдено')
+  return names.get(key) ?? ''
+}
 
-// modules
-names.set('administration', 'Администрирование')
-names.set('panels', 'Панели')
-names.set('projects', 'Проекты')
-names.set('rewards', 'Вознаграждения')
+// ----------------------- icons
+
+const menuIcons = new Map<K, Ic>([
+  ['accruals', 'plus'],
+  ['rewards', 'minus'],
+])
+
+export const icon = (key: K) => {
+  if (!menuIcons.has(key)) console.error(key, 'не найдено')
+  return menuIcons.get(key) ?? null
+}

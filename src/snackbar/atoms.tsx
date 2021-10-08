@@ -1,7 +1,8 @@
 import { FC, ReactNode } from 'react'
 import { IconVariant } from 'notistack'
 
-import { Icon, IconType } from 'components'
+import { IconType } from 'types'
+import { Icon } from 'components'
 
 import { Box } from '@material-ui/system'
 

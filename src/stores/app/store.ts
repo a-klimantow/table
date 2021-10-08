@@ -2,7 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx'
 import storage from 'store'
 
 import { IUser, PageType, ModuleType } from 'types'
-import { getPerms, getRoutes } from 'assets'
+import { getPerms, getRoutes, names } from 'assets'
 
 type R = IUser['roles']
 type U = typeof initialUser
@@ -64,5 +64,18 @@ export class AppStore {
       return `/${module}/`
     }
     return '/login/'
+  }
+
+  get mainMenu() {
+    return this.structure.map(([module, pages]) => ({
+      path: `/${module}/`,
+      name: names.get(module),
+      disabled: !pages.length,
+    }))
+  }
+
+  get userMenu() {
+    const items = ['settings', 'logout'] as PageType[]
+    return items.map((page) => ({ name: names.get(page), hash: page }))
   }
 }

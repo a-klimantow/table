@@ -1,16 +1,23 @@
 import { getPage } from 'pages'
-import { Layout, Header, ModuleMenu } from 'components'
+
+import { AppLayout } from 'components/app_layout'
+import { AppHeader } from 'components/app_header'
 import { AppModules } from 'components/app_modules'
 
 const Login = getPage('login')
 
 export const App = () => {
   return (
-    <Layout>
-      <Header />
+    <AppLayout>
+      <AppHeader />
+      <div data-app-menu>menu</div>
+      <div data-app-page>page</div>
+
+      {/* <Header />
       <ModuleMenu />
       <Login />
       <AppModules />
-    </Layout>
+      */}
+    </AppLayout>
   )
 }

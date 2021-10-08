@@ -1,7 +1,9 @@
 import { useAppStore } from 'stores/app'
-export { useSnackbar } from 'snackbar/useSnackbar'
 
+export { useAppStore }
 export const useUser = () => useAppStore().user
+
+export { useSnackbar } from 'snackbar/useSnackbar'
 
 export { useUrl } from './useUrl'
 export { useMenu } from './useMenu'

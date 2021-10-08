@@ -1,7 +1,8 @@
-import { action, autorun, observable } from 'mobx'
+import { makeAutoObservable, reaction } from 'mobx'
 import storage from 'store'
 
-import { IUser } from 'types'
+import { IUser, PageType, ModuleType } from 'types'
+import { getPerms, getRoutes } from 'assets'
 
 type R = IUser['roles']
 type U = typeof initialUser
@@ -10,41 +11,58 @@ type T = typeof initialToken
 const initialUser = { name: '', id: 0, email: '', roles: [] as R }
 const initialToken = { access: '', refresh: '' }
 
-export const user = observable(storage.get('user', initialUser), {
-  roles: observable.shallow,
-}) as U
-export const token = observable(storage.get('token', initialToken)) as T
+export class AppStore {
+  user = storage.get('user', initialUser) as U
+  token = storage.get('token', initialToken) as T
 
-function updateUser(data: IUser) {
-  user.id = data.id
-  user.email = data.email
-  user.name = data.name
-  user.roles = data.roles
-}
+  constructor() {
+    makeAutoObservable(this)
 
-function updateToken(data: IUser) {
-  token.access = data.token
-  token.refresh = data.refresh_token
-}
+    reaction(
+      () => this.user,
+      (user) => storage.set('user', user)
+    )
 
-autorun(() =>
-  storage.set('user', {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    roles: user.roles,
-  } as U)
-)
-autorun(() =>
-  storage.set('token', {
-    access: token.access,
-    refresh: token.refresh,
-  } as T)
-)
+    reaction(
+      () => this.token,
+      (token) => storage.set('token', token)
+    )
+  }
 
-export const store = {
-  user,
-  token,
-  updateUser: action(updateUser),
-  updateToken: action(updateToken),
+  updateUser(user: U) {
+    this.user = user
+  }
+
+  updateToken(token: T) {
+    this.token = token
+  }
+
+  // все разрешенные модули для роли
+  get modules() {
+    return getPerms('modules', this.user.roles) as ModuleType[]
+  }
+
+  // все разрешенные страницы для роли
+  get pages() {
+    return getPerms('pages', this.user.roles) as PageType[]
+  }
+
+  // структура приложения отфильтрованная по modules и pages
+  private get structure() {
+    return getRoutes(this.modules, this.pages)
+  }
+
+  // корректные роуты для роли
+  get routes() {
+    // фильт по наличию страниц
+    return this.structure.filter((r) => Boolean(r[1].length))
+  }
+
+  get redirect() {
+    if (this.routes[0]) {
+      const [module] = this.routes[0]
+      return `/${module}/`
+    }
+    return '/login/'
+  }
 }

@@ -1,17 +1,16 @@
 import { getPage } from 'pages'
-import { useAppStore } from 'stores/app/context'
 import { Layout, Header, ModuleMenu } from 'components'
+import { AppModules } from 'components/app_modules'
 
 const Login = getPage('login')
 
 export const App = () => {
-  const app = useAppStore()
-
   return (
     <Layout>
       <Header />
       <ModuleMenu />
       <Login />
+      <AppModules />
     </Layout>
   )
 }

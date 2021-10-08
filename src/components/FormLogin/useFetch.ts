@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
-import s from 'superagent'
+import s, { ResponseError } from 'superagent'
 
 import { useUrl } from 'hooks'
 import { FromType } from './useFormLogin'
 import { useAppStore } from 'stores'
+import { IUser } from 'types'
 
 export function useFetch(form: FromType) {
   const url = useUrl('login')
@@ -16,14 +17,17 @@ export function useFetch(form: FromType) {
 
   useEffect(() => {
     if (!form.loading) return
-    login
-      .then(({ body }) => {
-        app.updateUser(body.data)
-        app.updateToken(body.data)
-      })
-      .catch((err) => {
-        form.fail(err.response.body)
-      })
+    ;(async () => {
+      try {
+        const { body } = await login.then()
+        const { refresh_token, token, ...user } = body.data as IUser
+        app.updateUser(user)
+        app.updateToken({ access: token, refresh: refresh_token })
+      } catch (error) {
+        const { response } = error as ResponseError
+        response?.body && form.fail(response.body)
+      }
+    })()
 
     return () => login.abort()
   }, [form, login, app])

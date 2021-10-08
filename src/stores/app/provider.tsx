@@ -1,18 +1,8 @@
 import { FC } from 'react'
 //
 import { Context } from './context'
-import { store } from './store'
-import { useRoutes } from '../routes'
+import { AppStore } from './store'
 
-export const AppStoreProvider: FC = (props) => {
-  return (
-    <Context.Provider
-      value={{
-        store,
-        routes: useRoutes(),
-      }}
-    >
-      {props.children}
-    </Context.Provider>
-  )
-}
+export const AppStoreProvider: FC = (props) => (
+  <Context.Provider value={new AppStore()}>{props.children}</Context.Provider>
+)

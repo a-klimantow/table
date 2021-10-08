@@ -6,7 +6,6 @@ export type RoleType =
   | 'ProjectManagement'
   | 'TemplateManagement'
   | 'WebsiteManagement'
-  | 'Unknown'
 
 export interface IUser {
   id: number

@@ -12,7 +12,7 @@ const pages = {
   requests: RequestsPage,
   accruals: AccrualsPage,
   settings: SettingsPage,
-  reports: () => <div>reports</div>,
+  reports: () => null,
 }
 
 export const getPage = (page: PageType) => pages[page]

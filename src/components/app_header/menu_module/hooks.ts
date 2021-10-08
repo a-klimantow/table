@@ -2,16 +2,16 @@ import { useLocalObservable } from 'mobx-react-lite'
 import { ButtonProps, MenuProps } from '@material-ui/core'
 import { useAppStore } from 'hooks'
 
-export const useMenuApp = () => {
+export const useMenuModule = () => {
   const app = useAppStore()
 
   return useLocalObservable(() => ({
-    items: app.mainMenu,
-
     anchor: null as null | Element,
     toggle(el: Element | null) {
       this.anchor = el
     },
+
+    items: app.moduleMenu,
 
     get button(): ButtonProps {
       return {

@@ -4,9 +4,9 @@ import { observer } from 'mobx-react-lite'
 import * as Mui from '@material-ui/core'
 
 import { Icon } from 'components'
-import { useMenuApp } from './hooks'
+import { useMenuModule } from './hooks'
 
-type StateType = ReturnType<typeof useMenuApp>
+type StateType = ReturnType<typeof useMenuModule>
 type ItemProps = StateType['items'][number]
 
 const Button = memo<{ state: StateType }>(({ state }) => (
@@ -33,8 +33,8 @@ const Item = observer<{ item: ItemProps }>(({ item }) => {
   )
 })
 
-export const MenuApp = observer(() => {
-  const state = useMenuApp()
+export const MenuModule = observer(() => {
+  const state = useMenuModule()
   return (
     <>
       <Button state={state} />

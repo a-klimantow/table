@@ -68,7 +68,7 @@ export class AppStore {
   }
 
   // меню в хедере
-  get mainMenu() {
+  get moduleMenu() {
     return this.structure.map(([module, pages]) => ({
       path: `/${module}/`,
       name: names.get(module),

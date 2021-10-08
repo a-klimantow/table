@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import { useRouteMatch } from 'react-router'
 
-import { MenuApp } from './menu_app'
+import { MenuModule } from './menu_module'
 import { MenuUser } from './menu_user'
 
 export const AppHeader = React.memo(() => {
@@ -27,7 +27,7 @@ export const AppHeader = React.memo(() => {
         },
       }}
     >
-      <MenuApp />
+      <MenuModule />
       <MenuUser />
     </Mui.Stack>
   )

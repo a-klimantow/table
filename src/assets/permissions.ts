@@ -50,3 +50,6 @@ export const getRoutes = (modules: M[], pages: P[]): RoutesType =>
     acc.push([mod, prommPages])
     return acc
   }, [] as RoutesType)
+
+
+// export const getMainMenu

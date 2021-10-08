@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
-import { observer } from 'mobx-react-lite'
+import { observer, Observer } from 'mobx-react-lite'
 import * as Mui from '@material-ui/core'
 
 import { Icon } from 'components'
@@ -10,7 +10,9 @@ type StateType = ReturnType<typeof useMenuUser>
 type ItemProps = StateType['items'][number]
 
 const Button = memo<{ state: StateType }>(({ state }) => (
-  <Mui.Button {...state.button} endIcon={<Icon type="dropdown" />}></Mui.Button>
+  <Mui.Button {...state.button} endIcon={<Icon type="dropdown" />}>
+    <Observer>{() => <>{state.button.name}</>}</Observer>
+  </Mui.Button>
 ))
 
 const Menu = observer<{ state: StateType }>(({ state }) => (

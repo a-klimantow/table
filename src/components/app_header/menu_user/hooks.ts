@@ -6,17 +6,18 @@ export const useMenuUser = () => {
   const app = useAppStore()
 
   return useLocalObservable(() => ({
-    items: app.userMenu,
-
     anchor: null as null | Element,
+
     toggle(el: Element | null) {
       this.anchor = el
     },
 
+    items: app.userMenu,
+
     get button(): ButtonProps {
       return {
         onClick: (e) => this.toggle(e.currentTarget),
-        children: app.user.name,
+        name: app.user.name || 'Пользователь',
       }
     },
 

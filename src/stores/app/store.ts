@@ -58,6 +58,7 @@ export class AppStore {
     return this.structure.filter((r) => Boolean(r[1].length))
   }
 
+  // редирект на дефолтную страницу
   get redirect() {
     if (this.routes[0]) {
       const [module] = this.routes[0]
@@ -66,6 +67,7 @@ export class AppStore {
     return '/login/'
   }
 
+  // меню в хедере
   get mainMenu() {
     return this.structure.map(([module, pages]) => ({
       path: `/${module}/`,
@@ -74,6 +76,7 @@ export class AppStore {
     }))
   }
 
+  // меню в хедере
   get userMenu() {
     const items = ['settings', 'logout'] as PageType[]
     return items.map((page) => ({ name: names.get(page), hash: page }))

@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
 import s from 'superagent'
 
-import { useUser, useUrl } from 'hooks'
+import { useUrl } from 'hooks'
 import { FromType } from './useFormLogin'
+import { useAppStore } from 'stores'
 
 export function useFetch(form: FromType) {
-  const user = useUser()
   const url = useUrl('login')
+  const app = useAppStore()
+
   const login = s
     .post(url)
     .type('application/json')
@@ -16,13 +18,13 @@ export function useFetch(form: FromType) {
     if (!form.loading) return
     login
       .then(({ body }) => {
-        const data = body.data
-        // user.setUser(data)
+        app.updateUser(body.data)
+        app.updateToken(body.data)
       })
       .catch((err) => {
         form.fail(err.response.body)
       })
 
     return () => login.abort()
-  }, [form, login, user])
+  }, [form, login, app])
 }

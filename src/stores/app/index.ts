@@ -1,1 +1,2 @@
-export { AppStoreProvider, useAppStore } from './context'
+export { useAppStore } from './context'
+export { AppStoreProvider } from './provider'

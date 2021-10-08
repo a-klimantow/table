@@ -1,5 +1,5 @@
+export type { MouleType } from 'assets'
 export type { PageType } from 'pages'
-export type { ModuleType } from 'stores/routes/modules'
 
 export * from './user'
 export * from './components'

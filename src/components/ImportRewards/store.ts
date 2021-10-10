@@ -2,7 +2,7 @@ import { action, makeAutoObservable, runInAction } from 'mobx'
 import { ButtonProps, PopoverProps, InputBaseProps } from '@material-ui/core'
 import sup from 'superagent'
 import { useEffect, useRef } from 'react'
-import { useUser, useUrl } from 'hooks'
+import { useUrl } from 'hooks'
 
 type PayType = ImportStore['pays'][number]
 
@@ -137,7 +137,6 @@ class ImportStore {
 }
 
 export const useImportStore = () => {
-  const user = useUser()
   const store = useRef(
     new ImportStore(
       // user.token,

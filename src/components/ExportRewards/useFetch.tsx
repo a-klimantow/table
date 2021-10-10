@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 import sup from 'superagent'
 
-import { useUrl, useUser } from 'hooks'
+import { useUrl } from 'hooks'
 import { ExportStore } from './store'
 
 export function useFetch(store: ExportStore) {
   const moneyUrl = useUrl('withdrawal/exportwebmoney')
   const kassaUrl = useUrl('withdrawal/exportyookassa')
-  const user = useUser()
 
   const url = store.isWebMoney ? moneyUrl : kassaUrl
 

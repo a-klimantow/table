@@ -1,4 +1,4 @@
-import { PageType as P, ModuleType as M } from 'types'
+import { PageType as P } from 'types'
 import { icon, name } from 'assets'
 
 const rewards = {
@@ -14,6 +14,6 @@ const rewards = {
     },
     { name: name('accruals'), link: 'accruals' as P },
   ],
-} 
+}
 
 export const menus = { rewards }

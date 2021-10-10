@@ -2,13 +2,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 
 import { getPage } from 'pages'
-import {
-  useRoutes,
-  useDefaultPath,
-  useShowLogin,
-  useShowLogout,
-  useShowSettings,
-} from './hooks'
+import { useRoutes, useDefaultPath, useShowLogin, useShowLogout } from './hooks'
 
 import { DrawerPages } from './atoms'
 

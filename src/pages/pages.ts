@@ -1,8 +1,6 @@
 import { Logout } from './logout'
 import { Login } from './login'
-import { RequestsPage } from './RequestsPage'
 import { UserSettings } from './user_settings'
-import { AccrualsPage } from './AccrualsPage'
 
 export type PageType = keyof typeof pages
 

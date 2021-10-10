@@ -17,27 +17,12 @@ export const GlobalTheme: FC = ({ children }) => {
     () =>
       createTheme(
         {
-          components: {
-            MuiOutlinedInput: {
-              defaultProps: {
-                sx: {
-                  letterSpacing: 1,
-                  bgcolor: 'background.paper',
-                },
-              },
-            },
-
-            MuiFormHelperText: {
-              defaultProps: {
-                sx: {
-                  position: 'absolute',
-                  top: '100%',
-                  whiteSpace: 'nowrap',
-                  left: -14,
-                },
-              },
-            },
+          typography: {
+            h5: { fontSize: 22, fontWeight: 500 },
+            h6: { fontSize: 16, fontWeight: 500 },
           },
+
+          components: {},
         },
         ruRU
       ),

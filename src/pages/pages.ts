@@ -1,17 +1,17 @@
-import { LogoutPage } from './LogoutPage'
-import { LoginPage } from './LoginPage'
+import { Logout } from './logout'
+import { Login } from './login'
 import { RequestsPage } from './RequestsPage'
-import { SettingsPage } from './SettingsPage'
+import { UserSettings } from './user_settings'
 import { AccrualsPage } from './AccrualsPage'
 
 export type PageType = keyof typeof pages
 
 const pages = {
-  login: LoginPage,
-  logout: LogoutPage,
-  requests: RequestsPage,
-  accruals: AccrualsPage,
-  settings: SettingsPage,
+  login: Login,
+  logout: Logout,
+  requests: () => null,
+  accruals: () => null,
+  user_settings: UserSettings,
   reports: () => null,
 }
 

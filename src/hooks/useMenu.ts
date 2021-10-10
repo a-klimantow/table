@@ -1,15 +1,15 @@
-import { useRef } from 'react'
 import { useLocalObservable } from 'mobx-react-lite'
 
 const initialState = {
-  open: false,
-  toggle(type: 'open' | 'close') {
-    this.open = type === 'open'
+  ancorEl: null as null | Element,
+
+  open(el: Element) {
+    this.ancorEl = el
+  },
+
+  close() {
+    this.ancorEl = null
   },
 }
 
-export function useMenu() {
-  const menu = useLocalObservable(() => initialState)
-  const ref = useRef(null)
-  return { menu, ref }
-}
+export const useMenu = () => useLocalObservable(() => initialState)

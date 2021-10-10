@@ -37,6 +37,10 @@ export class AppStore {
     this.token = token
   }
 
+  clear() {
+    this.user = initialUser
+  }
+
   // все разрешенные модули для ролей
   get modules() {
     return utils.getPermsModules(this.user.roles)
@@ -45,36 +49,6 @@ export class AppStore {
   // все разрешенные страницы для ролей
   get pages() {
     return utils.getPermsPages(this.user.roles)
-  }
-
-  // структура приложения отфильтрованная по pages
-  private get structure() {
-    return utils.getStructure(this.pages)
-  }
-
-  // корректные роуты для роли
-  get routes() {
-    // фильт по наличию страниц
-    return this.structure.filter((r) => Boolean(r[1].length))
-  }
-
-  // редирект на дефолтную страницу
-  get redirect() {
-    if (this.routes[0]) {
-      const [module] = this.routes[0]
-      return `/${module}/`
-    }
-    return '/login/'
-  }
-
-  // меню в хедере
-  get moduleMenu() {
-    return utils.getModuleMenuHeader(this.structure)
-  }
-
-  // меню в хедере
-  get userMenu() {
-    return utils.getUserMenuHeader('settings', 'logout')
   }
 
   // меню выплат

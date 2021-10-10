@@ -2,14 +2,11 @@ import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import { useRouteMatch } from 'react-router'
 
-import { MenuModule } from './menu_module'
-import { MenuUser } from './menu_user'
-import {} from './atoms'
+import { MenuModules } from '../menu_modules'
+import { MenuUser } from '../menu_user'
 
 export const AppHeader = React.memo(() => {
-  const hidden = Boolean(useRouteMatch('/login/'))
-
-  if (hidden) return null
+  if (useRouteMatch('/login/')) return null
 
   return (
     <Mui.Stack
@@ -28,7 +25,7 @@ export const AppHeader = React.memo(() => {
         },
       }}
     >
-      <MenuModule />
+      <MenuModules />
       <MenuUser />
     </Mui.Stack>
   )

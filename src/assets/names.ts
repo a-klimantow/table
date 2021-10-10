@@ -13,7 +13,7 @@ const names = new Map<K, string>([
   ['rewards_submenu', 'Выплаты'],
   ['panels', 'Панели'],
   ['projects', 'Проекты'],
-  ['settings', 'Настройки'],
+  ['user_settings', 'Настройки'],
 ] as const)
 
 export const name = (key: K) => {

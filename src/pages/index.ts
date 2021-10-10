@@ -1,2 +1,1 @@
-export { getPage, getPages } from './pages'
-
+export { getPage } from './pages'

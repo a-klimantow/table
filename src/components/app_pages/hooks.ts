@@ -7,9 +7,9 @@ import { permissions } from 'assets'
 type Routes = Array<[M, P[]]>
 
 const routes = [
-  ['administration', []],
-  ['panels', []],
-  ['projects', []],
+  ['administration', ['plug']],
+  ['panels', ['plug']],
+  ['projects', ['plug']],
   ['rewards', ['requests', 'reports', 'accruals']],
 ] as Routes
 

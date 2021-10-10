@@ -1,6 +1,7 @@
 import { Logout } from './logout'
 import { Login } from './login'
 import { UserSettings } from './user_settings'
+import { Plug } from './plug'
 
 export type PageType = keyof typeof pages
 
@@ -11,7 +12,7 @@ const pages = {
   accruals: () => null,
   user_settings: UserSettings,
   reports: () => null,
+  plug: Plug,
 }
 
 export const getPage = (page: PageType) => pages[page]
-export const getPages = (...page: PageType[]) => page.map((p) => pages[p])

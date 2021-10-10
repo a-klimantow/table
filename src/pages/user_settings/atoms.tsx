@@ -44,22 +44,22 @@ interface DefPagesProps {
   state: State
 }
 
-export const DefautlPages = React.memo<DefPagesProps>(({ state }) => {
-  const { items, defPage } = useDefaultPages()
-  return (
-    <Mui.RadioGroup defaultValue={defPage}>
-      {items.map((i) => (
-        <Mui.FormControlLabel
-          control={<Mui.Radio />}
-          key={i.label}
-          label={i.label}
-          value={i.value}
-          disabled={i.disabled}
-        />
-      ))}
-    </Mui.RadioGroup>
-  )
-})
+export const DefautlPages = React.memo<DefPagesProps>(({ state }) => (
+  <Mui.RadioGroup
+    defaultValue={state.defPage}
+    onChange={(e) => state.changeDefPage(e.currentTarget.value)}
+  >
+    {state.items.map((i) => (
+      <Mui.FormControlLabel
+        control={<Mui.Radio />}
+        key={i.label}
+        label={i.label}
+        value={i.value}
+        disabled={i.disabled}
+      />
+    ))}
+  </Mui.RadioGroup>
+))
 
 // buttons
 

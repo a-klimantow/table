@@ -4,7 +4,7 @@ import { name } from 'assets'
 import { useRouteMatch } from 'react-router'
 import { useLocalObservable } from 'mobx-react-lite'
 
-const items: M[] = ['projects', 'projects', 'rewards', 'administration']
+const items: M[] = ['panels', 'projects', 'rewards', 'administration']
 
 export const useDefaultPages = () => {
   const app = useAppStore()
@@ -12,13 +12,20 @@ export const useDefaultPages = () => {
 
   return useLocalObservable(() => ({
     email: app.user.email,
+
     items: items.map((i) => ({
       value: i,
       label: name(i),
       disabled: !app.modules.includes(i),
     })),
+
     defPage,
+
     newDefPage: defPage,
+
+    changeDefPage(path: string) {
+      this.defPage = path
+    },
 
     get disabled() {
       return this.defPage === this.newDefPage

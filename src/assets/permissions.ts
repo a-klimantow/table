@@ -7,22 +7,22 @@ type R = RoleType
 
 const modules = {
   AccrualsManager: ['rewards'],
-  Administrator: [],
-  PanelistManagement: [],
+  Administrator: ['administration'],
+  PanelistManagement: ['panels'],
   PaymentsManager: ['rewards'],
-  ProjectManagement: [],
-  TemplateManagement: [],
-  WebsiteManagement: [],
+  ProjectManagement: ['projects'],
+  TemplateManagement: ['administration'],
+  WebsiteManagement: ['administration'],
 } as Record<R, M[]>
 
 const pages = {
   AccrualsManager: ['accruals'],
-  Administrator: [],
-  PanelistManagement: [],
+  Administrator: ['plug'],
+  PanelistManagement: ['plug'],
   PaymentsManager: ['requests', 'reports'],
-  ProjectManagement: [],
-  TemplateManagement: [],
-  WebsiteManagement: [],
+  ProjectManagement: ['plug'],
+  TemplateManagement: ['plug'],
+  WebsiteManagement: ['plug'],
 } as Record<R, P[]>
 
 export const permissions = { modules, pages }

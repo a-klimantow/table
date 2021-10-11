@@ -93,7 +93,7 @@ const IconArrow = observer<IconArrowProps>(({ open, big }) => (
           : open
           ? 'scaleY(-1) translateX(-8px)'
           : 'translateX(-8px)',
-      transition: 'transform 0.5s ease',
+      transition: 'transform 0.2s ease',
     }}
   />
 ))

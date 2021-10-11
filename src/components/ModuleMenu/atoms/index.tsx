@@ -23,16 +23,15 @@ export const Provider: FC = ({ children }) => {
           MuiList: {
             styleOverrides: {
               root: {
-                gridArea: 'MENU',
                 zIndex: t.zIndex.drawer,
                 backgroundColor: t.palette.background.paper,
                 borderRight: '1px solid',
                 borderColor: t.palette.divider,
-                minWidth: '100%',
-                transition: 'min-width .3s ease',
+                maxWidth: 48,
+                transition: 'max-width .3s ease',
                 overflow: 'hidden',
                 '&[data-open=true]': {
-                  minWidth: '300px',
+                  maxWidth: '300px',
                 },
               },
             },

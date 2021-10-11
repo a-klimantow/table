@@ -30,7 +30,7 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
   switch (item.type) {
     case 'menu_btn':
       return (
-        <ListItem button onClick={() => menu.toggle()}>
+        <ListItem button onClick={() => menu.toggle()} title={item.name}>
           <Icon type={menu.open ? 'close' : 'menu'} />
           <Typography>{item.name}</Typography>
         </ListItem>
@@ -44,6 +44,7 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
             button
             onClick={() => menu.toggleSubmenu(item.name)}
             selected={!isOpen && isActive}
+            title={item.name}
           >
             <Icon type={item.icon} color={color} />
             <Typography color={color}>{item.name}</Typography>
@@ -59,14 +60,14 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
 
     case 'menu_item':
       return (
-        <ListItem button selected={isActive} onClick={pushTo(item.link)}>
+        <ListItem button selected={isActive} onClick={pushTo(item.link)} title={item.name}>
           <Icon type={item.icon} color={color} />
           <Typography color={color}>{item.name}</Typography>
         </ListItem>
       )
     default:
       return (
-        <ListItem button selected={isActive} onClick={pushTo(item.link)}>
+        <ListItem button selected={isActive} onClick={pushTo(item.link)} title={item.name}>
           <Typography color={color} fontSize={14}>
             {item.name}
           </Typography>

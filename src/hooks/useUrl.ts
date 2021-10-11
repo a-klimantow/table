@@ -1,7 +1,7 @@
 import React from 'react'
 
 // логин
-type Login = 'login'
+type Login = 'login' | 'login/refresh'
 
 // списки (панели, статусы, платежные системы)
 type Lists = `list/${'panels' | 'withdrawal-statuses' | 'payment-systems'}`

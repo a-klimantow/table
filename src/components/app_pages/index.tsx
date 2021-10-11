@@ -9,6 +9,7 @@ import { DrawerPages } from './atoms'
 const Login = getPage('login')
 const UserSettings = getPage('user_settings')
 const Logout = getPage('logout')
+const Refresh = getPage('refresh')
 
 export const AppPages = observer(() => {
   const routes = useRoutes()
@@ -37,6 +38,7 @@ export const AppPages = observer(() => {
       </Switch>
       {showLogin ? <Login /> : null}
       {showLogout ? <Logout /> : null}
+      <Refresh />
       <DrawerPages pages={['user_settings']}>
         <UserSettings />
       </DrawerPages>

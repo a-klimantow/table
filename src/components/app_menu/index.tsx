@@ -1,16 +1,14 @@
-import * as Mui from '@material-ui/core'
+import { rewards } from './menus'
+import { Provider, Menu, MenuItem } from './atoms'
+import { useHiddenMenu } from './hooks'
 
-import { useTheme } from './hooks'
-import { MenuContextProvider } from './context'
-import { Menu } from './atoms'
-import { MenuList } from './menu_list'
-
-export const AppMenu = () => (
-  <Mui.ThemeProvider theme={useTheme()}>
-    <MenuContextProvider>
+export const AppMenu = () =>
+  useHiddenMenu() ? null : (
+    <Provider>
       <Menu>
-        <MenuList />
+        {rewards.map((item) => (
+          <MenuItem key={item.type + item.name} item={item} />
+        ))}
       </Menu>
-    </MenuContextProvider>
-  </Mui.ThemeProvider>
-)
+    </Provider>
+  )

@@ -1,42 +1,37 @@
-import * as React from 'react'
-import * as Mui from '@material-ui/core'
 import { useLocalObservable } from 'mobx-react-lite'
-import { useAppStore } from 'hooks'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 
-export type MenuStateType = ReturnType<typeof useMenuState>
+import { ModuleType as M } from 'types'
 
-export const useMenuState = () => {
-  const app = useAppStore()
+export const useHiddenMenu = () => Boolean(useRouteMatch('/login/'))
+
+export const useMenu = () => {
+  const m = useRouteMatch<{ m: M }>('/:m')?.params.m
+  const { push } = useHistory()
   return useLocalObservable(() => ({
     isOpen: false,
-    open() {
-      this.isOpen = true
+
+    toggleMenu() {
+      this.isOpen = !this.isOpen
+      !this.isOpen && this.submenu.clear()
     },
-    close() {
+
+    closeMemu(link: string) {
       this.isOpen = false
+      this.submenu.clear()
+      push(`/${m}/${link}/`)
     },
 
-    toggle() {
-      return this.isOpen ? this.close() : this.open()
-    },
+    submenu: new Set([] as string[]),
 
-    pageMenus: app.pageMenus,
+    toggleSubmenu(name: string) {
+      if (this.submenu.has(name)) {
+        this.submenu.delete(name)
+        this.isOpen = false
+      } else {
+        this.submenu.add(name)
+        this.isOpen = true
+      }
+    },
   }))
 }
-
-export const useTheme = () =>
-  React.useMemo(
-    () =>
-      Mui.createTheme({
-        components: {
-          MuiCollapse: {
-            defaultProps: {
-              orientation: 'horizontal',
-              collapsedSize: 48,
-              sx: { borderRight: 1, borderColor: 'divider' },
-            },
-          },
-        },
-      }),
-    []
-  )

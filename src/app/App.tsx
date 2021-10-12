@@ -2,15 +2,17 @@ import { AppLayout } from 'components/app_layout'
 import { AppHeader } from 'components/app_header'
 import { AppMenu } from 'components/app_menu'
 import { AppPages } from 'components/app_pages'
-// import { ModuleMenu } from 'components'
+import { AppContextProvider } from './context'
+import { AppStore } from './AppStore'
 
 export const App = () => {
   return (
-    <AppLayout>
-      <AppHeader />
-      {/* <ModuleMenu /> */}
-      <AppMenu />
-      <AppPages />
-    </AppLayout>
+    <AppContextProvider value={new AppStore()}>
+      <AppLayout>
+        <AppHeader />
+        <AppMenu />
+        <AppPages />
+      </AppLayout>
+    </AppContextProvider>
   )
 }

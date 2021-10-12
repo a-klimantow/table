@@ -10,13 +10,11 @@ import { App } from 'app'
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AppStoreProvider>
-        <GlobalTheme>
-          <SnackbarProvider>
-            <App />
-          </SnackbarProvider>
-        </GlobalTheme>
-      </AppStoreProvider>
+      <GlobalTheme>
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
+      </GlobalTheme>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

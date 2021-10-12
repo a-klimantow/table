@@ -21,7 +21,7 @@ export const AppLayout = React.memo<Mui.BoxProps>((props) => (
 
       '& > [data-app-page]': {
         gridArea: '2 / 2 / -1 / -1',
-        mx: 1,
+        mx: 4,
         my: 2,
         overflow: 'auto',
       },

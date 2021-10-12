@@ -1,7 +1,9 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import { useLocation, useHistory } from 'react-router-dom'
+// 
 import { useSuperagent, useAppStore } from 'hooks'
+import { IUser } from 'types'
 
 export const Refresh = () => {
   const history = useHistory()
@@ -16,7 +18,9 @@ export const Refresh = () => {
       (async () => {
         try {
           const { body } = await refresh.then()
-          console.log(body)
+          const {refresh_token, token, ...user} =body.data as IUser
+          app.updateUser(user)
+          app.updateToken({access:token, refresh: refresh_token})
         } catch (error) {
           app.clear()
         }

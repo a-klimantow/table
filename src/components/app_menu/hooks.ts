@@ -3,7 +3,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 
 import { ModuleType as M } from 'types'
 
-export const useHiddenMenu = () => Boolean(useRouteMatch('/login/'))
+export const useHiddenMenu = () => Boolean(useRouteMatch('/user/login/'))
 
 export const useMenu = () => {
   const m = useRouteMatch<{ m: M }>('/:m')?.params.m

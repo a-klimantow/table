@@ -6,7 +6,7 @@ import { MenuModules } from '../menu_modules'
 import { MenuUser } from '../menu_user'
 
 export const AppHeader = React.memo(() => {
-  if (useRouteMatch('/login/')) return null
+  if (useRouteMatch('/user/login/')) return null
 
   return (
     <Mui.Stack

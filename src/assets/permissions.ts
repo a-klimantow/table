@@ -1,6 +1,11 @@
 import { PageType, RoleType } from 'types'
 
-export type ModuleType = 'administration' | 'panels' | 'projects' | 'rewards'
+export type ModuleType =
+  | 'administration'
+  | 'panels'
+  | 'projects'
+  | 'rewards'
+  | 'user'
 type M = ModuleType
 type P = PageType
 type R = RoleType

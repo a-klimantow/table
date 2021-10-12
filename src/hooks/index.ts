@@ -1,7 +1,9 @@
-import { useAppStore } from 'stores/app'
+import { useAppContext } from 'app/context'
 
-export { useAppStore }
-export const useUser = () => useAppStore().user
+export { useAppContext }
+export const useUser = () => useAppContext().user
+export const useRouter = () => useAppContext().router
+export const useToken = () => useAppContext().token
 
 export { useSnackbar } from 'snackbar/useSnackbar'
 

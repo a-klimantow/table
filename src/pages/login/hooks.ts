@@ -2,7 +2,7 @@ import * as React from 'react'
 import { computed } from 'mobx'
 //
 import { IUser, LoginResposeError } from 'types'
-import { useAppStore, useField, useSuperagent } from 'hooks'
+import { useAppContext, useField, useSuperagent } from 'hooks'
 
 type D = { email: string; password: string }
 type F = ReturnType<typeof useField>
@@ -48,7 +48,7 @@ export const useLogin = () => {
 }
 
 const useFetch = (data: D | null, fetchStop: () => void, email: F, pass: F) => {
-  const app = useAppStore()
+  const app = useAppContext()
   const { login } = useSuperagent()
 
   React.useEffect(() => {
@@ -58,14 +58,9 @@ const useFetch = (data: D | null, fetchStop: () => void, email: F, pass: F) => {
         try {
           const { body } = await login.then()
           fetchStop()
-
           const { token, refresh_token, ...user } = body.data as IUser
-
-          app.updateUser(user)
-          app.updateToken({
-            access: token,
-            refresh: refresh_token,
-          })
+          app.user.update(user)
+          app.token.update({ token, refresh_token })
         } catch (error) {
           fetchStop()
           const { response } = error as LoginResposeError

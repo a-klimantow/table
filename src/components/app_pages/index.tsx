@@ -19,7 +19,7 @@ export const AppPages = observer(() => {
 
   return (
     <>
-      <Switch>
+      {/* <Switch>
         {routes.map(([module, pages]) => (
           <Route key={module} path={`/${module}/`}>
             <Switch>
@@ -41,7 +41,7 @@ export const AppPages = observer(() => {
       <Refresh />
       <DrawerPages pages={['user_settings']}>
         <UserSettings />
-      </DrawerPages>
+      </DrawerPages> */}
     </>
   )
 })

@@ -1,8 +1,11 @@
 import * as React from 'react'
-import { useAppStore } from 'hooks'
+import { useAppContext } from 'hooks'
 
 export const Logout: React.FC = () => {
-  const app = useAppStore()
-  React.useEffect(() => app.clear(), [app])
+  const app = useAppContext()
+  React.useEffect(() => {
+    app.user.update(null)
+    app.token.update(null)
+  }, [app])
   return null
 }

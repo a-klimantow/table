@@ -1,15 +1,15 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import { useLocation, useHistory } from 'react-router-dom'
-// 
-import { useSuperagent, useAppStore } from 'hooks'
+//
+import { useSuperagent, useAppContext } from 'hooks'
 import { IUser } from 'types'
 
 export const Refresh = () => {
   const history = useHistory()
   const { hash } = useLocation()
   const refresh = useSuperagent().refresh
-  const app = useAppStore()
+  const app = useAppContext()
 
   const isRefresh = hash.endsWith('refresh')
 
@@ -18,11 +18,12 @@ export const Refresh = () => {
       (async () => {
         try {
           const { body } = await refresh.then()
-          const {refresh_token, token, ...user} =body.data as IUser
-          app.updateUser(user)
-          app.updateToken({access:token, refresh: refresh_token})
+          const { refresh_token, token, ...user } = body.data as IUser
+          app.user.update(user)
+          app.token.update({ token, refresh_token })
         } catch (error) {
-          app.clear()
+          app.user.update(null)
+          app.token.update(null)
         }
       })()
   }, [refresh, history, isRefresh, app])

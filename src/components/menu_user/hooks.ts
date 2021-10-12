@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { useHistory } from 'react-router'
 //
 import { PageType as P } from 'types'
-import { useAppStore } from 'hooks'
 import { name } from 'assets'
 
 export { useMenu } from 'hooks'
@@ -21,4 +20,4 @@ export const useItems = () => {
   )
 }
 
-export const useUserName = () => useAppStore().user.name
+export const useUserName = () => 'test'

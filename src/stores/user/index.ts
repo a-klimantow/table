@@ -1,6 +1,6 @@
 import { makeAutoObservable, reaction } from 'mobx'
 import storage from 'store'
-// 
+//
 import { IUser, Maybe } from 'types'
 
 type U = Omit<IUser, 'token' | 'refresh_token'>
@@ -30,5 +30,9 @@ export class User {
 
   get roles(): U['roles'] {
     return this.state?.roles ?? ['Unknown']
+  }
+
+  get isUnknown() {
+    return this.roles.includes('Unknown')
   }
 }

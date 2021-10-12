@@ -1,10 +1,10 @@
 import sup, { ResponseError } from 'superagent'
-
-import { useUrl, useAppStore } from 'hooks'
+//
+import { useUrl, useToken } from 'hooks'
 import { useHistory } from 'react-router'
 
 export const useSuperagent = () => {
-  const token = useAppStore().token
+  const token = useToken()
   const handler = useErrors()
   return {
     login: sup.post(useUrl('login')),

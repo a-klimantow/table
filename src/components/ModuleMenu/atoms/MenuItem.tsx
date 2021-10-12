@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
-import { ListItem, Typography, Collapse } from '@material-ui/core'
+import { ListItem, Typography, Collapse, Tooltip } from '@material-ui/core'
 
 import { Icon } from 'components'
 import { IconType } from 'types'
@@ -30,26 +30,29 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
   switch (item.type) {
     case 'menu_btn':
       return (
-        <ListItem button onClick={() => menu.toggle()} title={item.name}>
-          <Icon type={menu.open ? 'close' : 'menu'} />
-          <Typography>{item.name}</Typography>
-        </ListItem>
+        <Tooltip placement="right-end" title={item.name}>
+          <ListItem button onClick={() => menu.toggle()}>
+            <Icon type={menu.open ? 'close' : 'menu'} />
+            <Typography>{item.name}</Typography>
+          </ListItem>
+        </Tooltip>
       )
 
     case 'submenu_btn':
       const isOpen = item.name === menu.activeSubmenu
       return (
         <>
-          <ListItem
-            button
-            onClick={() => menu.toggleSubmenu(item.name)}
-            selected={!isOpen && isActive}
-            title={item.name}
-          >
-            <Icon type={item.icon} color={color} />
-            <Typography color={color}>{item.name}</Typography>
-            <IconArrow open={isOpen} big={menu.open} />
-          </ListItem>
+          <Tooltip placement="right-end" title={item.name}>
+            <ListItem
+              button
+              onClick={() => menu.toggleSubmenu(item.name)}
+              selected={!isOpen && isActive}
+            >
+              <Icon type={item.icon} color={color} />
+              <Typography color={color}>{item.name}</Typography>
+              <IconArrow open={isOpen} big={menu.open} />
+            </ListItem>
+          </Tooltip>
           <Collapse in={isOpen}>
             {item.items.map((i) => (
               <MenuItem key={i.name} item={i} />
@@ -60,18 +63,22 @@ export const MenuItem = observer<{ item: MenuItemProps }>(({ item }) => {
 
     case 'menu_item':
       return (
-        <ListItem button selected={isActive} onClick={pushTo(item.link)} title={item.name}>
-          <Icon type={item.icon} color={color} />
-          <Typography color={color}>{item.name}</Typography>
-        </ListItem>
+        <Tooltip placement="right-end" title={item.name}>
+          <ListItem button selected={isActive} onClick={pushTo(item.link)}>
+            <Icon type={item.icon} color={color} />
+            <Typography color={color}>{item.name}</Typography>
+          </ListItem>
+        </Tooltip>
       )
     default:
       return (
-        <ListItem button selected={isActive} onClick={pushTo(item.link)} title={item.name}>
-          <Typography color={color} fontSize={14}>
-            {item.name}
-          </Typography>
-        </ListItem>
+        <Tooltip placement="right-end" title={item.name}>
+          <ListItem button selected={isActive} onClick={pushTo(item.link)}>
+            <Typography color={color} fontSize={14}>
+              {item.name}
+            </Typography>
+          </ListItem>
+        </Tooltip>
       )
   }
 })

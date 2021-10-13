@@ -4,7 +4,7 @@ import React from 'react'
 type Login = 'login'
 
 // списки (панели, статусы, платежные системы)
-type Lists = `list/${'panels' | 'withdrawal-statuses' | 'payment-systems'}`
+type Lists = `list/${'panels' | 'export-withdrawal-statuses' | 'payment-systems'}`
 
 // выплаты, начисления
 type Rewards =

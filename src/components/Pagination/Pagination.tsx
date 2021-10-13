@@ -30,6 +30,7 @@ export class PaginationStore {
         this.rowsPerPage = +e.target.value
         this.page = 0
       }),
+      rowsPerPageOptions: [10, 20, 30]
     }
   }
 

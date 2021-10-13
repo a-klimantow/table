@@ -1,4 +1,4 @@
-import { ModuleType as M, PageType as P, IconType as I } from 'types'
+import { PageType as P, IconType as I } from 'types'
 import { moduleNames, pageNames, submenuNames } from 'assets'
 
 type SubItemType = { type: 'sub_item'; name?: string; link: P }

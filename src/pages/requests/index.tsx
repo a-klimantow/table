@@ -16,7 +16,7 @@ import {
 import { PageStore } from './store'
 import { useFetch } from './useFetch'
 
-export const RequestsPage = observer(() => {
+export const Requests = observer(() => {
   const page = useRef(new PageStore()).current
   useFetch(page)
   return (

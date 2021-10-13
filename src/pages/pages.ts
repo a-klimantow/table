@@ -3,7 +3,7 @@ import { Login } from './login'
 import { Refresh } from './refresh'
 import { UserSettings } from './user_settings'
 import { Plug } from './plug'
-import { RequestsPage } from './RequestsPage'
+import { Requests } from './requests'
 
 export type PageType = keyof typeof pages
 
@@ -11,7 +11,7 @@ const pages = {
   login: Login,
   logout: Logout,
   refresh: Refresh,
-  requests: RequestsPage,
+  requests: Requests,
   accruals: () => null,
   user_settings: UserSettings,
   reports: () => null,

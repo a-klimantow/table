@@ -49,6 +49,7 @@ export const useLogin = () => {
 
 const useFetch = (data: D | null, fetchStop: () => void, email: F, pass: F) => {
   const app = useAppContext()
+
   const { login } = useSuperagent()
 
   React.useEffect(() => {
@@ -59,8 +60,8 @@ const useFetch = (data: D | null, fetchStop: () => void, email: F, pass: F) => {
           const { body } = await login.then()
           fetchStop()
           const { token, refresh_token, ...user } = body.data as IUser
-          app.user.update(user)
           app.token.update({ token, refresh_token })
+          app.user.update(user)
         } catch (error) {
           fetchStop()
           const { response } = error as LoginResposeError

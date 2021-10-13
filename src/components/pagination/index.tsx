@@ -20,6 +20,9 @@ export const usePagination = () => {
     page,
     onPageChange: (_, page) => setPage(page),
     rowsPerPage,
-    onRowsPerPageChange: (e) => setRowsPerPage(Number(e.target.value)),
+    onRowsPerPageChange: (e) => {
+      setPage(0)
+      setRowsPerPage(Number(e.target.value))
+    },
   } as Mui.TablePaginationProps
 }

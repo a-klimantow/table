@@ -28,7 +28,7 @@ export function useFetch(store: PageStore) {
           const { metadata, items } = response.body
           const { total_count } = metadata.pagination
           store.pagination.setCount(total_count)
-          store.grid.setRows(items.map(createRow))
+
         } catch (error) {
           console.log(error)
         }

@@ -1,32 +1,49 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import sup from 'superagent'
 //
-import { useSuperagent, useAppContext } from 'hooks'
+import { useToken, useUrl } from 'hooks'
 import { IUser } from 'types'
 
 export const Refresh = () => {
-  const history = useHistory()
-  const { hash } = useLocation()
-  const refresh = useSuperagent().refresh
-  const app = useAppContext()
+  useFetchRefresh()
+  return <Mui.Backdrop open sx={{ zIndex: 'modal' }} />
+}
 
-  const isRefresh = hash.endsWith('refresh')
+function useFetchRefresh() {
+  const url = useUrl('login/refresh')
+  const token = useToken()
+  const history = useHistory()
+
+  const refresh = React.useMemo(
+    () =>
+      sup
+        .post(url)
+        .auth(token.access, { type: 'bearer' })
+        .send({ refresh_token: token.refresh }),
+    [url, token]
+  )
 
   React.useEffect(() => {
-    if (isRefresh)
-      (async () => {
+    const { location } = history
+    if (location.state) {
+      console.log('from', location.state)
+      ;(async () => {
         try {
           const { body } = await refresh.then()
-          const { refresh_token, token, ...user } = body.data as IUser
-          app.user.update(user)
-          app.token.update({ token, refresh_token })
+          const data = body.data as IUser
+          token.update({
+            token: data.token,
+            refresh_token: data.refresh_token,
+          })
+          history.goBack()
         } catch (error) {
-          app.user.update(null)
-          app.token.update(null)
+          history.replace('/user/logout/')
         }
       })()
-  }, [refresh, history, isRefresh, app])
-
-  return <Mui.Backdrop open={isRefresh} sx={{ zIndex: 'modal' }} />
+    } else {
+      history.goBack()
+    }
+  }, [refresh, token, history])
 }

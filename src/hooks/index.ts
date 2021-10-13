@@ -13,4 +13,5 @@ export * from './useMenu'
 export * from './useField'
 export * from './useSuperagent'
 
+export * from './useFetchErrors'
 export * from './useFetchRewards'

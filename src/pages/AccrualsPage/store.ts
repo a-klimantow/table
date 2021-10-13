@@ -1,12 +1,7 @@
 import { observable } from 'mobx'
 
 import { ICol, IAccrualItem } from 'types'
-import {
-  SearchStore,
-  PaginationStore,
-  GridStore,
-  ColMenuStore,
-} from 'components'
+import { SearchStore, PaginationStore, ColMenuStore } from 'components'
 
 const template = [
   ['Файл', 'file'],
@@ -25,7 +20,6 @@ export class PageStore {
     public columns = cols,
     public colMenu = new ColMenuStore(cols),
     public search = new SearchStore(),
-    public pagination = new PaginationStore(),
-    public grid = new GridStore(columns, ['Файл', 'ID пользователя'])
+    public pagination = new PaginationStore()
   ) {}
 }

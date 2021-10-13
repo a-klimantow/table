@@ -5,14 +5,12 @@ import { AppPages } from 'components/app_pages'
 import { AppContextProvider } from './context'
 import { AppStore } from './AppStore'
 
-export const App = () => {
-  return (
-    <AppContextProvider value={new AppStore()}>
-      <AppLayout>
-        <AppHeader />
-        <AppMenu />
-        <AppPages />
-      </AppLayout>
-    </AppContextProvider>
-  )
-}
+export const App = () => (
+  <AppContextProvider value={new AppStore()}>
+    <AppLayout>
+      <AppHeader />
+      <AppMenu />
+      <AppPages />
+    </AppLayout>
+  </AppContextProvider>
+)

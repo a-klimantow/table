@@ -5,7 +5,7 @@ import { useExportContext } from './context'
 
 export function useLists() {
   const systems = useGetList('list/payment-systems')
-  const statuses = useGetList('list/withdrawal-statuses')
+  const statuses = useGetList('list/export-withdrawal-statuses')
   const panels = useGetList('list/panels')
   const exp = useExportContext()
 

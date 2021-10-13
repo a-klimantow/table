@@ -1,3 +1,3 @@
 export * from './user'
 export * from './token'
-export * from './routes'
+export * from './router'

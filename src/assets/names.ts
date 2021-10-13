@@ -7,6 +7,7 @@ export const moduleNames = new Map<M, string>([
   ['panels', 'Панели'],
   ['projects', 'Проекты'],
   ['rewards', 'Вознаграждения'],
+  ['user', 'Пользователь'],
 ])
 
 export const pageNames = new Map<P, string>([

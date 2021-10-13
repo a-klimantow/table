@@ -1,38 +1,35 @@
-import { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Stack } from '@material-ui/core'
-
-import {
-  PageLayout,
-  Toolbar,
-  ColMenu,
-  Search,
-  Pagination,
-  Grid,
-  GridBottom,
-  ExportRrewards,
-  ImportRewards,
-} from 'components'
-import { PageStore } from './store'
-import { useFetch } from './useFetch'
+//
+import { Pagination, usePagination } from 'components/pagination'
+import { MenuColumns } from 'components/menu_columns'
+import { Search } from 'components/search'
+import { Table, HeadCell } from 'components/table'
+import { columns } from './columns'
+import { useQuery, useData, useFetchRequests } from './hooks'
+import { Paper, Toolbar, TableRow, Bottom } from './atoms'
 
 export const Requests = observer(() => {
-  const page = useRef(new PageStore()).current
-  useFetch(page)
+  const data = useData()
+  const pagination = usePagination()
+  const query = useQuery(pagination)
+  useFetchRequests(query, data)
   return (
-    <PageLayout>
+    <Paper data-app-page>
       <Toolbar>
-        <ColMenu colMenu={page.colMenu} />
-        <Search search={page.search} />
+        <MenuColumns columns={columns} />
+        <Search />
       </Toolbar>
-      <Grid grid={page.grid} />
-      <GridBottom>
-        <Stack direction="row" gap={1}>
-          <ExportRrewards exp={page.exp} />
-          <ImportRewards />
-        </Stack>
-        <Pagination pagination={page.pagination} />
-      </GridBottom>
-    </PageLayout>
+      <Table
+        head={columns.map((col) => (
+          <HeadCell key={col.key} col={col} />
+        ))}
+        body={data.items.map((item, i) => (
+          <TableRow key={i} columns={columns} item={item} />
+        ))}
+      />
+      <Bottom>
+        <Pagination pagination={pagination} count={data.count} />
+      </Bottom>
+    </Paper>
   )
 })

@@ -1,3 +1,16 @@
+import { Response } from 'superagent'
+
+export interface IResponse<I> extends Response {
+  body: {
+    items: I[]
+    metadata: {
+      pagination: {
+        total_count: number
+      }
+    }
+  }
+}
+
 export interface IRequestItem {
   accept_requests: number
   all_requests: number

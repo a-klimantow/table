@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import buildQuery from 'odata-query'
+import f from 'odata-filter-builder'
 import { useLocalObservable } from 'mobx-react-lite'
 //
 import { IRequestItem, IResponse } from 'types'
@@ -30,11 +31,16 @@ export const useData = () =>
 
 type Q = Pick<Mui.TablePaginationProps, 'page' | 'rowsPerPage'>
 
-export const useQuery = ({ page, rowsPerPage }: Q): string => {
+export const useQuery = ({ page, rowsPerPage }: Q, search: string): string => {
   return buildQuery({
     top: rowsPerPage,
     skip: page * rowsPerPage,
-  })
+    filter: f
+      .or()
+      .contains('panel_name', search)
+      .contains('country', search)
+      .toString(),
+  }).slice(1)
 }
 
 // fetch

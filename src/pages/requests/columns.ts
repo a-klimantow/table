@@ -5,7 +5,7 @@ import { IRequestItem, ICol } from 'types'
 
 export type RC = ICol<IRequestItem>[]
 
-const KEY = 'rewards_columns'
+const KEY = 'requests_columns'
 
 export const columns = observable.array(
   storage.get(KEY, [

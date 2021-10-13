@@ -1,29 +1,29 @@
 import * as React from 'react'
-import * as Mui from '@material-ui/core'
 
-import { Icon } from '../icon'
-import { useLocalObservable } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 
-export const Search = React.memo(() => {
+import { SearchProvider, SearchInput } from './atoms'
+import { SearchContextProvider, useSearch } from './hooks'
+
+export { useSearch }
+
+interface SearchProps {
+  search: ReturnType<typeof useSearch>
+}
+
+export const Search = observer<SearchProps>(({ search }) => {
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      search.touched && search.update()
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [search, search.value, search.touched])
+
   return (
-    <Mui.OutlinedInput
-      sx={{ bgcolor: 'background.paper', fontSize: 14 }}
-      placeholder="Поиск..."
-      size="small"
-      startAdornment={
-        <Mui.InputAdornment position="start">
-          <Icon type="search" fontSize="small" />
-        </Mui.InputAdornment>
-      }
-      endAdornment={
-        <Mui.InputAdornment position="end">
-          <Mui.IconButton size="small">
-            <Icon type="search_clear" fontSize="inherit" />
-          </Mui.IconButton>
-        </Mui.InputAdornment>
-      }
-    />
+    <SearchContextProvider value={search}>
+      <SearchProvider>
+        <SearchInput />
+      </SearchProvider>
+    </SearchContextProvider>
   )
 })
-
-export const useSearch = () => useLocalObservable(() => ({}))

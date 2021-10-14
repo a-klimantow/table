@@ -9,7 +9,7 @@ import { useRef } from 'react'
 export class PaginationStore {
   private count = 0
   private page = 0
-  private rowsPerPage = 10
+  private rowsPerPage = 15
 
   constructor() {
     makeAutoObservable(this, {}, { proxy: false })
@@ -30,6 +30,7 @@ export class PaginationStore {
         this.rowsPerPage = +e.target.value
         this.page = 0
       }),
+      rowsPerPageOptions: [15, 20, 30]
     }
   }
 

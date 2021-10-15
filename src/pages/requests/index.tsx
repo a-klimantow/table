@@ -1,40 +1,26 @@
+import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 //
-import { Pagination, usePagination } from 'components/pagination'
-import { MenuColumns } from 'components/menu_columns'
-import { Search, useSearch } from 'components/search'
-import { Table, useTableHead, useTableBody } from 'components/table'
-import { useQuery, useData, useFetchRequests } from './hooks'
-import { Paper, Toolbar, Bottom } from './atoms'
-import { columns } from './columns'
-import { IRequestItem } from 'types'
-import { useEffect } from 'react'
+import * as Grid from 'components/grid'
+import { useRequests } from './hooks'
 
 export const Requests = observer(() => {
-  const data = useData()
-
-  const search = useSearch()
-  const pagination = usePagination()
-  const query = useQuery(pagination, search.current)
-  const head = useTableHead(columns)
-  const body = useTableBody(data.items, columns)
-  useFetchRequests(query, data)
-
-  useEffect(() => {
-    columns[0].renderCell = (item: IRequestItem) =>
-      `${item.panel_name} ${item.country}`
-  }, [])
-
+  const page = useRequests()
   return (
-    <Paper data-app-page>
-      <Toolbar>
-        <MenuColumns columns={columns} />
-        <Search search={search} />
-      </Toolbar>
-      <Table head={head} body={body} />
-      <Bottom>
-        <Pagination pagination={pagination} count={data.count} />
-      </Bottom>
-    </Paper>
+    <Grid.Provider value={page.grid}>
+      <Grid.Paper data-app-page>
+        <Grid.Toolbar>
+          <Grid.MenuColumns />
+          <Grid.Search />
+        </Grid.Toolbar>
+        <Grid.Table>
+          <Grid.TableHead />
+          <Grid.TableBody></Grid.TableBody>
+        </Grid.Table>
+        <Grid.Bottom>
+          <Grid.Pagination />
+        </Grid.Bottom>
+      </Grid.Paper>
+    </Grid.Provider>
   )
 })

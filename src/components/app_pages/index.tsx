@@ -1,12 +1,20 @@
 import * as React from 'react'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import {
+  Switch,
+  Route,
+  Redirect,
+  // useHistory
+} from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 
-import { useRouter, useToken } from 'hooks'
+import {
+  useRouter,
+  // useToken
+} from 'hooks'
 
 export const AppPages = observer(() => {
   const router = useRouter()
-  useCheckToken()
+  // useCheckToken()
   return (
     <Switch>
       {router.allRoutes.map((route) => (
@@ -17,12 +25,12 @@ export const AppPages = observer(() => {
   )
 })
 
-function useCheckToken() {
-  const token = useToken()
-  const history = useHistory()
-  React.useEffect(() => {
-    if (token.access && token.refresh) {
-      history.push('/user/refresh', { from: history.location })
-    }
-  }, [token, history])
-}
+// function useCheckToken() {
+//   const token = useToken()
+//   const history = useHistory()
+//   React.useEffect(() => {
+//     if (token.access && token.refresh) {
+//       history.push('/user/refresh', { from: history.location })
+//     }
+//   }, [token, history])
+// }

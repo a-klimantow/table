@@ -3,7 +3,7 @@ import * as Mui from '@material-ui/core'
 import { Observer } from 'mobx-react-lite'
 
 export interface ICol<T = unknown> extends Mui.TableCellProps {
-  key: T extends unknown ? string : keyof T
+  key?: string
   name?: string
   quickFilter?: boolean
   hidden?: boolean
@@ -12,7 +12,7 @@ export interface ICol<T = unknown> extends Mui.TableCellProps {
 
 export const useTableHead = (columns: ICol[]) =>
   columns.map((col) => (
-    <Observer key={col.key}>
+    <Observer key={col.key as string}>
       {() => (
         <Mui.TableCell
           data-quick-filter={col.quickFilter || null}

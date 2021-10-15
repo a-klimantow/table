@@ -32,6 +32,9 @@ class Store {
   update(count: number, rows: IGridRow[]) {
     this.count = count
     this.rows.replace(rows)
+    if (this.count < this.page * this.rowsPerPage) {
+      this.page = 0
+    }
   }
 
   // query

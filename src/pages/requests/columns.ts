@@ -6,7 +6,7 @@ import { IRequestItem, IGridCol } from 'types'
 type K = keyof IRequestItem
 type Cols = Array<IGridCol & { key: K }>
 
-const KEY = 'request_columns'
+const KEY = 'requests_columns'
 
 const cols = [
   { key: 'panel_name', name: 'Наименование панели', quickFilter: true },

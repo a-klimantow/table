@@ -14,7 +14,6 @@ export const pageNames = new Map<P, string>([
   ['accruals', 'Начисления'],
   ['login', 'Вход'],
   ['logout', 'Выход'],
-  ['plug', ''],
   ['reports', 'Отчеты'],
   ['requests', 'Заявки'],
   ['user_settings', 'Настройки'],

@@ -1,11 +1,13 @@
-import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
-import { useRequests } from './hooks'
+import { columns } from './columns'
+import { useFetch, useAddRender } from './hooks'
 
 export const Requests = observer(() => {
-  const grid = useRequests()
+  const grid = Grid.useGrid(columns)
+  useAddRender(grid)
+  useFetch(grid)
   return (
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>

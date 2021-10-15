@@ -4,31 +4,32 @@ import f from 'odata-filter-builder'
 import { IRequestItem, IGridRow, IGridCol } from 'types'
 import { useFetchRewards } from 'hooks'
 import { useGrid } from 'components/grid'
-import { columns } from './columns'
 
-export const useRequests = () => {
-  const grid = useGrid(columns)
-  const fetch = useFetchRewards('withdrawal')
+type G = ReturnType<typeof useGrid>
 
+export const useAddRender = (grid: G) =>
   React.useEffect(() => {
     grid.cols[0].renderCell = (item: IRequestItem) => {
       return `${item.panel_name} ${item.country}`
     }
   }, [grid])
 
-  // top & skip
+export const useFetch = (grid: G) => {
+  const fetch = useFetchRewards('withdrawal')
 
+  // top & skip
   fetch.query(grid.top)
   fetch.query(grid.skip)
 
   // quick filter
-
-  const quickFilter = createQuickFilter(grid.search)
+  const quickFilter = React.useMemo(
+    () => createQuickFilter(grid.search),
+    [grid.search]
+  )
 
   grid.search && fetch.query({ $filter: quickFilter })
 
   // fetch
-
   React.useEffect(() => {
     grid.setLodaing(true)
     fetch

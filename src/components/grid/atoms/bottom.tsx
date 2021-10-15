@@ -7,7 +7,7 @@ export const Bottom = React.memo<Mui.StackProps>((props) => (
     direction="row"
     alignItems="center"
     gap={1}
-    p={1}
+    px={1}
     borderTop={1}
     borderColor="divider"
   />

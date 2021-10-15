@@ -1,70 +1,49 @@
-import * as Mui from '@material-ui/core'
-import {
-  makeAutoObservable,
-  action,
-  observable,
-  ObservableMap,
-  reaction,
-  values,
-} from 'mobx'
-import React from 'react'
-import storage from 'store'
+import * as React from 'react'
+import * as mobx from 'mobx'
 
-export interface IGridCol {
-  name: string
-  type?: string | number | Date
-  hidden?: boolean
-  renderCell?(item: unknown): React.ReactNode
-  quickFilter?: boolean
-}
+import { IGridRow, ColsType } from './types'
 
-export class Store {
+class Store {
+  // pagination
   count = 0
-  rowsPerPage = 10
   page = 0
-  search: string
-  columns: ObservableMap<string, IGridCol>
+  rowsPerPage = 15
+  rowsPerPageOptions = [15, 20, 30]
 
-  setSearch(value: string) {
-    this.search = value
+  // loading
+  loading = false
+  setLodaing = (loading: boolean) => (this.loading = loading)
+
+  // search
+  search = ''
+  setSearch = (value: string): string => (this.search = value)
+
+  // rows
+  rows = mobx.observable.array<IGridRow>([])
+
+  constructor(public cols: ColsType) {
+    mobx.makeAutoObservable(this, { cols: false })
   }
 
-  get pagination(): Mui.TablePaginationProps {
-    return {
-      count: this.count,
-      page: this.page,
-      rowsPerPage: this.rowsPerPage,
-      onPageChange: action((_, page) => (this.page = page)),
-      onRowsPerPageChange: action((e) => {
-        this.page = 0
-        this.rowsPerPage = +e.target.value
-      }),
-      rowsPerPageOptions: [10, 20, 30],
-    }
+  get tableHead() {
+    return this.cols.slice()
   }
+
+  update(count: number, rows: IGridRow[]) {
+    this.count = count
+    this.rows.replace(rows)
+  }
+
+  // query
 
   get top() {
-    return this.rowsPerPage
+    return { $top: this.rowsPerPage }
   }
 
   get skip() {
-    return this.page * this.rowsPerPage
-  }
-
-  constructor(key: string, cols: Map<string, IGridCol>) {
-    this.search = storage.get(key + '_s', '')
-    this.columns = observable.map(storage.get(key + '_c', cols))
-
-    makeAutoObservable(this)
-
-    reaction(
-      () => values(this.columns).map((c) => c.hidden),
-      () => storage.set(key + '_c', this.columns)
-    )
-
-    reaction(
-      () => this.search,
-      (search) => storage.set(key + '_s', search)
-    )
+    return this.page ? { $skip: this.page * this.rowsPerPage } : {}
   }
 }
+
+export const useGrid = (columns: ColsType) =>
+  React.useRef(new Store(columns)).current

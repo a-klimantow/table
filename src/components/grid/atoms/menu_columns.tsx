@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
-import { action, values } from 'mobx'
+import { action } from 'mobx'
 import { Observer } from 'mobx-react-lite'
 
 import { Icon } from 'components'
@@ -26,12 +26,12 @@ export const MenuColumns = React.memo(() => {
 })
 
 const MenuColumnsList = React.memo(() => {
-  const { columns } = useGridContext()
+  const grid = useGridContext()
   return (
     <React.Fragment>
-      {values(columns).map((col, i) => (
+      {grid.cols.map((col) => (
         <Mui.Stack
-          key={i}
+          key={col.key}
           direction="row"
           alignItems="center"
           gap={1}
@@ -55,10 +55,10 @@ const MenuColumnsList = React.memo(() => {
 })
 
 const MenuColmnsButtons = React.memo(() => {
-  const { columns } = useGridContext()
+  const grid = useGridContext()
 
   const hiddenAll = action((h: boolean) => {
-    columns.forEach((v) => {
+    grid.cols.forEach((v) => {
       v.hidden = h
     })
   })

@@ -5,18 +5,15 @@ import * as Grid from 'components/grid'
 import { useRequests } from './hooks'
 
 export const Requests = observer(() => {
-  const page = useRequests()
+  const grid = useRequests()
   return (
-    <Grid.Provider value={page.grid}>
+    <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>
         <Grid.Toolbar>
           <Grid.MenuColumns />
           <Grid.Search />
         </Grid.Toolbar>
-        <Grid.Table>
-          <Grid.TableHead />
-          <Grid.TableBody></Grid.TableBody>
-        </Grid.Table>
+        <Grid.Table />
         <Grid.Bottom>
           <Grid.Pagination />
         </Grid.Bottom>

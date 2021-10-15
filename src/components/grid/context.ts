@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { Store } from './store'
+import { useGrid } from './store'
 
-const GridContext = React.createContext({} as Store)
+const GridContext = React.createContext({} as ReturnType<typeof useGrid>)
 
 export const Provider = GridContext.Provider
 

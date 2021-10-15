@@ -1,27 +1,44 @@
 import * as React from 'react'
 import * as Mui from '@material-ui/core'
-import { values } from 'mobx'
 import { observer, Observer } from 'mobx-react-lite'
 
 import { useGridContext } from '../context'
 
 // _______________ table
 
-export const Table = observer((props) => (
-  <Mui.TableContainer sx={{ flex: 1 }}>
-    <Mui.Table>{props.children}</Mui.Table>
+export const Table = React.memo(() => (
+  <Mui.TableContainer sx={{ flex: 1, position: 'relative' }}>
+    <Loader />
+    <Mui.Table>
+      <TableHead />
+      <TableBody />
+    </Mui.Table>
   </Mui.TableContainer>
 ))
 
+// _______________ table loading
+
+const Loader = observer(() => {
+  const grid = useGridContext()
+
+  if (!grid.loading) return null
+
+  return (
+    <Mui.LinearProgress
+      sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}
+    />
+  )
+})
+
 // _______________ table head
 
-export const TableHead = React.memo(() => {
+const TableHead = React.memo(() => {
   const grid = useGridContext()
   return (
     <Mui.TableHead>
       <Mui.TableRow>
-        {values(grid.columns).map((c) => (
-          <Observer key={c.name}>
+        {grid.tableHead.map((c) => (
+          <Observer key={c.key}>
             {() => (
               <Mui.TableCell
                 data-hidden={c.hidden || null}
@@ -39,12 +56,23 @@ export const TableHead = React.memo(() => {
 
 // _______________ table body
 
-export const TableBody = observer(({ children }) => {
+const TableBody = observer(() => {
+  const grid = useGridContext()
   return (
     <Mui.TableBody>
-      {/* <Mui.TableRow> */}
-      {children}
-      {/* </Mui.TableRow> */}
+      {grid.rows.map((row) => (
+        <Mui.TableRow key={row.key}>
+          {row.cells.map((cell) => (
+            <Observer key={cell.col.key}>
+              {() => (
+                <Mui.TableCell data-hidden={cell.col.hidden || null}>
+                  {cell.node}
+                </Mui.TableCell>
+              )}
+            </Observer>
+          ))}
+        </Mui.TableRow>
+      ))}
     </Mui.TableBody>
   )
 })

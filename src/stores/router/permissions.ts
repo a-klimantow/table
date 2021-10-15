@@ -3,7 +3,7 @@ import { ModuleType as M, PageType as P, RoleType as R } from 'types'
 export const permissions = new Map<R, { modules: M[]; pages: P[] }>()
   .set('AccrualsManager', {
     modules: ['rewards', 'user'],
-    pages: ['accruals', 'user_settings', 'logout', 'refresh'],
+    pages: ['accruals'],
   })
   .set('PanelistManagement', {
     modules: ['user'],
@@ -11,7 +11,7 @@ export const permissions = new Map<R, { modules: M[]; pages: P[] }>()
   })
   .set('PaymentsManager', {
     modules: ['rewards', 'user'],
-    pages: ['requests', 'reports', 'user_settings', 'logout', 'refresh'],
+    pages: ['requests', 'reports'],
   })
   .set('ProjectManagement', {
     modules: ['user'],

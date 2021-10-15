@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 //
 import { RoleType as R } from 'types'
 import { getDefPath, getPrommited } from './permissions'
-import { getRoutes } from './routes'
+import { getRoutes, getDefaultRoutes } from './routes'
 
 export class Router {
   private _roles = [] as R[]
@@ -26,7 +26,7 @@ export class Router {
   }
 
   get userRoutes() {
-    return getRoutes('user', this.prommited.pages)
+    return getDefaultRoutes(this._roles)
   }
 
   get allRoutes() {

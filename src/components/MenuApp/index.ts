@@ -1,1 +1,0 @@
-export { MenuApp } from './MenuApp'

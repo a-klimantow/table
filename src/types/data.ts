@@ -11,6 +11,8 @@ export interface IResponse<I> extends Response {
   }
 }
 
+// **************** rewards (вознагдаждения)
+
 export interface IRequestItem {
   accept_requests: number
   all_requests: number
@@ -32,6 +34,17 @@ export interface IAccrualItem {
   file_id: number
   id: number
 }
+
+export interface IReportItem {
+  amount: number
+  currency_name: string
+  panel_name: string
+  payment_type_name: string
+  processed_date: Date
+  total_success_requests: number
+}
+
+// **************** lists (списки)
 
 export interface IListItem {
   common_name: string

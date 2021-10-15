@@ -35,6 +35,7 @@ class Store {
     if (this.count < this.page * this.rowsPerPage) {
       this.page = 0
     }
+    this.loading = false
   }
 
   // query

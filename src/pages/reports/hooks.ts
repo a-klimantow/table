@@ -1,7 +1,7 @@
 import * as React from 'react'
 import f from 'odata-filter-builder'
 //
-import { IRequestItem, IGridRow, IGridCol } from 'types'
+import { IReportItem, IGridRow, IGridCol } from 'types'
 import { useFetchRewards } from 'hooks'
 import { useGrid } from 'components/grid'
 
@@ -9,13 +9,13 @@ type G = ReturnType<typeof useGrid>
 
 export const useAddRender = (grid: G) =>
   React.useEffect(() => {
-    grid.cols[0].renderCell = (item: IRequestItem) => {
-      return `${item.panel_name} ${item.country}`
+    grid.cols[1].renderCell = (item: IReportItem) => {
+      return new Date(item.processed_date).toLocaleDateString()
     }
   }, [grid])
 
 export const useFetch = (grid: G) => {
-  const fetch = useFetchRewards('withdrawal')
+  const fetch = useFetchRewards('withdrawal-report')
   const filter = useQuickFilter(grid)
 
   React.useEffect(() => {
@@ -36,9 +36,9 @@ export const useFetch = (grid: G) => {
   return grid
 }
 
-type K = keyof IRequestItem
+type K = keyof IReportItem
 
-function createRows(items: IRequestItem[], cols: IGridCol[]): IGridRow[] {
+function createRows(items: IReportItem[], cols: IGridCol[]): IGridRow[] {
   return items.map((item, key) => ({
     key: String(key),
     cells: cols.map((col) => ({
@@ -51,10 +51,6 @@ function createRows(items: IRequestItem[], cols: IGridCol[]): IGridRow[] {
 const useQuickFilter = (grid: G) => {
   if (!grid.search) return {}
   return {
-    $filter: f
-      .or()
-      .contains('panel_name', grid.search)
-      .contains('country', grid.search)
-      .toString(),
+    $filter: f.or().contains('panel_name', grid.search).toString(),
   }
 }

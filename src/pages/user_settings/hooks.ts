@@ -1,6 +1,6 @@
 import { ModuleType as M } from 'types'
 import { useAppContext } from 'hooks'
-import { name } from 'assets'
+import { moduleNames } from 'assets'
 import { useRouteMatch } from 'react-router'
 import { useLocalObservable } from 'mobx-react-lite'
 
@@ -15,7 +15,7 @@ export const useDefaultPages = () => {
 
     items: items.map((i) => ({
       value: i,
-      label: name(i),
+      label: moduleNames.get(i),
       disabled: false,
     })),
 

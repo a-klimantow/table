@@ -43,6 +43,9 @@ export const GlobalTheme: React.FC = (props) => {
                 MuiTableCell: {
                   styleOverrides: {
                     root: {
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
                       '&[data-hidden]': {
                         display: 'none',
                       },

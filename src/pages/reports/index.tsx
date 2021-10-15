@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
 import { columns } from './columns'
-import { useFetch, useAddRender } from './hooks'
+import { useFetch, useFormateColumns } from './hooks'
 
 export const Reports = observer(() => {
   const grid = Grid.useGrid(columns)
-  useAddRender(grid)
+  useFormateColumns(grid)
   useFetch(grid)
   return (
     <Grid.Provider value={grid}>

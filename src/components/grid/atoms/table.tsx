@@ -65,7 +65,10 @@ const TableBody = observer(() => {
           {row.cells.map((cell) => (
             <Observer key={cell.col.key}>
               {() => (
-                <Mui.TableCell data-hidden={cell.col.hidden || null}>
+                <Mui.TableCell
+                  data-hidden={cell.col.hidden || null}
+                  align={cell.col.aling}
+                >
                   {cell.node}
                 </Mui.TableCell>
               )}

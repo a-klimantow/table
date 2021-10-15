@@ -7,7 +7,7 @@ import { useGrid } from 'components/grid'
 
 type G = ReturnType<typeof useGrid>
 
-export const useAddRender = (grid: G) =>
+export const useFormateColumns = (grid: G) =>
   React.useEffect(() => {
     grid.cols[1].renderCell = (item: IReportItem) => {
       return new Date(item.processed_date).toLocaleDateString()

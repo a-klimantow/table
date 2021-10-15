@@ -1,5 +1,6 @@
 import { IObservableArray } from 'mobx'
 import { ReactNode } from 'react'
+import { TableCellProps } from '@material-ui/core'
 
 export interface IGridCol {
   key: string
@@ -8,6 +9,7 @@ export interface IGridCol {
   hidden?: boolean
   renderCell?(...item: unknown[]): ReactNode
   quickFilter?: boolean
+  aling?: TableCellProps['align']
 }
 
 interface IGridCell {

@@ -6,7 +6,7 @@ import { IReportItem, IGridCol } from 'types'
 type K = keyof IReportItem
 type Cols = Array<IGridCol & { key: K }>
 
-const KEY = 'requests_columns'
+const KEY = 'reports_columns'
 
 const cols = [
   { key: 'panel_name', name: 'Наименование панели', quickFilter: true },

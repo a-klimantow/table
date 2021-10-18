@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, runInAction } from 'mobx'
-import { ButtonProps, PopoverProps, InputBaseProps } from '@material-ui/core'
+import { ButtonProps, PopoverProps, InputBaseProps } from '@mui/material'
 import sup from 'superagent'
 import { useEffect, useRef } from 'react'
 import { useUrl } from 'hooks'

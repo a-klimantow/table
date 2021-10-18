@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as Mui from '@material-ui/core'
+import * as Mui from '@mui/material'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 //
 import { moduleNames, pageNames } from 'assets'

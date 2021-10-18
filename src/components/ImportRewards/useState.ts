@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { action } from 'mobx'
 import { useLocalObservable } from 'mobx-react-lite'
-import { PopoverProps, ButtonProps, InputProps } from '@material-ui/core'
+import { PopoverProps, ButtonProps, InputProps } from '@mui/material'
 
 import { useImport } from './useImport'
 

@@ -1,4 +1,4 @@
-import * as Mui from '@material-ui/core'
+import * as Mui from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { useLocation } from 'react-router-dom'
 //

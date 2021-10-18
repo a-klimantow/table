@@ -1,5 +1,5 @@
 import { Observer, observer } from 'mobx-react-lite'
-import { Button, Popover, Input, ListItem } from '@material-ui/core'
+import { Button, Popover, Input, ListItem } from '@mui/material'
 
 import { useImportStore } from './store'
 

@@ -21,6 +21,14 @@ export const GlobalTheme: React.FC = (props) => {
               },
 
               components: {
+                MuiInputBase: {
+                  styleOverrides: {
+                    root: {
+                      background: theme.palette.background.paper,
+                    },
+                  },
+                },
+
                 MuiTable: {
                   defaultProps: {
                     sx: {

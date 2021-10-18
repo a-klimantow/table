@@ -18,3 +18,10 @@ export const pageNames = new Map<P, string>([
 ])
 
 export const submenuNames = new Map<M, string>([['rewards', 'Выплаты']])
+
+type Payments = 'yookassa' | 'webmoney'
+
+export const paymentNames = new Map<Payments, string>([
+  ['yookassa', 'ЮKassa'],
+  ['webmoney', 'WebMoney'],
+])

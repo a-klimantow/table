@@ -33,7 +33,7 @@ export const ExportDrawer = observer(() => {
         <Block title="Статус заявки">
           <Statuses />
         </Block>
-        <Block title="Панели">
+        <Block title="Панели" info={<Info />}>
           <Panels />
         </Block>
         <Buttons />
@@ -42,12 +42,16 @@ export const ExportDrawer = observer(() => {
   )
 })
 
-const Block = observer<{ title: string }>(({ children, title }) => (
-  <Mui.Stack>
-    <Mui.Typography variant="subtitle2">{title}</Mui.Typography>
-    {children}
-  </Mui.Stack>
-))
+const Block = observer<{ title: string; info?: React.ReactNode }>(
+  ({ children, title, info }) => (
+    <Mui.Stack>
+      <Mui.Typography variant="subtitle2" sx={{ display: 'flex', gap: 1 }}>
+        {title} {info}
+      </Mui.Typography>
+      {children}
+    </Mui.Stack>
+  )
+)
 
 const Buttons = React.memo(() => {
   const exp = useExportContext()
@@ -165,3 +169,40 @@ const Panels = React.memo(() => {
     </Mui.FormGroup>
   )
 })
+
+const texts = [
+  'Выгружаются заявки только для RU',
+  'Статус меняется на “В обработке”',
+  'Экспортируются заявки старше 3 дней',
+]
+
+const Text = React.memo(() => {
+  const exp = useExportContext()
+  return (
+    <Mui.Stack>
+      {texts.map((txt, i) =>
+        i === 0 ? (
+          <Observer key={txt}>
+            {() =>
+              exp.isUkassa ? (
+                <Mui.Typography variant="body2">{txt}</Mui.Typography>
+              ) : null
+            }
+          </Observer>
+        ) : (
+          <Mui.Typography key={txt} variant="body2">
+            {txt}
+          </Mui.Typography>
+        )
+      )}
+    </Mui.Stack>
+  )
+})
+
+const Info = React.memo(() => (
+  <Mui.Tooltip placement="right" title={<Text />}>
+    <Mui.Box display="inline-flex">
+      <Icon type="error" fontSize="small" />
+    </Mui.Box>
+  </Mui.Tooltip>
+))

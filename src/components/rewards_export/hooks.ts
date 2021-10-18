@@ -26,7 +26,7 @@ export const useExport = () =>
 
     setPay(str = '') {
       this.pay = str
-      if (/kassa/i.test(str)) {
+      if (this.isUkassa) {
         this.disabledPanels = true
         this.panelIds.add(1029695)
         this.panelIds.add(7110218)
@@ -34,6 +34,10 @@ export const useExport = () =>
         this.disabledPanels = false
         this.panelIds.clear()
       }
+    },
+
+    get isUkassa() {
+      return /kassa/i.test(this.pay)
     },
 
     // statuses
@@ -67,11 +71,11 @@ export const useExport = () =>
     },
 
     get url() {
-      return /kassa/i.test(this.pay) ? 'exportyookassa' : 'exportwebmoney'
+      return this.isUkassa ? 'exportyookassa' : 'exportwebmoney'
     },
 
     get data() {
-      return /kassa/i.test(this.pay) ? {} : { PalelIds: this.panelIds }
+      return this.isUkassa ? {} : { PalelIds: this.panelIds }
     },
 
     get query() {

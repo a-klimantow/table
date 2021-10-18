@@ -12,8 +12,8 @@ const validPass = new RegExp(/.{6}/)
 
 export const useLogin = () => {
   const [data, setData] = React.useState<null | D>(null)
-  const email = useField('liliya.faizullina@socinform.ru', 'text', validEmail)
-  const password = useField('111111', 'password', validPass)
+  const email = useField('', 'text', validEmail)
+  const password = useField('', 'password', validPass)
 
   const submit = () => {
     setData({

@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { Button, Drawer } from '@material-ui/core'
+import { Button, Drawer } from '@mui/material'
 
 import { ExportContext } from './context'
 import { ExportStore } from './store'

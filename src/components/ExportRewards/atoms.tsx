@@ -7,7 +7,7 @@ import {
   StackProps,
   Tooltip,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import { Icon } from 'components'
 import { useExportContext } from './context'

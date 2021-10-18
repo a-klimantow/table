@@ -1,6 +1,6 @@
 import { IObservableArray } from 'mobx'
 import { ReactNode } from 'react'
-import { TableCellProps } from '@material-ui/core'
+import { TableCellProps } from '@mui/material'
 
 export interface IGridCol {
   key: string

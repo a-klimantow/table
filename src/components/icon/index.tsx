@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { SvgIconProps } from '@material-ui/core'
+import { SvgIconProps } from '@mui/material'
 
 import { mui_icons } from 'assets'
 import { IconType as I } from 'types'

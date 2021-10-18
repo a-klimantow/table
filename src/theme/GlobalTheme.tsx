@@ -1,8 +1,8 @@
 import * as React from 'react'
-import * as Mui from '@material-ui/core'
-import { ruRU } from '@material-ui/core/locale'
+import * as Mui from '@mui/material'
+import { ruRU } from '@mui/material/locale'
 
-declare module '@material-ui/styles' {
+declare module '@mui/material/styles' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Mui.Theme {}
 }

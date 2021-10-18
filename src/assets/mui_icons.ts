@@ -1,4 +1,4 @@
-import * as Mui from '@material-ui/icons'
+import * as Mui from '@mui/icons-material'
 
 export const mui_icons = {
   close: Mui.Close,
@@ -7,8 +7,10 @@ export const mui_icons = {
   error: Mui.ErrorOutline,
   eye_off: Mui.VisibilityOff,
   eye_on: Mui.Visibility,
+  export: Mui.FileUpload,
   filter: Mui.FilterList,
   home: Mui.HomeOutlined,
+  import: Mui.FileDownload,
   menu: Mui.Menu,
   minus: Mui.IndeterminateCheckBoxOutlined,
   plus: Mui.AddBoxOutlined,

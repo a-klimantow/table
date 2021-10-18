@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as Mui from '@material-ui/core'
+import * as Mui from '@mui/material'
 
 export const useMenuTheme = () => {
   const t = Mui.useTheme()

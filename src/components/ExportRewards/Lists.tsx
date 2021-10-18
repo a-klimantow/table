@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Stack, Radio, Checkbox } from '@material-ui/core'
+import { Stack, Radio, Checkbox } from '@mui/material'
 import { Observer } from 'mobx-react-lite'
 
 import { useExportContext } from './context'

@@ -25,7 +25,7 @@ export const Search = React.memo(() => {
       value={state.value}
       onChange={(e) => handleChange(e.target.value)}
       size="small"
-      sx={{ bgcolor: 'background.paper', fontSize: 14 }}
+      sx={{ bgcolor: 'background.paper', fontSize: 14, width: 250 }}
       startAdornment={<IconSearch />}
       endAdornment={
         <Button show={Boolean(state.value)} clear={() => handleChange()} />

@@ -1,0 +1,162 @@
+import * as React from 'react'
+import * as Mui from '@material-ui/core'
+import { observer, Observer } from 'mobx-react-lite'
+
+import { useExportContext, ExportContext } from './context'
+import { useExport, useFetchLists, useFetchExport } from './hooks'
+
+export const ExportProvider = observer(({ children }) => {
+  const exp = useExport()
+  return <ExportContext.Provider value={exp}>{children}</ExportContext.Provider>
+})
+
+export const ExportButton = React.memo(() => {
+  const exp = useExportContext()
+  return <Mui.Button onClick={exp.toggleOpen}>Экспорт</Mui.Button>
+})
+
+export const ExportDrawer = observer(() => {
+  const exp = useExportContext()
+  useFetchExport(exp)
+  return (
+    <Mui.Drawer open={exp.isOpen} anchor="right" onClose={exp.toggleOpen}>
+      <Mui.Stack mx={3} my={4} width={440} height="100%" gap={4}>
+        <Mui.Typography variant="subtitle1">Экспорт заявок</Mui.Typography>
+        <Block title="Платежная система">
+          <Payments />
+        </Block>
+        <Block title="Статус заявки">
+          <Statuses />
+        </Block>
+        <Block title="Панели">
+          <Panels />
+        </Block>
+        <Buttons />
+      </Mui.Stack>
+    </Mui.Drawer>
+  )
+})
+
+const Block = observer<{ title: string }>(({ children, title }) => (
+  <Mui.Stack>
+    <Mui.Typography variant="subtitle2">{title}</Mui.Typography>
+    {children}
+  </Mui.Stack>
+))
+
+const Buttons = React.memo(() => {
+  const exp = useExportContext()
+  return (
+    <Mui.Stack mt="auto" direction="row" gap={2}>
+      <Mui.Button variant="outlined" onClick={exp.toggleOpen}>
+        Отменить
+      </Mui.Button>
+      <Observer>
+        {() => (
+          <Mui.Button
+            variant="contained"
+            onClick={exp.exportStart}
+            disabled={exp.loading}
+          >
+            Экспортировать
+            <Loader />
+          </Mui.Button>
+        )}
+      </Observer>
+    </Mui.Stack>
+  )
+})
+
+const Loader = observer(() => {
+  const exp = useExportContext()
+
+  if (!exp.loading) return null
+
+  return (
+    <Mui.LinearProgress
+      sx={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+    />
+  )
+})
+
+const Payments = observer(() => {
+  const items = useFetchLists('payment-systems')
+  const exp = useExportContext()
+
+  React.useEffect(() => {
+    items && exp.setPay(items[0].name)
+  }, [items, exp])
+
+  if (!items) return <Mui.CircularProgress />
+
+  return (
+    <Mui.RadioGroup
+      name="payments"
+      value={exp.pay}
+      onChange={(e) => exp.setPay(e.target.value)}
+    >
+      {items?.map((item) => (
+        <Mui.FormControlLabel
+          key={item.id}
+          control={<Mui.Radio />}
+          label={item.common_name}
+          value={item.name}
+        />
+      ))}
+    </Mui.RadioGroup>
+  )
+})
+
+const Statuses = observer(() => {
+  const items = useFetchLists('export-withdrawal-statuses')
+  const exp = useExportContext()
+
+  React.useEffect(() => {
+    items && exp.setStatus(items[0].name)
+  }, [items, exp])
+
+  if (!items) return <Mui.CircularProgress />
+
+  return (
+    <Mui.RadioGroup
+      name="payments"
+      value={exp.status}
+      onChange={(e) => exp.setStatus(e.target.value)}
+    >
+      {items?.map((item) => (
+        <Mui.FormControlLabel
+          key={item.id}
+          control={<Mui.Radio />}
+          label={item.common_name}
+          value={item.name}
+        />
+      ))}
+    </Mui.RadioGroup>
+  )
+})
+
+const Panels = React.memo(() => {
+  const items = useFetchLists('export-withdrawal-panels')
+  const exp = useExportContext()
+
+  if (!items) return <Mui.CircularProgress />
+
+  return (
+    <Mui.FormGroup>
+      {items?.map((item) => (
+        <Observer key={item.id}>
+          {() => (
+            <Mui.FormControlLabel
+              control={<Mui.Checkbox />}
+              label={item.name}
+              value={item.id}
+              disabled={exp.disabledPanels}
+              checked={exp.panelIds.has(item.id)}
+              onChange={() => exp.setId(item.id)}
+            />
+          )}
+        </Observer>
+      ))}
+    </Mui.FormGroup>
+  )
+})

@@ -18,9 +18,29 @@ export const GlobalTheme: React.FC = (props) => {
               typography: {
                 h5: { fontSize: 22, fontWeight: 500 },
                 h6: { fontSize: 16, fontWeight: 500 },
+                subtitle1: { fontSize: 22, fontWeight: 500 },
+                subtitle2: { fontSize: 16, fontWeight: 500 },
               },
 
               components: {
+                MuiCheckbox: {
+                  defaultProps: {
+                    size: 'small',
+                  },
+                },
+
+                MuiSwitch: {
+                  defaultProps: {
+                    size: 'small',
+                  },
+                },
+
+                MuiRadio: {
+                  defaultProps: {
+                    size: 'small',
+                  },
+                },
+
                 MuiInputBase: {
                   styleOverrides: {
                     root: {

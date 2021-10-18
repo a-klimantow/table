@@ -51,6 +51,7 @@ export const GlobalTheme: React.FC = (props) => {
 
                 MuiTable: {
                   defaultProps: {
+                    padding: 'none',
                     sx: {
                       borderCollapse: 'separate',
                       borderSpacing: 0,
@@ -80,10 +81,15 @@ export const GlobalTheme: React.FC = (props) => {
                     },
 
                     head: {
+                      padding: theme.spacing(1.5, 2),
                       fontWeight: 300,
                       '&[data-quick-filter]': {
                         fontWeight: 500,
                       },
+                    },
+
+                    body: {
+                      padding: theme.spacing(1.2, 2),
                     },
                   },
                 },

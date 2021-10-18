@@ -12,7 +12,6 @@ export const Accruals = observer(() => {
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>
         <Grid.Toolbar>
-          <Grid.MenuColumns />
           <Grid.Search />
         </Grid.Toolbar>
         <Grid.Table />

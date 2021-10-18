@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Mui from '@material-ui/core'
 import { observer, Observer } from 'mobx-react-lite'
 
+import { Icon } from 'components/icon'
 import { useExportContext, ExportContext } from './context'
 import { useExport, useFetchLists, useFetchExport } from './hooks'
 
@@ -12,7 +13,11 @@ export const ExportProvider = observer(({ children }) => {
 
 export const ExportButton = React.memo(() => {
   const exp = useExportContext()
-  return <Mui.Button onClick={exp.toggleOpen}>Экспорт</Mui.Button>
+  return (
+    <Mui.Button startIcon={<Icon type="export" />} onClick={exp.toggleOpen}>
+      Экспорт
+    </Mui.Button>
+  )
 })
 
 export const ExportDrawer = observer(() => {

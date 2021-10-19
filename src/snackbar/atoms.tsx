@@ -4,7 +4,7 @@ import { IconVariant } from 'notistack'
 import { IconType } from 'types'
 import { Icon } from 'components'
 
-import { Box } from '@material-ui/system'
+import { Box } from '@mui/material'
 
 export const SnackIcon: FC<{ type: IconType }> = ({ type }) => (
   <Box sx={{ display: 'inline-flex', mr: 1.5 }}>

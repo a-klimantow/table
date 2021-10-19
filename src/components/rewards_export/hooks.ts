@@ -28,8 +28,7 @@ export const useExport = () =>
       this.pay = str
       if (this.isUkassa) {
         this.disabledPanels = true
-        this.panelIds.add(1029695)
-        this.panelIds.add(7110218)
+        this.panelIds.replace([1029695, 7110218])
       } else {
         this.disabledPanels = false
         this.panelIds.clear()

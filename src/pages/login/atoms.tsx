@@ -3,7 +3,17 @@ import * as Mui from '@mui/material'
 import { observer } from 'mobx-react-lite'
 //
 import { Icon } from 'components'
-import { useLoginContext } from './context'
+import { useStore } from './store'
+import { useLoginContext, LoginContext } from './context'
+import { useFetch } from './hooks'
+
+// provider
+
+export const Provider = observer(({ children }) => {
+  const store = useStore()
+  useFetch(store)
+  return <LoginContext.Provider value={store}>{children}</LoginContext.Provider>
+})
 
 // login page wrapper
 
@@ -11,34 +21,35 @@ export const Page = observer((props) => {
   return (
     <Mui.Box
       data-app-page
-      {...props}
       sx={{
         display: 'grid',
         gridTemplate: `1fr 2fr / auto minmax(auto, 400px) auto`,
         rowGap: 8,
       }}
-    />
+    >
+      {props.children}
+    </Mui.Box>
   )
 })
 
 // title page
 
-export const Title = observer((props) => (
+export const Title = React.memo(() => (
   <Mui.Typography
-    {...props}
     sx={{
       gridArea: '1 / 2 / 2 / 3',
       placeSelf: 'end center',
       fontSize: 30,
     }}
-  />
+  >
+    Panel Rider
+  </Mui.Typography>
 ))
 
 // login form
 
-export const Form = observer((props) => (
+export const Form = React.memo(() => (
   <Mui.Box
-    {...props}
     component="form"
     onSubmit={(e: React.FormEvent) => e.preventDefault()}
     gridArea="2 / 2 / 3 / 3"
@@ -48,7 +59,11 @@ export const Form = observer((props) => (
       gridAutoRows: 90,
       placeItems: 'start stretch',
     }}
-  />
+  >
+    <Email />
+    <Password />
+    <Button />
+  </Mui.Box>
 ))
 
 // login email
@@ -100,14 +115,14 @@ export const TogglePass = observer(() => {
 // submit button
 
 export const Button = observer(() => {
-  const { submit, disabled } = useLoginContext()
+  const { form } = useLoginContext()
   return (
     <Mui.Button
       type="submit"
       variant="contained"
       size="large"
-      onClick={() => submit()}
-      disabled={disabled.get()}
+      onClick={form.submit}
+      disabled={form.disabled}
     >
       Войти
       <Loader />
@@ -116,8 +131,8 @@ export const Button = observer(() => {
 })
 
 const Loader = observer(() => {
-  const { data } = useLoginContext()
-  if (!data) return null
+  const { form } = useLoginContext()
+  if (!form.data) return null
   return (
     <Mui.LinearProgress
       sx={{

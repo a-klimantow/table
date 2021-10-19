@@ -1,19 +1,12 @@
-import { Page, Title, Form, Email, Password, Button } from './atoms'
-import { useLogin } from './hooks'
-import { LoginContextProvider } from './context'
+import * as React from 'react'
 
-export const Login = () => {
-  const state = useLogin()
-  return (
-    <LoginContextProvider value={state}>
-      <Page>
-        <Title>Panel Rider</Title>
-        <Form>
-          <Email />
-          <Password />
-          <Button />
-        </Form>
-      </Page>
-    </LoginContextProvider>
-  )
-}
+import { Provider, Page, Title, Form } from './atoms'
+
+export const Login = React.memo(() => (
+  <Provider>
+    <Page>
+      <Title />
+      <Form />
+    </Page>
+  </Provider>
+))

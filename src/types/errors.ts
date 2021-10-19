@@ -12,3 +12,12 @@ export type LoginResposeError = IResponseError<{
     notes: string
   }
 }>
+
+export interface IErrors {
+  errors: {
+    code: '404' | '400'
+    type: 'Error'
+    description: string
+    notes: string
+  }
+}

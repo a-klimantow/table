@@ -1,9 +1,7 @@
 import * as React from 'react'
 //
-import { useLogin } from './hooks'
+import { StoreType } from './store'
 
-const LoginContext = React.createContext({} as ReturnType<typeof useLogin>)
+export const LoginContext = React.createContext({} as StoreType)
 
 export const useLoginContext = () => React.useContext(LoginContext)
-
-export const LoginContextProvider = LoginContext.Provider

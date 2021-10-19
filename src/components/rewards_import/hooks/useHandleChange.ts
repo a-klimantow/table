@@ -13,7 +13,7 @@ export const useHandleChange = (name: string) => {
     if (imp.data) return
 
     const { files } = e.currentTarget
-    if (files?.length && files[0].type === 'text/csv') {
+    if (files?.length) {
       imp.setData(files[0], name)
     } else {
       msg('Неправельный формат файла', 'error')

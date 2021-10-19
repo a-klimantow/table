@@ -41,6 +41,12 @@ export const GlobalTheme: React.FC = (props) => {
                   },
                 },
 
+                MuiFormHelperText: {
+                  defaultProps: {
+                    variant: 'standard',
+                  },
+                },
+
                 MuiInputBase: {
                   styleOverrides: {
                     root: {

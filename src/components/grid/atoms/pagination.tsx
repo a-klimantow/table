@@ -12,7 +12,9 @@ export const Pagination = observer(() => {
       sx={{ ml: 'auto' }}
       count={grid.count}
       page={grid.page}
-      onPageChange={action((_, page) => (grid.page = page))}
+      onPageChange={action((_, page) => {
+        grid.page = page
+      })}
       rowsPerPage={grid.rowsPerPage}
       onRowsPerPageChange={action((e) => {
         grid.page = 0

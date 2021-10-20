@@ -5,29 +5,36 @@ import { currentUrl } from 'utils'
 
 type D = { email: string; password: string }
 
-export function useLoginPost(type?: 'refresh') {
+export function useLoginPost() {
   const token = useToken()
   const user = useUser()
 
-  const url = currentUrl(`login/${type ?? ''}`)
-  const post = sup.post(url)
+  return {
+    async login(data?: D) {
+      const request = sup.post(currentUrl('login')).send(data)
 
-  if (type) {
-    post
-      .auth(token.access, { type: 'bearer' })
-      .send({ refresh_token: token.refresh })
-  }
+      try {
+        const { body } = await request
+        token.update(body.data)
+        user.update(body.data)
+      } catch (error) {
+        const { response: res } = error as ResponseError
+        if (res?.body) return Promise.reject(res.body)
+      }
+    },
 
-  return async (data?: D) => {
-    try {
-      const { body } = await post.send(data)
+    async refresh() {
+      const request = sup
+        .post(currentUrl('login/refresh'))
+        .send({ refresh_token: token.refresh })
 
-      token.update(body.data)
-      user.update(body.data)
-    } catch (error) {
-      const { response } = error as ResponseError
-
-      if (response?.body) return Promise.reject(response.body)
-    }
+      try {
+        const { body } = await request
+        token.update(body.data)
+      } catch (error) {
+        token.update(null)
+        user.update(null)
+      }
+    },
   }
 }

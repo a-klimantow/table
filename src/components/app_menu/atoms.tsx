@@ -23,7 +23,7 @@ export const Menu = observer(({ children }) => {
       collapsedSize={48}
       in={menu.isOpen}
       orientation="horizontal"
-      sx={{ borderRight: 1, borderColor: 'divider', pt: 2 }}
+      sx={{ borderRight: 1, borderColor: 'divider', pt: 2, zIndex: 'drawer' }}
     >
       <Mui.Backdrop open={menu.isOpen} onClick={menu.toggleMenu} invisible />
       {children}

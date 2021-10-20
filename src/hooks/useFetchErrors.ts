@@ -6,10 +6,8 @@ export const useFetchErrors = () => {
   const history = useHistory()
 
   return useCallback(
-    (err: ResponseError) => {
-      if (err.response?.unauthorized) {
-        history.push('/user/refresh/', { from: history.location })
-      }
+    ({ response }: ResponseError) => {
+      response?.unauthorized && history.push('/user/refresh/')
     },
     [history]
   )

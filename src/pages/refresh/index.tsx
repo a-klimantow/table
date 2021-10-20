@@ -5,9 +5,11 @@ import sup from 'superagent'
 //
 import { useToken, useUrl } from 'hooks'
 import { IUser } from 'types'
+import { useFetch } from './hooks'
 
 export const Refresh = () => {
-  useFetchRefresh()
+  // useFetchRefresh()
+  useFetch()
   return <Mui.Backdrop open sx={{ zIndex: 'modal' }} />
 }
 

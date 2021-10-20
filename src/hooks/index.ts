@@ -19,3 +19,5 @@ export * from './useFetchRewards'
 export * from './useFetchLists'
 
 export * from './useFetchLogin'
+
+export * from './fetch'

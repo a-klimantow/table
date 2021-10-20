@@ -1,12 +1,12 @@
 import { useLocalObservable } from 'mobx-react-lite'
 
-import { useSnackbar } from 'hooks'
+import { useNotifications } from 'hooks'
 export type StoreType = ReturnType<typeof useStore>
 
 type A = null | Element
 
 export const useStore = () => {
-  const msg = useSnackbar()
+  const ntf = useNotifications()
   return useLocalObservable(() => ({
     // menu
     anchor: null as A,
@@ -30,12 +30,12 @@ export const useStore = () => {
 
     success() {
       this.data = undefined
-      msg('ok', 'success')
+      ntf.success('ok')
     },
 
     fail() {
       this.data = undefined
-      msg('ne ok', 'error')
+      ntf.error('ne ok')
     },
   }))
 }

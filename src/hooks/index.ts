@@ -5,7 +5,7 @@ export const useUser = () => useAppContext().user
 export const useRouter = () => useAppContext().router
 export const useToken = () => useAppContext().token
 
-export { useSnackbar } from 'snackbar/useSnackbar'
+export { useNotifications } from 'notification/hooks'
 
 export * from './useUrl'
 export * from './useGetList'

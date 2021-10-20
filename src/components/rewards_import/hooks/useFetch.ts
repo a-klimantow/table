@@ -3,7 +3,7 @@ import * as React from 'react'
 import sup from 'superagent'
 
 import { currentUrl } from 'utils'
-import { useToken, useSnackbar } from 'hooks'
+import { useToken } from 'hooks'
 import { StoreType } from '../store'
 
 export { useHandleChange } from './useHandleChange'
@@ -28,8 +28,6 @@ const usePostImport = () => {
 }
 
 export const useFetch = (store: StoreType) => {
-  const msg = useSnackbar()
-
   const createFile = useCreteFile()
   const postImport = usePostImport()
 
@@ -46,5 +44,5 @@ export const useFetch = (store: StoreType) => {
           store.fail()
         }
       })()
-  }, [store, store.data, createFile, postImport, msg])
+  }, [store, store.data, createFile, postImport])
 }

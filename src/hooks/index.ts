@@ -11,7 +11,6 @@ export * from './useUrl'
 export * from './useGetList'
 export * from './useMenu'
 export * from './useField'
-export * from './useSuperagent'
 
 export * from './useFetchErrors'
 

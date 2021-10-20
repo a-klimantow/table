@@ -17,7 +17,7 @@ export const List = observer(() => {
       gap={1}
       direction="column-reverse"
       alignItems="flex-end"
-      zIndex="drawer"
+      zIndex="modal"
     >
       <TransitionGroup style={{ display: 'contents' }}>
         {array.map((item) => (

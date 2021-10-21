@@ -77,6 +77,6 @@ export const useItem = (item: ItemType): Mui.MenuItemProps => {
     children: item.name,
     onClick: () => push(item.link),
     selected: isSelected,
-    disabled: isDisabled,
+    disabled: item.name === 'Выход' ? false : isDisabled,
   }
 }

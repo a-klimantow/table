@@ -4,11 +4,11 @@ import * as Grid from 'components/grid'
 import { RewardsExport } from 'components/rewards_export'
 import { RewardsImport } from 'components/rewards_import'
 import { columns } from './columns'
-import { useFetch, useAddRender } from './hooks'
+import { useFetch, useFormatedColumns } from './hooks'
 
 export const Requests = observer(() => {
   const grid = Grid.useGrid(columns)
-  useAddRender(grid)
+  useFormatedColumns(grid)
   useFetch(grid)
   return (
     <Grid.Provider value={grid}>

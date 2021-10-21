@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as mobx from 'mobx'
 
-import { IGridRow, ColsType } from './types'
+import { IGridRow as GR, ColsType as CT, ItemType as IT } from './types'
 
 class Store {
   // pagination
@@ -11,17 +11,23 @@ class Store {
   rowsPerPageOptions = [15, 20, 30]
 
   // loading
-  loading = false
-  setLodaing = (loading: boolean) => (this.loading = loading)
+  loading = true
+
+  setLodaing(loading: boolean): void {
+    this.loading = loading
+  }
 
   // search
   search = ''
-  setSearch = (value: string): string => (this.search = value)
+
+  setSearch(value: string): void {
+    this.search = value
+  }
 
   // rows
-  rows = mobx.observable.array<IGridRow>([])
+  rows = mobx.observable.array<GR>([])
 
-  constructor(public cols: ColsType) {
+  constructor(public cols: CT) {
     mobx.makeAutoObservable(this, { cols: false })
   }
 
@@ -29,25 +35,32 @@ class Store {
     return this.cols.slice()
   }
 
-  update(count: number, rows: IGridRow[]) {
+  update(count: number, items: IT[]) {
     this.count = count
+
+    const rows = items.map((item, i) => ({
+      key: String(i),
+      cells: this.tableHead.map((col) => ({
+        node: col.renderCell ? col.renderCell(item) : item[col.key],
+        col,
+      })),
+    }))
+
     this.rows.replace(rows)
     if (this.count < this.page * this.rowsPerPage) {
       this.page = 0
     }
-    this.loading = false
   }
 
   // query
 
   get top() {
-    return { $top: this.rowsPerPage }
+    return this.rowsPerPage
   }
 
   get skip() {
-    return this.page ? { $skip: this.page * this.rowsPerPage } : {}
+    return this.page * this.rowsPerPage
   }
 }
 
-export const useGrid = (columns: ColsType) =>
-  React.useRef(new Store(columns)).current
+export const useGrid = (columns: CT) => React.useRef(new Store(columns)).current

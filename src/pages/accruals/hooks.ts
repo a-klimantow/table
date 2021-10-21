@@ -1,13 +1,12 @@
 import * as React from 'react'
 import f from 'odata-filter-builder'
 //
-import { IAccrualItem, IGridRow, IGridCol } from 'types'
-import { useFetchRewards } from 'hooks'
+import { IAccrualItem } from 'types'
+import { useRewardsGet } from 'hooks'
 import { useGrid } from 'components/grid'
 
 type G = ReturnType<typeof useGrid>
 type I = IAccrualItem
-type K = keyof I
 
 export const useFormatedColumns = (grid: G) =>
   React.useEffect(() => {
@@ -25,40 +24,29 @@ export const useFormatedColumns = (grid: G) =>
   }, [grid])
 
 export const useFetch = (grid: G) => {
-  const fetch = useFetchRewards('withdrawal-arbitrary')
-  const filter = useQuickFilter(grid)
+  const getData = useRewardsGet()
+  const query = useQuery(grid)
 
   React.useEffect(() => {
     grid.setLodaing(true)
-    fetch
-      .query(grid.top)
-      .query(grid.skip)
-      .query(filter)
-      .then((res) => {
-        const { items, metadata } = res.body
-        const { total_count } = metadata.pagination
-        grid.update(total_count, createRows(items, grid.tableHead))
-      })
-      .catch(() => null)
-      .finally(() => grid.setLodaing(false))
-  }, [fetch, grid, filter, grid.top, grid.skip])
 
-  return grid
+    getData(query).then(({ items, count }) => {
+      grid.update(count, items)
+      grid.setLodaing(false)
+    })
+  }, [grid, getData, query])
 }
 
-function createRows(items: I[], cols: IGridCol[]): IGridRow[] {
-  return items.map((item, key) => ({
-    key: String(key),
-    cells: cols.map((col) => ({
-      node: col.renderCell ? col.renderCell(item) : item[col.key as K],
-      col,
-    })),
-  }))
+const useQuickFilter = (search = '') => {
+  if (!search) return {}
+  return f.or().contains('file/file_name', search).toString()
 }
 
-const useQuickFilter = (grid: G) => {
-  if (!grid.search) return {}
+const useQuery = (grid: G) => {
+  const filter = useQuickFilter(grid.search)
   return {
-    $filter: f.or().contains('file/file_name', grid.search).toString(),
+    $top: grid.top,
+    $skip: grid.skip,
+    $filter: filter,
   }
 }

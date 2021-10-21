@@ -4,7 +4,12 @@ import { useLocalObservable } from 'mobx-react-lite'
 import sup, { ResponseError } from 'superagent'
 
 import { currentUrl } from 'utils'
-import { useFetchLists, useToken, useSnackbar, useFetchErrors } from 'hooks'
+import {
+  useFetchLists,
+  useToken,
+  useNotifications,
+  useFetchErrors,
+} from 'hooks'
 
 export { useFetchLists }
 
@@ -84,7 +89,7 @@ export const useExport = () =>
 
 export const useFetchExport = (exp: ReturnType<typeof useExport>) => {
   const token = useToken()
-  const msg = useSnackbar()
+  const ntf = useNotifications()
   const handler = useFetchErrors()
 
   const post = sup
@@ -97,7 +102,7 @@ export const useFetchExport = (exp: ReturnType<typeof useExport>) => {
       const { response } = err as ResponseError
       if (response && !response.unauthorized) {
         const { errors } = response.body
-        msg(errors.description, 'error')
+        ntf.error(errors.description)
       }
     })
 

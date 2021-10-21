@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
-import { SnackbarProvider } from 'snackbar'
+import { NotificationProvider } from 'notification'
 import { GlobalTheme } from 'theme'
 import { App } from 'app'
 
@@ -10,9 +10,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalTheme>
-        <SnackbarProvider>
+        <NotificationProvider>
           <App />
-        </SnackbarProvider>
+        </NotificationProvider>
       </GlobalTheme>
     </BrowserRouter>
   </React.StrictMode>,

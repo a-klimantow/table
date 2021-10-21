@@ -23,3 +23,5 @@ export interface IGridRow {
 }
 
 export type ColsType = IObservableArray<IGridCol>
+
+export type ItemType = { [key: string]: ReactNode }

@@ -20,8 +20,8 @@ export const useGetList = (type: UrlType) => {
     ;(async () => {
       try {
         const { body } = await request.then()
-        setList(body.data)
-        store.set(type, body.data)
+        setList(body)
+        store.set(type, body)
       } catch (error) {
         console.log(error)
       }

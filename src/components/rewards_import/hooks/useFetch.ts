@@ -10,12 +10,12 @@ export { useHandleChange } from './useHandleChange'
 
 const useCreteFile = () => {
   const token = useToken()
-  return async (data: undefined | FormData) =>
+  return async (data?: FormData) =>
     sup
       .post(currentUrl('1029695/content'))
       .auth(token.access, { type: 'bearer' })
       .send(data)
-      .then((res) => res.body.data)
+      .then((res) => res.body)
 }
 
 const usePostImport = () => {

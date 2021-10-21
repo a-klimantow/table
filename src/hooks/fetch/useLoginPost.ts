@@ -15,8 +15,8 @@ export function useLoginPost() {
 
       try {
         const { body } = await request
-        token.update(body.data)
-        user.update(body.data)
+        token.update(body)
+        user.update(body)
       } catch (error) {
         const { response: res } = error as ResponseError
         if (res?.body) return Promise.reject(res.body)
@@ -30,7 +30,7 @@ export function useLoginPost() {
 
       try {
         const { body } = await request
-        token.update(body.data)
+        token.update(body)
       } catch (error) {
         token.update(null)
         user.update(null)

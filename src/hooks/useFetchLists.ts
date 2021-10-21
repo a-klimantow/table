@@ -35,8 +35,8 @@ export function useFetchLists(url: U): S {
       (async () => {
         try {
           const { body } = await request.then()
-          storage.set(url, body.data)
-          setList(body.data)
+          storage.set(url, body)
+          setList(body)
         } catch (error) {}
       })()
   })

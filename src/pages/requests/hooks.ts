@@ -31,8 +31,8 @@ const useQuickFilter = (search = '') => {
   if (!search) return {}
   return f
     .or()
-    .contains('panel_name', search)
-    .contains('country', search)
+    .contains(x => x.toLower('panel_name'), search.toLowerCase())
+    .contains(x => x.toLower('country'), search.toLowerCase())
     .toString()
 }
 

@@ -11,6 +11,7 @@ const KEY = 'reports_columns'
 const cols = [
   { key: 'panel_name', name: 'Наименование панели', quickFilter: true },
   { key: 'processed_date', name: 'Дата' },
+  { key: 'payment_type_name', name: 'Тип выплат'},
   { key: 'total_success_requests', name: 'Количество выплат' },
   { key: 'amount', name: 'Сумма' },
   { key: 'currency_name', name: 'Валюта' },

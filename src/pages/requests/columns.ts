@@ -9,7 +9,14 @@ type Cols = Array<IGridCol & { key: K }>
 const KEY = 'requests_columns'
 
 const cols = [
-  { key: 'panel_name', name: 'Наименование панели', quickFilter: true },
+  {
+    key: 'panel_name',
+    name: 'Наименование панели',
+    quickFilter: true,
+    renderCell(item: IRequestItem) {
+      return `${item.panel_name} ${item.country}`
+    },
+  },
   { key: 'old_requests', name: 'Старше 3 дней' },
   { key: 'old_requests_sum', name: 'Сумма (старше 3 дней)' },
   { key: 'all_requests', name: 'На рассмотрении' },

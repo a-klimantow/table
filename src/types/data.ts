@@ -51,3 +51,17 @@ export interface IListItem {
   id: number
   name: string
 }
+
+// **************** file
+
+export interface IFile {
+  checksum: number
+  file_name: string
+  file_size: number
+  id: number
+  original_name: string
+  parent_id: number
+  parent_type: string
+  updated: Date
+  url: string
+}

@@ -1,16 +1,16 @@
-import * as React from 'react'
+import { observer } from 'mobx-react-lite'
 
-import { useFromData, useFetch, useActivePay } from './hooks'
-import { ImportMenu, Items } from './atoms'
+import { Button, Menu, Items } from './atoms'
+import { useImportStore } from './store'
 
-export const RewardsImport = React.memo(() => {
-  const formData = useFromData()
-  const activePay = useActivePay()
-  useFetch(formData, activePay)
-
+export const RewardsImport = observer(() => {
+  const store = useImportStore()
   return (
-    <ImportMenu>
-      <Items formData={formData} activePay={activePay} />
-    </ImportMenu>
+    <>
+      <Button onClick={(e) => store.setAnchor(e.currentTarget)} />
+      <Menu store={store}>
+        <Items store={store} />
+      </Menu>
+    </>
   )
 })

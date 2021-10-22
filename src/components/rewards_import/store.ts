@@ -1,41 +1,68 @@
+import * as React from 'react'
+import * as Mui from '@mui/material'
 import { useLocalObservable } from 'mobx-react-lite'
 
-import { useNotifications } from 'hooks'
-export type StoreType = ReturnType<typeof useStore>
+import { paymentNames } from 'assets'
+import { useFetchImport } from 'hooks'
+import { useRouteMatch } from 'react-router'
 
 type A = null | Element
+type D = null | FormData
+type E = React.ChangeEvent<HTMLInputElement>
 
-export const useStore = () => {
-  const ntf = useNotifications()
-  return useLocalObservable(() => ({
-    // menu
+export type StoreType = ReturnType<typeof useImportStore>
+
+export const useImportStore = () => {
+  const isAccruals = Boolean(useRouteMatch('/:m/accruals'))
+  const store = useLocalObservable(() => ({
     anchor: null as A,
 
-    setAnchor(a: A) {
-      if (this.data) return
-
-      this.anchor = a
+    setAnchor(anchor: A) {
+      this.anchor = anchor
     },
 
-    // post
-    data: undefined as undefined | FormData,
+    pay: '',
+    data: null as D,
 
-    url: '',
-
-    setData(file: File, url: string) {
-      this.data = new FormData()
-      this.data.set(file.name, file)
-      this.url = url
+    setData(data: D, pay: string) {
+      this.data = data
+      this.pay = pay
     },
 
-    success() {
-      this.data = undefined
-      ntf.success('ok')
+    get url() {
+      if (isAccruals) return 'withdrawal-arbitrary/import'
+      return `withdrawal/import${this.pay}`
     },
 
-    fail() {
-      this.data = undefined
-      ntf.error('ne ok')
+    get menu(): Mui.MenuProps {
+      return {
+        open: Boolean(this.anchor),
+        anchorEl: this.anchor,
+        onClose: () => this.setAnchor(null),
+      }
+    },
+
+    get items() {
+      return (['yookassa', 'webmoney'] as const).map((item) => ({
+        key: item,
+        name: paymentNames.get(item),
+        onChange: (e: E) => {
+          const { files } = e.currentTarget
+          if (files?.length) {
+            const data = new FormData()
+            data.set(files[0].name, files[0])
+            this.setData(data, item)
+          }
+        },
+      }))
     },
   }))
+
+  const fetchImport = useFetchImport(store.url, store.data)
+
+  React.useEffect(() => {
+    if (store.data) fetchImport()
+  }, [store, fetchImport])
+
+  return store
 }

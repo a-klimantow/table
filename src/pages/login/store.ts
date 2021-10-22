@@ -1,20 +1,22 @@
+import * as React from 'react'
 import { useLocalObservable } from 'mobx-react-lite'
 
-import { useField } from 'hooks'
+import { useField, useFetchLogin } from 'hooks'
 
-export type StoreType = ReturnType<typeof useStore>
+export type StoreType = ReturnType<typeof useLoginStore>
 
 const validEmail = new RegExp(/^.+@.+\..{2,}$/)
 const validPass = new RegExp(/.{6}/)
 
-type D = { email: string; password: string } | undefined
-
-export const useStore = () => {
+export const useLoginStore = () => {
   const email = useField('', 'text', validEmail)
   const password = useField('', 'password', validPass)
+  const fetchLogin = useFetchLogin()
 
-  const form = useLocalObservable(() => ({
-    data: undefined as D,
+  const store = useLocalObservable(() => ({
+    email,
+    password,
+    data: null as null | { email: string; password: string },
 
     submit(): void {
       this.data = {
@@ -36,9 +38,26 @@ export const useStore = () => {
     },
 
     fail() {
-      this.data = undefined
+      this.data = null
     },
   }))
 
-  return { email, password, form }
+  React.useEffect(() => {
+    if (store.data) {
+      const request = fetchLogin(store.data)
+      ;(async () => {
+        const errors = await request
+        if (errors) {
+          const { email, password } = store
+          const { code, description } = errors
+
+          code === '404' && email.setError(description)
+          code === '400' && password.setError(description)
+          store.fail()
+        }
+      })()
+    }
+  }, [store, store.data, fetchLogin])
+
+  return store
 }

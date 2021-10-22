@@ -14,10 +14,8 @@ export type LoginResposeError = IResponseError<{
 }>
 
 export interface IErrors {
-  errors: {
-    code: '404' | '400'
-    type: 'Error'
-    description: string
-    notes: string
-  }
+  code: '404' | '400'
+  type: 'Error'
+  description: string
+  notes: string
 }

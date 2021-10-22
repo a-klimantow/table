@@ -1,13 +1,11 @@
 import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
-import { columns } from './columns'
-import { useFetch, useFormatedColumns } from './hooks'
+import { RewardsImport } from 'components/rewards_import'
+import { useAccrualsStore } from './store'
 
 export const Accruals = observer(() => {
-  const grid = Grid.useGrid(columns)
-  useFormatedColumns(grid)
-  useFetch(grid)
+  const { grid } = useAccrualsStore()
   return (
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>
@@ -16,6 +14,7 @@ export const Accruals = observer(() => {
         </Grid.Toolbar>
         <Grid.Table />
         <Grid.Bottom>
+          <RewardsImport />
           <Grid.Pagination />
         </Grid.Bottom>
       </Grid.Paper>

@@ -1,8 +1,14 @@
+import * as React from 'react'
 import * as Mui from '@mui/material'
 //
-import { useFetch } from './hooks'
+import { useFetchRefresh } from 'hooks'
 
 export const Refresh = () => {
-  useFetch()
+  const refresh = useFetchRefresh()
+
+  React.useEffect(() => {
+    refresh()
+  })
+
   return <Mui.Backdrop open sx={{ zIndex: 'modal' }} />
 }

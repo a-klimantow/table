@@ -39,10 +39,15 @@ export const useFetch = (grid: G) => {
 
 const useQuickFilter = (search = '') => {
   if (!search) return {}
-  return f.or().contains('file/file_name', search).toString()
+  return f
+    .or()
+    .eq('author_id', Number(search) || 0)
+    .contains('file/file_name', search)
+    .toString()
 }
 
 const useQuery = (grid: G) => {
+  console.log(useQuickFilter(grid.search))
   const filter = useQuickFilter(grid.search)
   return {
     $top: grid.top,

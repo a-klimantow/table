@@ -1,71 +1,61 @@
 import * as React from 'react'
 import * as Mui from '@mui/material'
-import { observer } from 'mobx-react-lite'
-
+//
 import { paymentNames } from 'assets'
-import { Icon } from 'components/icon'
-import { useStore } from './store'
-import { ImportContext, useImportContext } from './context'
-import { useHandleChange, useFetch } from './hooks'
+import * as Btn from '../buttons'
+import { useMenu, useActivePay, useFromData } from './hooks'
 
-export const Provider = observer(({ children }) => {
-  const store = useStore()
-  useFetch(store)
-  return (
-    <ImportContext.Provider value={store}>{children}</ImportContext.Provider>
-  )
-})
+export const Button = Btn.Import
 
-export const Button = React.memo(() => {
-  const imp = useImportContext()
+export const ImportMenu: React.FC = ({ children }) => {
+  const [anchor, setAnchor] = useMenu()
   return (
-    <Mui.Button
-      startIcon={<Icon type="import" />}
-      onClick={(e) => imp.setAnchor(e.currentTarget)}
-    >
-      Импорт
-    </Mui.Button>
+    <>
+      <Btn.Import onClick={(e) => setAnchor(e.currentTarget)} />
+      <Mui.Menu
+        open={Boolean(anchor)}
+        anchorEl={anchor}
+        onClose={() => setAnchor(null)}
+      >
+        {children}
+      </Mui.Menu>
+    </>
   )
-})
+}
+
+type ItemsProps = {
+  activePay: ReturnType<typeof useActivePay>
+  formData: ReturnType<typeof useFromData>
+}
+
+type E = React.ChangeEvent<HTMLInputElement>
 
 const items = ['yookassa', 'webmoney'] as const
 
-export const Menu = observer(() => {
-  const imp = useImportContext()
+export const Items: React.FC<ItemsProps> = ({
+  formData: [, setData],
+  activePay: [, setPay],
+}) => {
+  const handleChange = (name: string) => (e: E) => {
+    const { files } = e.currentTarget
+    if (files?.length) {
+      const [file] = files
+      const data = new FormData()
+      data.set(file.name, file)
+      setData(data)
+      setPay(name)
+    }
+  }
   return (
-    <Mui.Menu
-      open={Boolean(imp.anchor)}
-      anchorEl={imp.anchor}
-      onClose={() => imp.setAnchor(null)}
-    >
-      {items.map((name) => (
-        <Item key={name} name={name} />
+    <React.Fragment>
+      {items.map((item) => (
+        <Mui.MenuItem key={item} sx={{ padding: 0 }}>
+          <Mui.Typography component="label" sx={{ py: 1, px: 2 }}>
+            {paymentNames.get(item)}
+            <input type="file" hidden onChange={handleChange(item)} />
+          </Mui.Typography>
+        </Mui.MenuItem>
       ))}
-    </Mui.Menu>
+    </React.Fragment>
   )
-})
-
-const Item = React.memo<{ name: typeof items[number] }>(({ name }) => {
-  const change = useHandleChange(name)
-  return (
-    <Mui.MenuItem sx={{ padding: 0 }}>
-      <Mui.Typography component="label" sx={{ py: 1, px: 2 }}>
-        {paymentNames.get(name)}
-        <input type="file" hidden onChange={change} />
-      </Mui.Typography>
-      <Loader name={name} />
-    </Mui.MenuItem>
-  )
-})
-
-const Loader = observer<{ name: string }>(({ name }) => {
-  const imp = useImportContext()
-  if (imp.data && name === imp.url)
-    return (
-      <Mui.LinearProgress
-        sx={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
-      />
-    )
-
-  return null
-})
+}

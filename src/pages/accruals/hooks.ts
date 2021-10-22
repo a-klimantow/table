@@ -47,7 +47,6 @@ const useQuickFilter = (search = '') => {
 }
 
 const useQuery = (grid: G) => {
-  console.log(useQuickFilter(grid.search))
   const filter = useQuickFilter(grid.search)
   return {
     $top: grid.top,

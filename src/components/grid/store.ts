@@ -54,10 +54,6 @@ class Store {
     return getRows(this.items, this.tableHead)
   }
 
-  update(count: number, items: IT[]) {
-    this.count = count
-  }
-
   constructor(public cols: CT) {
     mobx.makeAutoObservable(this, { cols: false })
   }

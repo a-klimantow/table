@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
-import { RewardsImport } from 'components/rewards_import'
+import { FileImport } from 'components/file_import'
 import { useAccrualsStore } from './store'
 
 export const Accruals = observer(() => {
@@ -14,7 +14,7 @@ export const Accruals = observer(() => {
         </Grid.Toolbar>
         <Grid.Table />
         <Grid.Bottom>
-          <RewardsImport />
+          <FileImport />
           <Grid.Pagination />
         </Grid.Bottom>
       </Grid.Paper>

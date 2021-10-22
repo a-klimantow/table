@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
 // import { RewardsExport } from 'components/rewards_export'
-import { RewardsImport } from 'components/rewards_import'
+import { FileImport } from 'components/file_import'
 import { useRequestsStore } from './store'
 
 export const Requests = observer(() => {
@@ -16,7 +16,7 @@ export const Requests = observer(() => {
         <Grid.Table />
         <Grid.Bottom>
           {/* <RewardsExport /> */}
-          <RewardsImport />
+          <FileImport />
           <Grid.Pagination />
         </Grid.Bottom>
       </Grid.Paper>

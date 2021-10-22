@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { Button, Menu, Items } from './atoms'
 import { useImportStore } from './store'
 
-export const RewardsImport = observer(() => {
+export const FileImport = observer(() => {
   const store = useImportStore()
   return (
     <>

@@ -6,7 +6,7 @@ import { FileExport } from 'components/file_export'
 import { useRequestsGrid } from './hooks'
 
 export const Requests = observer(() => {
-  const grid = useRequestsGrid()
+  const { grid, query } = useRequestsGrid()
   return (
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>
@@ -15,7 +15,7 @@ export const Requests = observer(() => {
         </Grid.Toolbar>
         <Grid.Table />
         <Grid.Bottom>
-          <FileExport query="" />
+          <FileExport query={query} />
           <FileImport />
           <Grid.Pagination />
         </Grid.Bottom>

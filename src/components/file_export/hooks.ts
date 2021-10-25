@@ -8,7 +8,6 @@ import { useFetchExportLists, useFetchExportFile } from 'hooks'
 export { useFetchExportLists, useFetchExportFile }
 
 type S = ReturnType<typeof useStateExport>
-type D = null | { PanelIds: number[] }
 
 const pays = observable.array<L>()
 const statuses = observable.array<L>()

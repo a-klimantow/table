@@ -23,5 +23,5 @@ export const useRequestsGrid = () => {
   const query = useQuery(grid)
   useFetchRewards('withdrawal', grid, query)
 
-  return grid
+  return { grid, query }
 }

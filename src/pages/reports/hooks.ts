@@ -21,5 +21,5 @@ export const useReportsGrid = () => {
   const query = useQuery(grid)
   useFetchRewards('withdrawal-report', grid, query)
 
-  return grid
+  return { grid, query }
 }

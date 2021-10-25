@@ -5,13 +5,13 @@ import sup, { ResponseError } from 'superagent'
 
 import { currentUrl } from 'utils'
 import {
-  useFetchLists,
+  // useFetchLists,
   useToken,
   useNotifications,
-  useFetchErrors,
+  // useFetchErrors,
 } from 'hooks'
 
-export { useFetchLists }
+// export { useFetchLists }
 
 export const useExport = () =>
   useLocalObservable(() => ({
@@ -90,14 +90,14 @@ export const useExport = () =>
 export const useFetchExport = (exp: ReturnType<typeof useExport>) => {
   const token = useToken()
   const ntf = useNotifications()
-  const handler = useFetchErrors()
+  // const handler = useFetchErrors()
 
   const post = sup
     .post(currentUrl(`withdrawal/${exp.url}`))
     .auth(token.access, { type: 'bearer' })
     .query(exp.query)
     .send(exp.data)
-    .on('error', handler)
+    // .on('error', handler)
     .on('error', (err) => {
       const { response } = err as ResponseError
       if (response && !response.unauthorized) {

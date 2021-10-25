@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import sup from 'superagent'
 
-import { useUrl } from 'hooks'
+// import { useUrl } from 'hooks'
 import { ExportStore } from './store'
 
 export function useFetch(store: ExportStore) {
-  const moneyUrl = useUrl('withdrawal/exportwebmoney')
-  const kassaUrl = useUrl('withdrawal/exportyookassa')
+  // const moneyUrl = useUrl('withdrawal/exportwebmoney')
+  // const kassaUrl = useUrl('withdrawal/exportyookassa')
 
-  const url = store.isWebMoney ? moneyUrl : kassaUrl
+  // const url = store.isWebMoney ? moneyUrl : kassaUrl
 
   const request = sup
-    .post(url)
+    .post('')
     // .auth(user.token, { type: 'bearer' })
     .query(store.query)
 

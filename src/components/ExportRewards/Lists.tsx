@@ -13,7 +13,7 @@ export const Lists = memo(() => {
   return (
     <Stack gap={3} px={3} py={4} minHeight="100%" minWidth={440}>
       <Title />
-      <List name="Платежная система">
+      {/* <List name="Платежная система">
         {systems?.map((item) => (
           <ListItem key={item.id} label={item.common_name}>
             <Observer>
@@ -60,7 +60,7 @@ export const Lists = memo(() => {
             </Observer>
           </ListItem>
         ))}
-      </List>
+      </List> */}
       <Buttons />
     </Stack>
   )

@@ -3,7 +3,7 @@ import * as Mui from '@mui/material'
 import { observer } from 'mobx-react-lite'
 //
 import { useFetchLogin } from 'hooks'
-import { Icon } from 'components'
+import * as Btn from 'components/buttons'
 import { useLoginForm } from './hooks'
 
 type F = ReturnType<typeof useLoginForm>
@@ -85,41 +85,30 @@ export const Password = observer<{ form: F }>(({ form }) => (
     helperText={form.errors.password}
     type={form.type}
     onBlur={() => form.onBlur('password')}
-    InputProps={{ endAdornment: <TogglePass form={form} /> }}
+    InputProps={{ endAdornment: <EndAdorment form={form} /> }}
   />
 ))
 
 // toggle hidden pass
 
-export const TogglePass = React.memo<{ form: F }>(({ form }) => (
+const EndAdorment = React.memo<{ form: F }>(({ form }) => (
   <Mui.InputAdornment position="end">
-    <Mui.IconButton onClick={form.toggleType}>
-      <Icon type={form.type === 'password' ? 'eye_off' : 'eye_on'} />
-    </Mui.IconButton>
+    <Btn.TogglePass
+      hidden={form.type === 'password'}
+      onClick={form.toggleType}
+    />
   </Mui.InputAdornment>
 ))
 
 // submit button
 
 export const Button = observer<{ form: F }>(({ form }) => (
-  <Mui.Button
-    type="submit"
+  <Btn.Submit
     variant="contained"
     size="large"
     disabled={form.disabled}
+    loading={form.loading}
   >
     Войти
-    {form.loading ? <Loader /> : null}
-  </Mui.Button>
-))
-
-const Loader = React.memo(() => (
-  <Mui.LinearProgress
-    sx={{
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-    }}
-  />
+  </Btn.Submit>
 ))

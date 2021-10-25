@@ -4,7 +4,11 @@ import { observer, Observer } from 'mobx-react-lite'
 
 import { Icon } from 'components/icon'
 import { useExportContext, ExportContext } from './context'
-import { useExport, useFetchLists, useFetchExport } from './hooks'
+import {
+  useExport,
+  // useFetchLists,
+  useFetchExport,
+} from './hooks'
 
 export const ExportProvider = observer(({ children }) => {
   const exp = useExport()
@@ -27,14 +31,10 @@ export const ExportDrawer = observer(() => {
     <Mui.Drawer open={exp.isOpen} anchor="right" onClose={exp.toggleOpen}>
       <Mui.Stack mx={3} my={4} width={440} height="100%" gap={4}>
         <Mui.Typography variant="subtitle1">Экспорт заявок</Mui.Typography>
-        <Block title="Платежная система">
-          <Payments />
-        </Block>
-        <Block title="Статус заявки">
-          <Statuses />
-        </Block>
+        <Block title="Платежная система">{/* <Payments /> */}</Block>
+        <Block title="Статус заявки">{/* <Statuses /> */}</Block>
         <Block title="Панели" info={<Info />}>
-          <Panels />
+          {/* <Panels /> */}
         </Block>
         <Buttons />
       </Mui.Stack>
@@ -88,87 +88,87 @@ const Loader = observer(() => {
   )
 })
 
-const Payments = observer(() => {
-  const items = useFetchLists('payment-systems')
-  const exp = useExportContext()
+// const Payments = observer(() => {
+//   const items = useFetchLists('payment-systems')
+//   const exp = useExportContext()
 
-  React.useEffect(() => {
-    items && exp.setPay(items[0].name)
-  }, [items, exp])
+//   React.useEffect(() => {
+//     items && exp.setPay(items[0].name)
+//   }, [items, exp])
 
-  if (!items) return <Mui.CircularProgress />
+//   if (!items) return <Mui.CircularProgress />
 
-  return (
-    <Mui.RadioGroup
-      name="payments"
-      value={exp.pay}
-      onChange={(e) => exp.setPay(e.target.value)}
-    >
-      {items?.map((item) => (
-        <Mui.FormControlLabel
-          key={item.id}
-          control={<Mui.Radio />}
-          label={item.common_name}
-          value={item.name}
-        />
-      ))}
-    </Mui.RadioGroup>
-  )
-})
+//   return (
+//     <Mui.RadioGroup
+//       name="payments"
+//       value={exp.pay}
+//       onChange={(e) => exp.setPay(e.target.value)}
+//     >
+//       {items?.map((item) => (
+//         <Mui.FormControlLabel
+//           key={item.id}
+//           control={<Mui.Radio />}
+//           label={item.common_name}
+//           value={item.name}
+//         />
+//       ))}
+//     </Mui.RadioGroup>
+//   )
+// })
 
-const Statuses = observer(() => {
-  const items = useFetchLists('export-withdrawal-statuses')
-  const exp = useExportContext()
+// const Statuses = observer(() => {
+//   const items = useFetchLists('export-withdrawal-statuses')
+//   const exp = useExportContext()
 
-  React.useEffect(() => {
-    items && exp.setStatus(items[0].name)
-  }, [items, exp])
+//   React.useEffect(() => {
+//     items && exp.setStatus(items[0].name)
+//   }, [items, exp])
 
-  if (!items) return <Mui.CircularProgress />
+//   if (!items) return <Mui.CircularProgress />
 
-  return (
-    <Mui.RadioGroup
-      name="payments"
-      value={exp.status}
-      onChange={(e) => exp.setStatus(e.target.value)}
-    >
-      {items?.map((item) => (
-        <Mui.FormControlLabel
-          key={item.id}
-          control={<Mui.Radio />}
-          label={item.common_name}
-          value={item.name}
-        />
-      ))}
-    </Mui.RadioGroup>
-  )
-})
+//   return (
+//     <Mui.RadioGroup
+//       name="payments"
+//       value={exp.status}
+//       onChange={(e) => exp.setStatus(e.target.value)}
+//     >
+//       {items?.map((item) => (
+//         <Mui.FormControlLabel
+//           key={item.id}
+//           control={<Mui.Radio />}
+//           label={item.common_name}
+//           value={item.name}
+//         />
+//       ))}
+//     </Mui.RadioGroup>
+//   )
+// })
 
-const Panels = React.memo(() => {
-  const items = useFetchLists('export-withdrawal-panels')
-  const exp = useExportContext()
+// const Panels = React.memo(() => {
+//   const items = useFetchLists('export-withdrawal-panels')
+//   const exp = useExportContext()
 
-  if (!items) return <Mui.CircularProgress />
+//   if (!items) return <Mui.CircularProgress />
 
-  return (
-    <Mui.FormGroup>
-      {items?.map((item) => (
-        <Observer key={item.id}>
-          {() => (
-            <Mui.FormControlLabel
-              control={<Mui.Checkbox />}
-              label={item.name}
-              value={item.id}
-              disabled={exp.disabledPanels}
-              checked={exp.panelIds.has(item.id)}
-              onChange={() => exp.setId(item.id)}
-            />
-          )}
-        </Observer>
-      ))}
-    </Mui.FormGroup>
-  )
-})
+//   return (
+//     <Mui.FormGroup>
+//       {items?.map((item) => (
+//         <Observer key={item.id}>
+//           {() => (
+//             <Mui.FormControlLabel
+//               control={<Mui.Checkbox />}
+//               label={item.name}
+//               value={item.id}
+//               disabled={exp.disabledPanels}
+//               checked={exp.panelIds.has(item.id)}
+//               onChange={() => exp.setId(item.id)}
+//             />
+//           )}
+//         </Observer>
+//       ))}
+//     </Mui.FormGroup>
+//   )
+// })
 
 const texts = [
   'Выгружаются заявки только для RU',

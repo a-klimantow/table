@@ -30,7 +30,7 @@ export const useFetch = (grid: G) => {
 
 const useQuickFilter = (search = '') => {
   if (!search) return {}
-  return f.or().contains('panel_name', search).toString()
+  return f.or().contains(x => x.toLower('panel_name'), search.toLowerCase()).toString()
 }
 
 const useQuery = (grid: G) => {

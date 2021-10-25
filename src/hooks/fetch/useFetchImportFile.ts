@@ -5,39 +5,47 @@ import { useHistory } from 'react-router-dom'
 import { IFile } from 'types'
 import { useNotifications, useFetch, useFetchAuth } from 'hooks'
 
-// ------------ Создание файла
+// // ------------ Создание файла
 
-function useCreateFile() {
-  const fetch = useFetch('1029695/content', 'post')
-  useFetchAuth(fetch)
-  return (data?: object) => fetch.send(data).then((res) => res.body as IFile)
-}
+// function useCreateFile() {
+//   const fetch = useFetch('1029695/content', 'post')
+//   useFetchAuth(fetch)
+//   return (data?: object) => fetch.send(data).then((res) => res.body as IFile)
+// }
 
-// ------------ Импорт файла
+// // ------------ Импорт файла
 
-function useImporFile(url = '') {
-  const fetch = useFetch(url, 'post')
-  useFetchAuth(fetch)
-  return (file: IFile) => fetch.query({ fileId: file.id })
-}
+// function useImporFile(url = '') {
+//   const fetch = useFetch(url, 'post')
+//   useFetchAuth(fetch)
+//   return (file: IFile) => fetch.query({ fileId: file.id })
+// }
 
 export function useFetchImport(
   url = '',
   data: object | null,
   reset: () => void
 ) {
-  const createFile = useCreateFile()
-  const importFile = useImporFile(url)
+  const createFile = useFetch('1029695/content', 'post')
+  const importFile = useFetch(url, 'post')
   const ntf = useNotifications()
   const history = useHistory()
+
+  useFetchAuth(createFile)
+  useFetchAuth(importFile)
 
   React.useEffect(() => {
     data &&
       (async () => {
+        createFile.send(data)
         try {
-          const file = await createFile(data)
+          const { body: file } = (await createFile) as { body: IFile }
+
           reset()
-          await importFile(file)
+
+          importFile.query({ fileId: file.id })
+
+          await importFile
           ntf.success('Импорт завершен успешно')
           history.replace(history.location.pathname)
         } catch (err) {

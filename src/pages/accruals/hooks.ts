@@ -6,13 +6,17 @@ import { useGrid } from 'components/grid'
 import { columns } from './columns'
 
 const containsLower = (str = '') => ({ contains: str.toLowerCase() })
+const eqNumber = (str = '') => ({ eq: Number(str) || 0 })
 
 const useQuery = (grid: IGrid) =>
   odataQuery({
     top: grid.top,
     skip: grid.skip,
     filter: grid.search && {
-      'tolower(file/file_name)': containsLower(grid.search),
+      or: [
+        { 'tolower(file/file_name)': containsLower(grid.search) },
+        { author_id: eqNumber(grid.search) },
+      ],
     },
   }).slice(1)
 

@@ -17,7 +17,7 @@ const cols = [
       return item.file.file_name
     },
   },
-  { key: 'author_id', name: 'ID пользователя' },
+  { key: 'author_id', name: 'ID пользователя', quickFilter: true },
   {
     key: 'created',
     name: 'Дата и время загрузки',

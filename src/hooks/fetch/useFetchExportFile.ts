@@ -42,14 +42,14 @@ export function useFetchExportFile(url = '', query = '', state: S) {
 function saveFile(response: Response) {
   const { header } = response
 
-  const regExp = /(?<=")(.*)(?=")/
+  const regExp = /(?<=="?)(.*)(?="?;)/
 
   const res = header['content-disposition'].match(regExp)
 
   if (res) {
     const [filename] = res
 
-    const file = new File([response.text], filename)
+    const file = new File([response.text], filename.replace(/"/, ''))
 
     FS.saveAs(file, filename)
 

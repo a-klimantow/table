@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
-// import { RewardsExport } from 'components/rewards_export'
 import { FileImport } from 'components/file_import'
-import { useRequestsStore } from './store'
+import { useRequestsGrid } from './hooks'
 
 export const Requests = observer(() => {
-  const { grid } = useRequestsStore()
+  const grid = useRequestsGrid()
   return (
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>

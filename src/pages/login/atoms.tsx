@@ -2,12 +2,15 @@ import * as React from 'react'
 import * as Mui from '@mui/material'
 import { observer } from 'mobx-react-lite'
 //
+import { useFetchLogin } from 'hooks'
 import { Icon } from 'components'
-import { StoreType as S } from './store'
+import { useLoginForm } from './hooks'
+
+type F = ReturnType<typeof useLoginForm>
 
 // login page wrapper
 
-export const Page = observer(({ children }) => {
+export const Page: React.FC = ({ children }) => {
   return (
     <Mui.Box
       data-app-page
@@ -20,11 +23,11 @@ export const Page = observer(({ children }) => {
       {children}
     </Mui.Box>
   )
-})
+}
 
 // title page
 
-export const Title = React.memo(() => (
+export const Title: React.FC = () => (
   <Mui.Typography
     sx={{
       gridArea: '1 / 2 / 2 / 3',
@@ -34,78 +37,79 @@ export const Title = React.memo(() => (
   >
     Panel Rider
   </Mui.Typography>
-))
+)
 
 // login form
 
-export const Form = observer(({ children }) => (
-  <Mui.Box
-    component="form"
-    onSubmit={(e: React.FormEvent) => e.preventDefault()}
-    gridArea="2 / 2 / 3 / 3"
-    sx={{
-      placeSelf: 'start stretch',
-      display: 'grid',
-      gridAutoRows: 90,
-      placeItems: 'start stretch',
-    }}
-  >
-    {children}
-  </Mui.Box>
-))
+export const Form = observer(() => {
+  const form = useLoginForm()
+  useFetchLogin(form)
+  return (
+    <Mui.Box
+      component="form"
+      onSubmit={form.submit}
+      gridArea="2 / 2 / 3 / 3"
+      sx={{
+        placeSelf: 'start stretch',
+        display: 'grid',
+        gridAutoRows: 90,
+        placeItems: 'start stretch',
+      }}
+    >
+      <Email form={form} />
+      <Password form={form} />
+      <Button form={form} />
+    </Mui.Box>
+  )
+})
 
 // login email
 
-export const Email = observer<{ email: S['email'] }>(({ email }) => (
+export const Email = observer<{ form: F }>(({ form }) => (
   <Mui.TextField
-    value={email.value}
-    onChange={(e) => email.changeValue(e.target.value)}
-    error={email.error}
-    helperText={email.helperText}
-    onBlur={() => email.onBlur('Введите корректный e-mail')}
+    value={form.data.email}
+    onChange={(e) => form.setValue('email', e.target.value)}
+    error={Boolean(form.errors.email)}
+    helperText={form.errors.email}
+    onBlur={() => form.onBlur('email')}
   />
 ))
 
 // login pass
 
-export const Password = observer<{ password: S['password'] }>(
-  ({ password }) => (
-    <Mui.TextField
-      value={password.value}
-      onChange={(e) => password.changeValue(e.target.value)}
-      error={password.error}
-      helperText={password.helperText}
-      type={password.type}
-      InputProps={{ endAdornment: <TogglePass password={password} /> }}
-      onBlur={() => password.onBlur('Пароль должен быть не менее 6 символов')}
-    />
-  )
-)
+export const Password = observer<{ form: F }>(({ form }) => (
+  <Mui.TextField
+    value={form.data.password}
+    onChange={(e) => form.setValue('password', e.target.value)}
+    error={Boolean(form.errors.password)}
+    helperText={form.errors.password}
+    type={form.type}
+    onBlur={() => form.onBlur('password')}
+    InputProps={{ endAdornment: <TogglePass form={form} /> }}
+  />
+))
 
 // toggle hidden pass
 
-export const TogglePass = observer<{ password: S['password'] }>(
-  ({ password }) => (
-    <Mui.InputAdornment position="end">
-      <Mui.IconButton onClick={password.toggleType}>
-        <Icon type={password.isValueHidden ? 'eye_off' : 'eye_on'} />
-      </Mui.IconButton>
-    </Mui.InputAdornment>
-  )
-)
+export const TogglePass = React.memo<{ form: F }>(({ form }) => (
+  <Mui.InputAdornment position="end">
+    <Mui.IconButton onClick={form.toggleType}>
+      <Icon type={form.type === 'password' ? 'eye_off' : 'eye_on'} />
+    </Mui.IconButton>
+  </Mui.InputAdornment>
+))
 
 // submit button
 
-export const Button = observer<{ store: S }>(({ store }) => (
+export const Button = observer<{ form: F }>(({ form }) => (
   <Mui.Button
     type="submit"
     variant="contained"
     size="large"
-    onClick={store.submit}
-    disabled={store.disabled}
+    disabled={form.disabled}
   >
     Войти
-    {store.data ? <Loader /> : null}
+    {form.loading ? <Loader /> : null}
   </Mui.Button>
 ))
 

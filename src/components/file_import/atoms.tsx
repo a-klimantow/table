@@ -1,27 +1,34 @@
-import * as React from 'react'
 import * as Mui from '@mui/material'
-//
-import * as Btn from '../buttons'
-import { StoreType as ST } from './store'
 import { observer } from 'mobx-react-lite'
+//
+import * as Btn from 'components/buttons'
+import { StateType as S } from './store'
 
-export const Button = Btn.Import
+const Button = Btn.Import
 
-export const Menu = observer<{ store: ST }>(({ store, children }) => (
-  <Mui.Menu {...store.menu}>{children}</Mui.Menu>
+export const Menu = observer<{ state: S }>(({ state }) => (
+  <>
+    <Button onClick={(e) => state.setAnchor(e.currentTarget)} />
+    <Mui.Menu
+      open={Boolean(state.anchor)}
+      anchorEl={state.anchor}
+      onClose={() => state.setAnchor(null)}
+    >
+      {state.items.map((item) => (
+        <Item key={item.id} item={item} />
+      ))}
+      {!state.list && <Mui.CircularProgress sx={{ my: 1, mx: 2 }} />}
+    </Mui.Menu>
+  </>
 ))
 
-export const Items = React.memo<{ store: ST }>(({ store }) => {
-  return (
-    <React.Fragment>
-      {store.items.map((item) => (
-        <Mui.MenuItem key={item.key} sx={{ padding: 0 }}>
-          <Mui.Typography component="label" sx={{ py: 1, px: 2 }}>
-            {item.name}
-            <input type="file" hidden onChange={item.onChange} />
-          </Mui.Typography>
-        </Mui.MenuItem>
-      ))}
-    </React.Fragment>
-  )
-})
+type ItemProps = { item: S['items'][number] }
+
+const Item = observer<ItemProps>(({ item }) => (
+  <Mui.MenuItem sx={{ padding: 0 }}>
+    <Mui.Typography component="label" sx={{ py: 1, px: 2 }}>
+      {item.name}
+      <input type="file" hidden onChange={item.change} />
+    </Mui.Typography>
+  </Mui.MenuItem>
+))

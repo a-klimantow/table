@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
-import { useReportsStore } from './store'
+import { useReportsGrid } from './hooks'
 
 export const Reports = observer(() => {
-  const { grid } = useReportsStore()
+  const grid = useReportsGrid()
 
   return (
     <Grid.Provider value={grid}>

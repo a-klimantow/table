@@ -2,10 +2,10 @@ import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
 import { FileImport } from 'components/file_import'
-import { useAccrualsStore } from './store'
+import { useAccrualsGrid } from './hooks'
 
 export const Accruals = observer(() => {
-  const { grid } = useAccrualsStore()
+  const grid = useAccrualsGrid()
   return (
     <Grid.Provider value={grid}>
       <Grid.Paper data-app-page>

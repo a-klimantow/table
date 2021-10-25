@@ -2,6 +2,10 @@ import { IObservableArray } from 'mobx'
 import { ReactNode } from 'react'
 import { TableCellProps } from '@mui/material'
 
+import { useGrid } from './store'
+
+export type IGrid = ReturnType<typeof useGrid>
+
 export interface IGridCol {
   key: string
   name?: string

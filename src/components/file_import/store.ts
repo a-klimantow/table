@@ -1,68 +1,77 @@
 import * as React from 'react'
-import * as Mui from '@mui/material'
 import { useLocalObservable } from 'mobx-react-lite'
+import { useRouteMatch } from 'react-router-dom'
 
-import { paymentNames } from 'assets'
-import { useFetchImport } from 'hooks'
-import { useRouteMatch } from 'react-router'
+import { IListItem } from 'types'
+import { useFetchImport, useFetchList } from 'hooks'
 
 type A = null | Element
 type D = null | FormData
 type E = React.ChangeEvent<HTMLInputElement>
+type L = null | IListItem[]
 
-export type StoreType = ReturnType<typeof useImportStore>
+export type StateType = ReturnType<typeof useImportState>
 
-export const useImportStore = () => {
-  const isAccruals = Boolean(useRouteMatch('/:m/accruals'))
-  const store = useLocalObservable(() => ({
+const useState = () =>
+  useLocalObservable(() => ({
     anchor: null as A,
 
     setAnchor(anchor: A) {
       this.anchor = anchor
     },
 
-    pay: '',
-    data: null as D,
+    list: null as L,
 
-    setData(data: D, pay: string) {
-      this.data = data
-      this.pay = pay
+    setList(list: IListItem[]) {
+      this.list = list
     },
 
-    get url() {
-      if (isAccruals) return 'withdrawal-arbitrary/import'
-      return `withdrawal/import${this.pay}`
-    },
-
-    get menu(): Mui.MenuProps {
-      return {
-        open: Boolean(this.anchor),
-        anchorEl: this.anchor,
-        onClose: () => this.setAnchor(null),
-      }
+    get startGet() {
+      return Boolean(this.anchor) && !this.list
     },
 
     get items() {
-      return (['yookassa', 'webmoney'] as const).map((item) => ({
-        key: item,
-        name: paymentNames.get(item),
-        onChange: (e: E) => {
-          const { files } = e.currentTarget
-          if (files?.length) {
-            const data = new FormData()
-            data.set(files[0].name, files[0])
-            this.setData(data, item)
-          }
-        },
-      }))
+      return (
+        this.list?.map((item) => ({
+          ...item,
+          change: (e: E) => {
+            const { files } = e.currentTarget
+            files?.length && this.setData(files[0], item.name)
+          },
+        })) ?? []
+      )
+    },
+
+    data: null as D,
+    payName: '',
+
+    setData(file: File, name: string) {
+      this.data = new FormData()
+      this.data.set(file.name, file)
+      this.payName = name
+    },
+
+    get url() {
+      return this.payName.replace(/Ю/gi, 'yoo').toLowerCase()
+    },
+
+    reset() {
+      this.data = null
+      this.anchor = null
     },
   }))
 
-  const fetchImport = useFetchImport(store.url, store.data)
+const useUrl = (state: StateType) => {
+  const isAccruals = Boolean(useRouteMatch('/:m/accruals'))
+  return isAccruals
+    ? 'withdrawal-arbitrary/import'
+    : `withdrawal/import${state.url}`
+}
 
-  React.useEffect(() => {
-    if (store.data) fetchImport()
-  }, [store, fetchImport])
-
-  return store
+export const useImportState = () => {
+  const state = useState()
+  const url = useUrl(state)
+  useFetchImport(url, state.data, state.reset)
+  useFetchList('payment-systems', state.setList, state.startGet)
+  return state
 }

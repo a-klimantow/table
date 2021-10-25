@@ -5,27 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { IFile } from 'types'
 import { useNotifications, useFetch, useFetchAuth } from 'hooks'
 
-// // ------------ Создание файла
+type D = object | null
+type R = () => void
 
-// function useCreateFile() {
-//   const fetch = useFetch('1029695/content', 'post')
-//   useFetchAuth(fetch)
-//   return (data?: object) => fetch.send(data).then((res) => res.body as IFile)
-// }
-
-// // ------------ Импорт файла
-
-// function useImporFile(url = '') {
-//   const fetch = useFetch(url, 'post')
-//   useFetchAuth(fetch)
-//   return (file: IFile) => fetch.query({ fileId: file.id })
-// }
-
-export function useFetchImport(
-  url = '',
-  data: object | null,
-  reset: () => void
-) {
+export function useFetchImport(url = '', data: D, reset: R) {
   const createFile = useFetch('1029695/content', 'post')
   const importFile = useFetch(url, 'post')
   const ntf = useNotifications()

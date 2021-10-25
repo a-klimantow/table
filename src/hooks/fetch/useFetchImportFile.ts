@@ -23,7 +23,7 @@ export function useFetchImport(url = '', data: D, reset: R) {
         createFile.send(data)
         try {
           const { body: file } = (await createFile) as { body: IFile }
-
+          ntf.success('Файл создан')
           reset()
 
           importFile.query({ fileId: file.id })

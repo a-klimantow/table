@@ -1,9 +1,5 @@
-import { observer } from 'mobx-react-lite'
+import * as React from 'react'
 
-import { Menu } from './atoms'
-import { useImportState } from './store'
+import { MenuFileImport } from './atoms'
 
-export const FileImport = observer(() => {
-  const state = useImportState()
-  return <Menu state={state} />
-})
+export const FileImport = React.memo(() => <MenuFileImport />)

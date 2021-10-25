@@ -21,11 +21,11 @@ export const List = observer(() => {
     >
       <TransitionGroup style={{ display: 'contents' }}>
         {array.map((item) => (
-          <Mui.Slide key={item.key} direction="left">
+          <Mui.Grow key={item.key} timeout={400}>
             <div>
               <Item item={item} />
             </div>
-          </Mui.Slide>
+          </Mui.Grow>
         ))}
       </TransitionGroup>
     </Mui.Stack>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { IListItem as L } from 'types'
-import { useFetch, useFetchAuth, useFetchAbort } from 'hooks'
+import { useFetch, useFetchAuth, useFetchAbort, useFetchRedirect } from 'hooks'
 
 type U =
   | 'panels'
@@ -11,6 +11,7 @@ type U =
 
 export function useFetchList(url: U, setter: (l: L[]) => void, start = true) {
   const fetch = useFetch(`list/${url}`)
+  useFetchRedirect(fetch)
   useFetchAuth(fetch)
   useFetchAbort(fetch)
 

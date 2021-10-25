@@ -8,3 +8,4 @@ export const useToken = () => useAppContext().token
 export { useNotifications } from 'notification/hooks'
 
 export * from './fetch'
+export * from './useMenu'

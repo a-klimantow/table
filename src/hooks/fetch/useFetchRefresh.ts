@@ -15,6 +15,7 @@ export function useFetchRefresh() {
     try {
       const { body } = await fetch
       token.update(body)
+      user.update(body)
       history.goBack()
     } catch (error) {
       user.update(null)

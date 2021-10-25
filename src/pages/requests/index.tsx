@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 //
 import * as Grid from 'components/grid'
 import { FileImport } from 'components/file_import'
+import { FileExport } from 'components/file_export'
 import { useRequestsGrid } from './hooks'
 
 export const Requests = observer(() => {
@@ -14,7 +15,7 @@ export const Requests = observer(() => {
         </Grid.Toolbar>
         <Grid.Table />
         <Grid.Bottom>
-          {/* <RewardsExport /> */}
+          <FileExport query="" />
           <FileImport />
           <Grid.Pagination />
         </Grid.Bottom>

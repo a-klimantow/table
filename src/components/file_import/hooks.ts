@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { useRouteMatch } from 'react-router-dom'
 import { IListItem } from 'types'
-import { useFetchImport, useFetchList, useMenu } from 'hooks'
+import { useFetchImport, useFetchImportList, useMenu } from 'hooks'
 import { computed, observable } from 'mobx'
 
 type E = React.ChangeEvent<HTMLInputElement>
@@ -50,7 +50,7 @@ export const useImportState = () => {
     menu.setAnchor(null)
   }
 
-  useFetchList('payment-systems', updateList, loading.get())
+  useFetchImportList(updateList, loading.get())
   useFetchImport(url, data.get(), reset)
 
   return {

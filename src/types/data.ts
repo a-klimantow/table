@@ -50,6 +50,8 @@ export interface IListItem {
   common_name: string
   id: number
   name: string
+  active?: boolean
+  disabled?: boolean
 }
 
 // **************** file

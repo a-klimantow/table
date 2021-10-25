@@ -18,11 +18,11 @@ export const Import = React.memo<BProps>((props) => (
   </Mui.Button>
 ))
 
-type SubmitProps = BProps & { loading?: boolean }
+export type SubmitProps = BProps & { loading?: boolean }
 
 export const Submit = React.memo<SubmitProps>(
   ({ loading = false, ...props }) => (
-    <Mui.Button {...props} type="submit">
+    <Mui.Button variant="contained" {...props} type="submit">
       {props.children}
       {loading && (
         <Mui.LinearProgress

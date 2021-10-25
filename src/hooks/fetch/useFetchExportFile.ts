@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { ResponseError } from 'superagent'
+import { Response, ResponseError } from 'superagent'
+import FS from 'file-saver'
 
 import { IErrors } from 'types'
 import { useFetch, useFetchAuth, useNotifications } from 'hooks'
@@ -9,30 +10,49 @@ type S = ReturnType<typeof useStateExport>
 
 export function useFetchExportFile(url = '', query = '', state: S) {
   const ntf = useNotifications()
+
   const fetchExport = useFetch(url, 'post')
   useFetchAuth(fetchExport)
 
   fetchExport.query(query)
   fetchExport.query({ status: state.activeStatus })
-  fetchExport.send({ panelIds: [...state.panelIds.values()] })
+  !state.isKassa && fetchExport.send({ panelIds: [...state.panelIds.values()] })
 
   React.useEffect(() => {
     ;(async () => {
       if (!state.loading) return
-
       try {
-        const data = await fetchExport
-        console.log(data.text)
+        const response = await fetchExport
         state.finish()
-        ntf.success('Файл экспотрирован успешно')
+        saveFile(response)
+          ? ntf.success('Файл экспотрирован успешно')
+          : ntf.error('Что-то сломалось')
       } catch (error) {
         state.finish()
         const { response } = error as ResponseError
         if (response?.body) {
-          const { code, description, type } = response.body.errors as IErrors
+          const { code, description } = response.body.errors as IErrors
           if (code === '404') ntf.error(description)
         }
       }
     })()
-  })
+  }, [state, state.loading, fetchExport, ntf])
+}
+
+function saveFile(response: Response) {
+  const { header } = response
+
+  const regExp = /(?<=")(.*)(?=")/
+
+  const res = header['content-disposition'].match(regExp)
+
+  if (res) {
+    const [filename] = res
+
+    const file = new File([response.text], filename)
+
+    FS.saveAs(file, filename)
+
+    return true
+  } else return false
 }

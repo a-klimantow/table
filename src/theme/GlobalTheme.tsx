@@ -61,6 +61,7 @@ export const GlobalTheme: React.FC = (props) => {
                     sx: {
                       borderCollapse: 'separate',
                       borderSpacing: 0,
+                      minWidth: 'max-content',
                     },
                   },
                 },
@@ -71,6 +72,23 @@ export const GlobalTheme: React.FC = (props) => {
                       bgcolor: theme.palette.grey['50'],
                       position: 'sticky',
                       top: 0,
+                      zIndex: 5,
+                    },
+                  },
+                },
+
+                MuiTableBody: {
+                  defaultProps: {
+                    sx: {
+                      bgcolor: theme.palette.background.paper,
+                    },
+                  },
+                },
+
+                MuiTableRow: {
+                  styleOverrides: {
+                    root: {
+                      background: 'inherit',
                     },
                   },
                 },
@@ -81,8 +99,17 @@ export const GlobalTheme: React.FC = (props) => {
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
                       overflow: 'hidden',
+                      position: 'relative',
+                      minWidth: 100,
+                      background: 'inherit',
                       '&[data-hidden]': {
                         display: 'none',
+                      },
+
+                      '&[data-freeze]': {
+                        position: 'sticky',
+                        left: 0,
+                        zIndex: 2,
                       },
                     },
 

@@ -56,31 +56,35 @@ export const GlobalTheme: React.FC = (props) => {
                 },
 
                 MuiTable: {
-                  defaultProps: {
-                    padding: 'none',
-                    sx: {
+                  styleOverrides: {
+                    root: {
                       borderCollapse: 'separate',
                       borderSpacing: 0,
                       minWidth: 'max-content',
                     },
                   },
+                  defaultProps: {
+                    padding: 'none',
+                  },
                 },
 
                 MuiTableHead: {
-                  defaultProps: {
-                    sx: {
-                      bgcolor: theme.palette.grey['50'],
+                  styleOverrides: {
+                    root: {
                       position: 'sticky',
                       top: 0,
                       zIndex: 5,
+                      '& > tr': {
+                        background: theme.palette.grey['50'],
+                      },
                     },
                   },
                 },
 
                 MuiTableBody: {
-                  defaultProps: {
-                    sx: {
-                      bgcolor: theme.palette.background.paper,
+                  styleOverrides: {
+                    root: {
+                      background: theme.palette.background.paper,
                     },
                   },
                 },
@@ -106,23 +110,31 @@ export const GlobalTheme: React.FC = (props) => {
                         display: 'none',
                       },
 
-                      '&[data-freeze]': {
+                      '&:first-of-type': {
                         position: 'sticky',
                         left: 0,
-                        zIndex: 2,
+                        zIndex: 3,
                       },
                     },
 
                     head: {
                       padding: theme.spacing(1.5, 2),
                       fontWeight: 300,
-                      '&[data-quick-filter]': {
+                      '&[data-filter-quick]': {
                         fontWeight: 500,
                       },
                     },
 
                     body: {
                       padding: theme.spacing(1.2, 2),
+                      maxWidth: 0,
+                    },
+                  },
+                },
+                MuiTableSortLabel: {
+                  styleOverrides: {
+                    root: {
+                      display: 'flex',
                     },
                   },
                 },

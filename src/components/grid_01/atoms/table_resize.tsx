@@ -3,14 +3,12 @@ import { createPortal } from 'react-dom'
 import * as Mui from '@mui/material'
 import * as mobx from 'mobx'
 
-import { CellProps } from './table_cell'
-import { useGridContext } from '../context'
+import { ICol as C } from '../types'
 
 type M = React.MouseEvent<HTMLDivElement>
 
-function useResize(props: CellProps) {
+export function useResize(cell: C) {
   const [col, setCol] = React.useState<null | HTMLTableCellElement>(null)
-  const grid = useGridContext()
 
   const onMouseDown = (e: M) => {
     const th = e.currentTarget.closest('th')
@@ -32,14 +30,12 @@ function useResize(props: CellProps) {
 
   const onMouseUp = mobx.action(() => {
     if (col) {
-      const idx = col.cellIndex
-      grid.currentCols[idx].width = col.clientWidth
+      cell.width = col.clientWidth
       setCol(null)
     }
   })
 
   return {
-    show: !props.item,
     start: !!col,
     onMouseDown,
     onMouseUp,
@@ -47,27 +43,23 @@ function useResize(props: CellProps) {
   }
 }
 
-export const TableResize = React.memo<CellProps>((props) => {
-  const { show, start, onMouseDown, onMouseUp, onMouseMove } = useResize(props)
+type R = ReturnType<typeof useResize>
 
-  if (!show) return null
-
-  return (
-    <Resize onMouseDown={onMouseDown}>
-      {start &&
-        createPortal(
-          <Mui.Backdrop
-            invisible
-            open
-            sx={{ zIndex: 'modal', cursor: 'w-resize' }}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
-          />,
-          document.body
-        )}
-    </Resize>
-  )
-})
+export const TableResize = React.memo<{ resize: R }>(({ resize }) => (
+  <Resize onMouseDown={resize.onMouseDown}>
+    {resize.start &&
+      createPortal(
+        <Mui.Backdrop
+          invisible
+          open
+          sx={{ zIndex: 'modal', cursor: 'w-resize' }}
+          onMouseUp={resize.onMouseUp}
+          onMouseMove={resize.onMouseMove}
+        />,
+        document.body
+      )}
+  </Resize>
+))
 
 const Resize = React.memo<Mui.BoxProps>(({ children, ...props }) => (
   <>

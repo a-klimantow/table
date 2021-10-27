@@ -6,7 +6,7 @@ import * as mbx from 'mobx'
 import { Icon } from 'components/icon'
 import { useGridContext } from '../context'
 
-type I = ReturnType<typeof useGridContext>['currentCols'][number]
+type I = ReturnType<typeof useGridContext>['columns'][number]
 
 const Switch = Mobx.observer<{ item: I }>(({ item }) => (
   <Mui.Switch
@@ -27,7 +27,7 @@ function useButtons(): Mui.ButtonProps[] {
   return (['Скрыть', 'Показать'] as const).map((name) => ({
     children: `${name} все`,
     onClick: mbx.action(() => {
-      grid.currentCols.forEach((c) => {
+      grid.columns.forEach((c) => {
         c.hidden = /скрыть/i.test(name)
       })
     }),
@@ -57,7 +57,7 @@ function useMenuCols() {
       anchorEl: anchor,
       onClose: () => setAnchor(null),
     } as Mui.MenuProps,
-    items: grid.currentCols,
+    items: grid.columns,
   }
 }
 

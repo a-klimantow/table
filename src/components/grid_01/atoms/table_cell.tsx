@@ -2,41 +2,76 @@ import * as React from 'react'
 import * as Mui from '@mui/material'
 import * as Mobx from 'mobx-react-lite'
 
-import { TableResize } from './table_resize'
-
 import { ICol as C, IDataItem as I } from '../types'
+import { useGridContext } from '../context'
+import { TableResize, useResize } from './table_resize'
 
-export interface CellProps {
-  cell: C
-  item?: I
-  index: number
-}
+type CP = { cell: C; item?: I; index: number }
+type B = { cell: C; item: I; index: number }
+type H = Omit<B, 'item'>
 
-function useCellNode(props: CellProps): Mui.TableCellProps['children'] {
-  const { item, cell } = props
-  if (item) return cell.renderCell ? cell.renderCell(item) : item[cell.key]
-  return cell.name
-}
+const useFilterQuick = (cell: C) => cell.filterQuick || null
 
-function useHidden(props: CellProps) {
+const useAlign = (cell: C): typeof cell.align =>
+  cell.align ?? cell.type === 'string' ? 'left' : 'right'
+
+const useHeadNode = (cell: C) => <HeadName name={cell.name} />
+
+const useSortedProps = (props: H): Mui.TableSortLabelProps => {
+  const grid = useGridContext()
   const { cell } = props
-  return cell.hidden || null
+
+  return {
+    direction: cell.sorted,
+    active: !!cell.sorted,
+    onClick: () => grid.setSorted(cell),
+  }
 }
 
-function useFreeze(props: CellProps) {
-  const { index } = props
-  return index === 0 || null
+const HeadName = React.memo<{ name: C['name'] }>(({ name }) => (
+  <Mui.Box
+    width="100%"
+    flexShrink={1}
+    whiteSpace="nowrap"
+    textOverflow="ellipsis"
+    overflow="hidden"
+  >
+    {name}
+  </Mui.Box>
+))
+
+const Head = Mobx.observer<H>((props) => (
+  <Mui.TableCell
+    data-filter-quick={useFilterQuick(props.cell)}
+    align={useAlign(props.cell)}
+    width={props.cell.width}
+  >
+    <Mui.TableSortLabel {...useSortedProps(props)}>
+      {useHeadNode(props.cell)}
+    </Mui.TableSortLabel>
+    <TableResize resize={useResize(props.cell)} />
+  </Mui.TableCell>
+))
+
+const useBodyNode = (cell: C, item: I) => {
+  if (cell.renderCell) return cell.renderCell(item)
+
+  if (!cell.key.includes('/')) return item[cell.key]
+
+  return JSON.stringify(item)
 }
 
-export const TableCell = Mobx.observer<CellProps>((props) => {
-  const node = useCellNode(props)
-  const hidden = useHidden(props)
-  const freeze = useFreeze(props)
+const Body = Mobx.observer<B>(({ cell, item }) => (
+  <Mui.TableCell
+    align={useAlign(cell)}
+    children={useBodyNode(cell, item)}
+    width={cell.width}
+  />
+))
 
-  return (
-    <Mui.TableCell data-hidden={hidden} data-freeze={freeze}>
-      {node}
-      <TableResize {...props} />
-    </Mui.TableCell>
-  )
+export const TableCell = Mobx.observer<CP>((props) => {
+  const { item, cell, index } = props
+  if (cell.hidden) return null
+  if (item) return <Body item={item} cell={cell} index={index} />
+  return <Head cell={cell} index={index} />
 })

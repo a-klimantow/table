@@ -3,6 +3,7 @@ import * as Mui from '@mui/material'
 import * as mobx from 'mobx'
 
 type TCP = Mui.TableCellProps
+type TSLP = Mui.TableSortLabelProps
 
 export interface ICol {
   align?: TCP['align']
@@ -10,11 +11,11 @@ export interface ICol {
   filterCols?: boolean
   hidden?: boolean
   key: string
-  name: string
-  type?: 'number' | 'string' | 'date'
-  render?: boolean
+  name?: string
+  type: 'number' | 'string' | 'date'
   renderCell?(...i: unknown[]): React.ReactNode
   width?: number
+  sorted?: TSLP['direction']
 }
 
 export type ArrCol = mobx.IObservableArray<ICol>

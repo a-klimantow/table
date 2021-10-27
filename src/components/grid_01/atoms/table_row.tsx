@@ -5,20 +5,33 @@ import { IDataItem as I } from '../types'
 import { useGridContext } from '../context'
 import { TableCell } from './table_cell'
 
-function useTableRow() {
-  const grid = useGridContext()
+interface TableRowProps {
+  item?: I
+}
 
+function useTableRow(props: TableRowProps) {
+  const grid = useGridContext()
+  const { item } = props
   return {
-    cells: grid.currentCols,
+    cells: grid.columns,
+    item,
   }
 }
 
-export const TableRow = Mobx.observer<{ item?: I }>((props) => {
-  const { cells } = useTableRow()
+function useRowProps(props: TableRowProps) {
+  const { item } = props
+  return {
+    hover: !!item,
+  }
+}
+
+export const TableRow = Mobx.observer<TableRowProps>((props) => {
+  const { cells, item } = useTableRow(props)
+  const rowProps = useRowProps(props)
   return (
-    <Mui.TableRow>
+    <Mui.TableRow {...rowProps}>
       {cells.map((cell, i) => (
-        <TableCell key={cell.key} cell={cell} item={props.item} index={i} />
+        <TableCell key={cell.key} cell={cell} item={item} index={i} />
       ))}
     </Mui.TableRow>
   )

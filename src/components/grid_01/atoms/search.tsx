@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as Mui from '@mui/material'
-import * as mobx from 'mobx'
+import * as Mobx from 'mobx-react-lite'
 
 import { Icon } from 'components/icon'
 import { useGridContext } from '../context'
@@ -29,11 +29,16 @@ function useSearch() {
   const [value, setValue] = React.useState(grid.search)
   const [touched, setTouched] = React.useState(false)
 
-  const updateSearch = mobx.action(() => (grid.search = value))
+  // React.useEffect(() => {
+  //   if (grid.search) {
+  //     setValue(grid.search)
+  //     setTouched(true)
+  //   }
+  // }, [grid.search])
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      touched && updateSearch()
+      touched && grid.setSearch(value)
     }, 1000)
     return () => clearInterval(timer)
   })
@@ -60,7 +65,7 @@ function useSearch() {
   }
 }
 
-export const Search = React.memo(() => {
+export const Search = Mobx.observer(() => {
   const paper = usePaper()
   const { input, button, showButton } = useSearch()
   return (

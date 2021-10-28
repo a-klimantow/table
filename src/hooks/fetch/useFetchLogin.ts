@@ -6,6 +6,16 @@ import { useToken, useUser, useFetch, useNotifications } from 'hooks'
 import { useLoginForm } from 'pages/login/hooks'
 type F = ReturnType<typeof useLoginForm>
 
+type LoginResponseBody = {
+  email: string
+  id: number
+  name: string
+  partner_id: number
+  refresh_token: string
+  roles: []
+  token: string
+}
+
 export function useFetchLogin(form: F) {
   const token = useToken()
   const user = useUser()
@@ -31,7 +41,7 @@ export function useFetchLogin(form: F) {
     return result
   }
 
-  const checkUserRole = (body: any) => {
+  const checkUserRole = (body: LoginResponseBody) => {
     if (intersect(RoleHaveAccess, body.roles)) {
       token.update(body)
       user.update(body)

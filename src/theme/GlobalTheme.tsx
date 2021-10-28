@@ -81,19 +81,21 @@ export const GlobalTheme: React.FC = (props) => {
                   },
                 },
 
-                MuiTableBody: {
-                  styleOverrides: {
-                    root: {
-                      background: theme.palette.background.paper,
+                MuiTableRow: {
+                  defaultProps: {
+                    sx: {
+                      '&:hover > td': {
+                        background: theme.palette.action.hover,
+                      },
+
+                      '&[data-selected=true] > td': {
+                        background: theme.palette.action.selected,
+                      },
                     },
                   },
-                },
 
-                MuiTableRow: {
                   styleOverrides: {
-                    root: {
-                      background: 'inherit',
-                    },
+                    root: {},
                   },
                 },
 
@@ -103,7 +105,6 @@ export const GlobalTheme: React.FC = (props) => {
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
                       overflow: 'hidden',
-                      position: 'relative',
                       minWidth: 100,
                       background: 'inherit',
                       '&[data-hidden]': {
@@ -118,6 +119,7 @@ export const GlobalTheme: React.FC = (props) => {
                     },
 
                     head: {
+                      position: 'relative',
                       padding: theme.spacing(1.5, 2),
                       fontWeight: 300,
                       '&[data-filter-quick]': {
@@ -127,6 +129,7 @@ export const GlobalTheme: React.FC = (props) => {
 
                     body: {
                       padding: theme.spacing(1.2, 2),
+                      background: theme.palette.background.paper,
                       maxWidth: 0,
                     },
                   },

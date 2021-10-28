@@ -29,13 +29,6 @@ function useSearch() {
   const [value, setValue] = React.useState(grid.search)
   const [touched, setTouched] = React.useState(false)
 
-  // React.useEffect(() => {
-  //   if (grid.search) {
-  //     setValue(grid.search)
-  //     setTouched(true)
-  //   }
-  // }, [grid.search])
-
   React.useEffect(() => {
     const timer = setTimeout(() => {
       touched && grid.setSearch(value)

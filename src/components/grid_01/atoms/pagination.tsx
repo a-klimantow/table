@@ -21,6 +21,6 @@ function usePagination(): Mui.TablePaginationProps {
 
 export const Pagination = Mobx.observer(() => {
   const props = usePagination()
-  console.log(props.rowsPerPageOptions)
+
   return <Mui.TablePagination component="div" {...props} />
 })

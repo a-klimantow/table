@@ -11,7 +11,7 @@ import { useRequestsGrid } from './hooks'
 import { useFetch, useFetchAuth, useFetchAbort, useFetchRedirect } from 'hooks'
 import React, { useEffect } from 'react'
 
-const cols = observable.array<ICol>([
+const cols = [
   {
     key: 'panel_name',
     name: 'Наименование панели',
@@ -28,7 +28,7 @@ const cols = observable.array<ICol>([
   { key: 'all_requests', name: 'На рассмотрении', type: 'number' },
   { key: 'all_requests_sum', name: 'Сумма (на рассмотрении)', type: 'number' },
   { key: 'accept_requests', name: 'В обработке', type: 'number' },
-])
+] as ICol[]
 
 export const Requests = observer(() => {
   const grid = Grid.useGrid(cols, 'rewards')

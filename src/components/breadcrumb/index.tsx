@@ -1,48 +1,14 @@
 import * as React from 'react'
 import * as Mui from '@mui/material'
-import { useStateExport } from './hooks'
+import { useBreadCrumbsStateExport } from './hooks'
+import { useHistory } from 'react-router-dom'
 
 export const Breadcrumbs = () => {
-  const state = useStateExport()
-
-  const location = state.breadCrumbOptionList.filter(item => item.path === state.currentPath())
-
-  const getDict = () => {
-    if (location.length === 0) {
-      return []
-    }
-    return location
-  }
-
-  const renderLink = () => {
-    const Value = getDict().map(item => item.value)
-    const OptionList = Value.flat()
-    let dict: any = []
-
-    if (OptionList.length === 1) {
-      dict = OptionList.map(row => {
-        return <Mui.Link key={0} color='text.primary'>{row}</Mui.Link>
-      })
-    }
-
-    if (OptionList.length >= 2) {
-      const lastItem = OptionList.pop()
-
-      dict = OptionList.map(row => {
-        return <Mui.Link key={row} underline='none' color='inherit'>{row}</Mui.Link>
-      })
-      const lastElement = getDict().map(item => {
-        return <Mui.Link href={item.path} key={0} underline='hover' color='text.primary'>{lastItem}</Mui.Link>
-      })
-      dict.push(lastElement)
-    }
-    return dict
-  }
-
-
+  const history = useHistory()
+  const state = useBreadCrumbsStateExport()
   return (
     <Mui.Breadcrumbs aria-label='breadcrumb'>
-      {renderLink()}
+      {state.renderLink(history)}
     </Mui.Breadcrumbs>
   )
 }

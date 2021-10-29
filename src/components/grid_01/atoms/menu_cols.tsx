@@ -29,6 +29,7 @@ function useButtons(): Mui.ButtonProps[] {
     onClick: mbx.action(() => {
       grid.columns.forEach((c) => {
         c.hidden = /скрыть/i.test(name)
+        
       })
     }),
   }))

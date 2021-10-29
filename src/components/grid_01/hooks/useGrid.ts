@@ -12,7 +12,7 @@ export const useGrid = (cols: C[], saveKey = '') => {
   const local = useStorage(saveKey, localStorage)
 
   const state = Mobx.useLocalObservable(() => ({
-    columns: mobx.observable.array(local.get(cols)),
+    columns: local.get(cols),
 
     search: session.get({ search: '' }).search,
     setSearch(s: string) {

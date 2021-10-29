@@ -1,8 +1,9 @@
 import * as React from 'react'
 import * as Mui from '@mui/material'
+import { blue } from '@mui/material/colors'
 
 export function useTableTheme() {
-  const { palette } = Mui.useTheme()
+  const { palette, spacing } = Mui.useTheme()
   return React.useMemo(
     () =>
       Mui.createTheme({
@@ -34,6 +35,7 @@ export function useTableTheme() {
           },
 
           MuiTable: {
+            defaultProps: { size: 'small' },
             styleOverrides: {
               root: {
                 minWidth: 'max-content',
@@ -46,6 +48,15 @@ export function useTableTheme() {
             styleOverrides: {
               root: {
                 backgroundColor: palette.common.white,
+                '&:hover': {
+                  backgroundColor: palette.grey['100'],
+                },
+                '&[data-selected]': {
+                  backgroundColor: blue['50'],
+                  '&:hover': {
+                    backgroundColor: blue['100'],
+                  },
+                },
               },
               head: {
                 position: 'sticky',
@@ -62,7 +73,7 @@ export function useTableTheme() {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 position: 'relative',
-                color: 'var(--test)',
+                padding: spacing(1, 2),
                 ':first-of-type': {
                   position: 'sticky',
                   left: 0,
@@ -93,6 +104,6 @@ export function useTableTheme() {
           },
         },
       }),
-    [palette]
+    [palette, spacing]
   )
 }

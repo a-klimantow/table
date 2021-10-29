@@ -1,4 +1,5 @@
 import * as Mui from '@mui/material'
+import { action } from 'mobx'
 import * as Mobx from 'mobx-react-lite'
 
 import { IDataItem as I, ICol as Cell } from '../types'
@@ -18,7 +19,10 @@ export const TableBody = Mobx.observer(() => {
 export const BodyRow = Mobx.observer<{ item: I }>(({ item }) => {
   const head = useHead()
   return (
-    <Mui.TableRow sx={{ ':hover': { bgcolor: 'grey.100' } }}>
+    <Mui.TableRow
+      onClick={action(() => (item.selected = !item.selected))}
+      data-selected={item.selected || null}
+    >
       {head.map((cell) => (
         <BodyCell key={cell.key} item={item} cell={cell} />
       ))}

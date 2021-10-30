@@ -29,7 +29,7 @@ export const Table = React.memo<{ table: T }>(({ table, ...props }) => {
           <TableContext.Provider value={table}>
             <Mui.Paper data-section="toolbar" square>
               <MenuColumns />
-              <Search table={table} />
+              <Search />
             </Mui.Paper>
             <Mui.TableContainer onScroll={scroll}>
               <Mui.Table>

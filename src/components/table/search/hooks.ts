@@ -3,6 +3,7 @@ import * as Mui from '@mui/material'
 import * as Mobx from 'mobx-react-lite'
 
 import { TableType as T } from '../types'
+import { useTableContext } from '../context'
 
 const initialState = (value = '') => ({
   value,
@@ -17,7 +18,8 @@ const initialState = (value = '') => ({
   },
 })
 
-export function useSeach(table: T) {
+export function useSeach() {
+  const table = useTableContext()
   const state = Mobx.useLocalObservable(() => initialState(table.search))
 
   const update = () => state.touched && (table.search = state.value)

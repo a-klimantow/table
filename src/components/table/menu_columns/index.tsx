@@ -3,11 +3,10 @@ import * as Mui from '@mui/material'
 import * as Icon from '@mui/icons-material'
 import * as Mobx from 'mobx-react-lite'
 
-import { TableType as T } from '../types'
 import { useMenuColumns } from './hooks'
 
-export const MenuColumns = React.memo<{ table: T }>(({ table }) => {
-  const { button, popover, items, hiddenAll } = useMenuColumns(table)
+export const MenuColumns = React.memo(() => {
+  const { button, popover, items, hiddenAll } = useMenuColumns()
   return (
     <React.Fragment>
       <Mui.IconButton {...button}>

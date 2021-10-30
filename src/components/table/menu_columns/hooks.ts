@@ -3,11 +3,13 @@ import * as Mui from '@mui/material'
 import * as mobx from 'mobx'
 
 import { TableType as T } from '../types'
+import { useTableContext } from '../context'
 
 const usePopover = () => React.useState<null | Element>(null)
 
-export const useMenuColumns = (table: T) => {
+export const useMenuColumns = () => {
   const [anchor, setAncor] = usePopover()
+  const table = useTableContext()
   return {
     button: {
       onClick: (e) => setAncor(e.currentTarget),

@@ -246,8 +246,10 @@ const useBackdrop: Hook = (theme) =>
         defaultProps: { invisible: true },
         styleOverrides: {
           root: {
-            zIndex: theme?.zIndex.modal,
-            cursor: 'col-resize',
+            '&[data-resize]': {
+              zIndex: theme?.zIndex.modal,
+              cursor: 'col-resize',
+            },
           },
         },
       },

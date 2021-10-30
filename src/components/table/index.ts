@@ -1,2 +1,2 @@
 export { Table } from './table'
-export { useTable } from './hooks/useTable'
+export { useTable } from './table/hooks'

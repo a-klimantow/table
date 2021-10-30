@@ -1,7 +1,11 @@
 import * as Mui from '@mui/material'
-import { useTable } from './hooks/useTable'
+import { useTable } from './table/hooks'
 
 export type TableType = ReturnType<typeof useTable>
+
+type Comps = Mui.ThemeOptions['components']
+
+export type ThemeHookType = (theme?: Mui.Theme) => Comps
 
 type TSL = Mui.TableSortLabelProps
 type TC = Mui.TableCellProps
@@ -22,4 +26,8 @@ export interface ICol extends Partial<Optional> {
 
 export interface IData {
   [key: string]: unknown
+}
+
+export interface TableProps {
+  table: TableType
 }

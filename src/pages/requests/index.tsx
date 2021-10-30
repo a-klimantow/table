@@ -30,40 +30,47 @@ const cols = [
   { key: 'accept_requests', name: 'В обработке', type: 'number' },
 ] as ICol[]
 
-export const Requests = observer(() => {
-  const grid = Grid.useGrid(cols, 'rewards')
-  const fetch = useFetch('withdrawal')
-  useFetchAuth(fetch)
-  useFetchRedirect(fetch)
-  useFetchAbort(fetch)
+// export const Requests = observer(() => {
+//   const grid = Grid.useGrid(cols, 'rewards')
+//   const fetch = useFetch('withdrawal')
+//   useFetchAuth(fetch)
+//   useFetchRedirect(fetch)
+//   useFetchAbort(fetch)
 
-  fetch.query(grid.query)
+//   fetch.query(grid.query)
 
-  React.useEffect(() => {
-    grid.setLoaging(true)
-    ;(async () => {
-      try {
-        const res = await fetch
-        const { items, metadata } = res.body
-        grid.setItems(items)
-        grid.setCount(metadata.pagination.total_count)
-        grid.setLoaging(false)
-      } catch (error) {}
-    })()
-  }, [grid, fetch])
+//   React.useEffect(() => {
+//     grid.setLoaging(true)
+//     ;(async () => {
+//       try {
+//         const res = await fetch
+//         const { items, metadata } = res.body
+//         grid.setItems(items)
+//         grid.setCount(metadata.pagination.total_count)
+//         grid.setLoaging(false)
+//       } catch (error) {}
+//     })()
+//   }, [grid, fetch])
 
-  return (
-    <Grid.Provider value={grid}>
-      <Grid.Paper data-app-page>
-        <Grid.Toolbar>
-          <Grid.MenuCols />
-          <Grid.Search />
-        </Grid.Toolbar>
-        <Grid.Table />
-        <Grid.Bottom>
-          <Grid.Pagination />
-        </Grid.Bottom>
-      </Grid.Paper>
-    </Grid.Provider>
-  )
-})
+//   return (
+//     <Grid.Provider value={grid}>
+//       <Grid.Paper data-app-page>
+//         <Grid.Toolbar>
+//           <Grid.MenuCols />
+//           <Grid.Search />
+//         </Grid.Toolbar>
+//         <Grid.Table />
+//         <Grid.Bottom>
+//           <Grid.Pagination />
+//         </Grid.Bottom>
+//       </Grid.Paper>
+//     </Grid.Provider>
+//   )
+// })
+
+import { Table, useTable } from 'components/table'
+
+export const Requests = () => {
+  const table = useTable()
+  return <Table table={table} data-app-page />
+}

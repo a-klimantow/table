@@ -2,19 +2,18 @@ import * as React from 'react'
 import * as Mui from '@mui/material'
 import { ruRU } from '@mui/material/locale'
 
-declare module '@mui/material/styles' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Mui.Theme {}
-}
+import { usePallete } from './usePalette'
 
 export const GlobalTheme: React.FC = (props) => {
   const theme = Mui.useTheme()
+  const palette = usePallete(theme)
   return (
     <Mui.ThemeProvider
       theme={React.useMemo(
         () =>
           Mui.createTheme(
             {
+              palette,
               typography: {
                 h5: { fontSize: 22, fontWeight: 500 },
                 h6: { fontSize: 16, fontWeight: 500 },

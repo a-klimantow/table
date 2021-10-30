@@ -1,8 +1,9 @@
 import * as React from 'react'
 import * as mobx from 'mobx'
+import buildQueries from 'odata-query'
 
 import { columns, data } from '../data'
-import { ICol as C } from '../types'
+import { ICol as C, IData as I } from '../types'
 
 const initialState = {
   search: '',
@@ -58,13 +59,24 @@ export function useTable() {
         return this.state.data
       }
 
-      // hidden columns
-      toggleHidden(col: C) {
-        col.hidden = !col.hidden
+      set items(arr: I[]) {
+        this.state.data = arr
       }
 
-      hiddenAll(b: boolean) {
-        this.state.columns.forEach((c) => (c.hidden = b))
+      // sorting order by
+      get orderBy() {
+        return this.state.columns
+          .filter((c) => c.sort)
+          .map((c) => `${c.key} ${c.sort}`)
+      }
+
+      // query
+      get query() {
+        return buildQueries({
+          top: this.top,
+          skip: this.skip,
+          orderBy: this.orderBy,
+        }).slice(1)
       }
 
       constructor() {

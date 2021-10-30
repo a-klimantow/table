@@ -1,8 +1,12 @@
-import { useTable } from './hooks'
+import { useTable } from './hooks/useTable'
 
 export type TableType = ReturnType<typeof useTable>
 
-export interface ICol {
+interface IColOptional {
+  hidden?: boolean
+}
+
+export interface ICol extends IColOptional {
   name: string
   key: string
 }

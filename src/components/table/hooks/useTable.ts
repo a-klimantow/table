@@ -1,15 +1,15 @@
 import * as React from 'react'
 import * as mobx from 'mobx'
 
-import { columns, data } from './data'
-import { ICol as C } from './types'
+import { columns, data } from '../data'
+import { ICol as C } from '../types'
 
 const initialState = {
   search: '',
   top: 0,
   skip: 0,
   columns,
-  data
+  data,
 }
 
 export function useTable() {
@@ -56,6 +56,15 @@ export function useTable() {
       // itmes
       get items() {
         return this.state.data
+      }
+
+      // hidden columns
+      toggleHidden(col: C) {
+        col.hidden = !col.hidden
+      }
+
+      hiddenAll(b: boolean) {
+        this.state.columns.forEach((c) => (c.hidden = b))
       }
 
       constructor() {

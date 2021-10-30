@@ -164,6 +164,7 @@ const useTable: Hook = (theme) =>
           root: {
             backgroundColor: 'inherit',
             position: 'relative',
+            padding: theme?.spacing(1, 2),
 
             '&:first-of-type': {
               position: 'sticky',

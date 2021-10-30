@@ -3,9 +3,11 @@ import { useTable } from './table/hooks'
 
 export type TableType = ReturnType<typeof useTable>
 
-type Comps = Mui.ThemeOptions['components']
+type KC = keyof Mui.Components
 
-export type ThemeHookType = (theme?: Mui.Theme) => Comps
+export type ThemeHookType<K extends string = string> = (
+  theme?: Mui.Theme
+) => K extends KC ? Mui.Components[K] : Mui.Components
 
 type TSL = Mui.TableSortLabelProps
 type TC = Mui.TableCellProps

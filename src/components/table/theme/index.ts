@@ -8,17 +8,11 @@ import { useContainerTheme } from './useContainerTheme'
 import { usePaperTheme } from './usePaperTheme'
 import { useTableTheme } from './useTableTheme'
 
-const useSvgIconTheme: H = () =>
-  React.useMemo(
-    () => ({
-      MuiSvgIcon: {
-        defaultProps: {
-          fontSize: 'inherit',
-        },
-      },
-    }),
-    []
-  )
+const useSvgIconTheme: H<'MuiSvgIcon'> = () => ({
+  defaultProps: {
+    fontSize: 'inherit',
+  },
+})
 
 const useSwitchTheme: H = () =>
   React.useMemo(
@@ -81,7 +75,7 @@ export const useComponentsTheme = () => {
   const theme = Mui.useTheme()
   const container = useContainerTheme(theme)
   const paper = usePaperTheme(theme)
-  const svg = useSvgIconTheme()
+  const MuiSvgIcon = useSvgIconTheme()
   const swtch = useSwitchTheme()
   const popover = usePopoverTheme()
   const table = useTableTheme(theme)
@@ -94,16 +88,16 @@ export const useComponentsTheme = () => {
           components: {
             ...container,
             ...paper,
-            ...svg,
             ...swtch,
             ...popover,
             ...table,
             ...pagination,
             ...backdrop,
+            MuiSvgIcon,
           },
         },
         ruRU
       ),
-    [container, pagination, paper, popover, svg, swtch, table, backdrop]
+    [container, pagination, paper, popover, MuiSvgIcon, swtch, table, backdrop]
   )
 }

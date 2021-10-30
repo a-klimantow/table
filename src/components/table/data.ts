@@ -15,7 +15,7 @@ export const columns: C[] = [
   { name: 'Страна', key: 'country' },
 ]
 
-export const data: I[] = Array(100).fill({
+export const data: I[] = Array(10).fill({
   panel_name: 'Экспертное мнение',
   country: 'RussionFedefatin',
 })

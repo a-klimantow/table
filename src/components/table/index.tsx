@@ -2,18 +2,38 @@ import * as React from 'react'
 import * as Mui from '@mui/material'
 import * as Icon from '@mui/icons-material'
 import * as Mobx from 'mobx-react-lite'
+import * as RDom from 'react-dom'
 
 import { TableType as T } from './types'
 import { useTableTheme } from './theme'
 
 import { MenuColumns } from './menu_columns'
 import { Search } from './search'
+import { useColResize } from './hooks/useColResize'
+import { useTableScroll } from './hooks/useTableScroll'
+import { useSorting } from './hooks/useSorting'
 
 export { useTable } from './hooks/useTable'
 
 export const Table = React.memo<{ table: T }>(({ table, ...props }) => {
+  const resize = useColResize(table)
+  const scroll = useTableScroll()
+  const sorting = useSorting(table)
+
   return (
     <Mui.ThemeProvider theme={useTableTheme()}>
+      {RDom.createPortal(
+        <Mobx.Observer>
+          {() => (
+            <Mui.Backdrop
+              open={resize.start}
+              onMouseMove={resize.move}
+              onMouseUp={resize.up}
+            />
+          )}
+        </Mobx.Observer>,
+        document.body
+      )}
       {/* <TableContext.Provider value={table}> */}
       <Mui.Container disableGutters {...props}>
         {/* ---------------- toolbar ---------------- */}
@@ -22,17 +42,32 @@ export const Table = React.memo<{ table: T }>(({ table, ...props }) => {
           <Search table={table} />
         </Mui.Paper>
         {/* ---------------- table ---------------- */}
-        <Mui.TableContainer>
+        <Mui.TableContainer onScroll={scroll}>
           <Mui.Table>
             <Mui.TableHead>
               <Mui.TableRow>
-                {table.columns.map((c) => (
-                  <Mobx.Observer key={c.key}>
+                {table.columns.map((col) => (
+                  <Mobx.Observer key={col.key}>
                     {() =>
-                      c.hidden ? null : (
-                        <Mui.TableCell>
-                          <Mui.TableSortLabel>{c.name}</Mui.TableSortLabel>
-                          <Mui.ButtonBase data-resize>
+                      col.hidden ? null : (
+                        <Mui.TableCell align="right" data-key={col.key}>
+                          <Mui.TableSortLabel
+                            direction={col.sort}
+                            active={!!col.sort}
+                            onClick={() => sorting(col)}
+                          >
+                            <Mui.Typography
+                              variant="body2"
+                              fontWeight={col.quickFilter ? 500 : 300}
+                            >
+                              {col.name}
+                            </Mui.Typography>
+                          </Mui.TableSortLabel>
+                          <Mui.ButtonBase
+                            component="div"
+                            data-resize
+                            onMouseDown={resize.down}
+                          >
                             <Icon.HorizontalRule />
                           </Mui.ButtonBase>
                         </Mui.TableCell>
@@ -45,12 +80,12 @@ export const Table = React.memo<{ table: T }>(({ table, ...props }) => {
             <Mui.TableBody>
               {table.items.map((item, i) => (
                 <Mui.TableRow key={i}>
-                  {table.columns.map((c) => (
-                    <Mobx.Observer key={c.key}>
+                  {table.columns.map((col) => (
+                    <Mobx.Observer key={col.key}>
                       {() =>
-                        c.hidden ? null : (
+                        col.hidden ? null : (
                           <Mui.TableCell>
-                            {item[c.key] as React.ReactNode}
+                            {item[col.key] as React.ReactNode}
                           </Mui.TableCell>
                         )
                       }

@@ -119,6 +119,11 @@ const useTable: Hook = (theme) =>
             position: 'relative',
             whiteSpace: 'nowrap',
             backgroundColor: theme?.palette.common.white,
+
+            '&[data-scrolled] tr > :first-of-type': {
+              borderRight: '1px solid',
+              borderRightColor: theme?.palette.divider,
+            },
           },
         },
       },
@@ -129,6 +134,7 @@ const useTable: Hook = (theme) =>
           root: {
             borderSpacing: 0,
             borderCollapse: 'separate',
+            minWidth: 'max-content',
           },
         },
       },
@@ -165,6 +171,8 @@ const useTable: Hook = (theme) =>
             backgroundColor: 'inherit',
             position: 'relative',
             padding: theme?.spacing(1, 2),
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
 
             '&:first-of-type': {
               position: 'sticky',
@@ -192,6 +200,25 @@ const useTable: Hook = (theme) =>
               },
             },
           },
+
+          head: {},
+          body: {
+            minWidth: 100,
+            maxWidth: 100,
+          },
+        },
+      },
+
+      MuiTableSortLabel: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+
+            '& > .MuiTypography-root': {
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+            },
+          },
         },
       },
     }),
@@ -212,6 +239,22 @@ const usePagination: Hook = () =>
     []
   )
 
+const useBackdrop: Hook = (theme) =>
+  React.useMemo(
+    () => ({
+      MuiBackdrop: {
+        defaultProps: { invisible: true },
+        styleOverrides: {
+          root: {
+            zIndex: theme?.zIndex.modal,
+            cursor: 'col-resize',
+          },
+        },
+      },
+    }),
+    [theme]
+  )
+
 export const useTableTheme = () => {
   const theme = Mui.useTheme()
   const container = useContainer(theme)
@@ -221,6 +264,7 @@ export const useTableTheme = () => {
   const popover = usePopover()
   const table = useTable(theme)
   const pagination = usePagination()
+  const backdrop = useBackdrop(theme)
   return React.useMemo(
     () =>
       Mui.createTheme(
@@ -233,10 +277,11 @@ export const useTableTheme = () => {
             ...popover,
             ...table,
             ...pagination,
+            ...backdrop,
           },
         },
         ruRU
       ),
-    [container, pagination, paper, popover, svg, swtch, table]
+    [container, pagination, paper, popover, svg, swtch, table, backdrop]
   )
 }

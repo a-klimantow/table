@@ -1,9 +1,13 @@
 import * as mobx from 'mobx'
+import * as Mui from '@mui/material'
 
-import { TableType as T, ICol as C } from '../types'
+import { ICol as C } from '../types'
+import { useTableContext } from '../context'
 
-export const useSorting = (table: T) =>
-  mobx.action((col: C) => {
+export const useSortLabel = (col: C) => {
+  const table = useTableContext()
+
+  const changSort = mobx.action(() => {
     const { key, sort } = col
     switch (sort) {
       case undefined:
@@ -21,3 +25,10 @@ export const useSorting = (table: T) =>
       if (c.key !== key) c.sort = undefined
     })
   })
+
+  return {
+    direction: col.sort,
+    active: !!col.sort,
+    onClick: changSort,
+  } as Mui.TableSortLabelProps
+}

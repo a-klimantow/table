@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as Mobx from 'mobx-react-lite'
+import * as Mui from '@mui/material'
 
 type E = React.SyntheticEvent<HTMLDivElement>
 
@@ -13,3 +13,7 @@ export const useTableScroll = () => (e: E) => {
     ? root.setAttribute('data-scrolled', '')
     : root.removeAttribute('data-scrolled')
 }
+
+export const TableContainer: React.FC = (props) => (
+  <Mui.TableContainer {...props} onScroll={useTableScroll()} />
+)

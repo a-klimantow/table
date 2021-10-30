@@ -1,34 +1,28 @@
-import * as React from 'react'
 import * as Mui from '@mui/material'
 import * as Mobx from 'mobx-react-lite'
 
-import { TableType as T, ICol as C } from '../types'
+import { ICol as C } from '../types'
+import { CellResize } from '../cell_resize'
 
-interface CellHeadProps {
-  col: C
-  resize: React.ReactNode
-  onSortClick?(): void
-}
+import { useSortLabel } from './hooks'
 
-export const CellHead = Mobx.observer<CellHeadProps>(
-  ({ col, resize, onSortClick }) => {
-    if (col.hidden) return null
-    return (
-      <Mui.TableCell align={col.align} data-key={col.key}>
-        <Mui.TableSortLabel
-          direction={col.sort}
-          active={!!col.sort}
-          onClick={onSortClick}
+export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
+  if (col.hidden) return null
+  return (
+    <Mui.TableCell align={col.align} data-key={col.key}>
+      <SortLabel col={col}>
+        <Mui.Typography
+          variant="body2"
+          fontWeight={col.quickFilter ? 500 : 300}
         >
-          <Mui.Typography
-            variant="body2"
-            fontWeight={col.quickFilter ? 500 : 300}
-          >
-            {col.name}
-          </Mui.Typography>
-        </Mui.TableSortLabel>
-        {resize}
-      </Mui.TableCell>
-    )
-  }
-)
+          {col.name}
+        </Mui.Typography>
+      </SortLabel>
+      <CellResize />
+    </Mui.TableCell>
+  )
+})
+
+const SortLabel = Mobx.observer<{ col: C }>(({ col, children }) => (
+  <Mui.TableSortLabel {...useSortLabel(col)} children={children} />
+))

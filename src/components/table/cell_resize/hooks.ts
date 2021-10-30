@@ -1,13 +1,14 @@
 import * as React from 'react'
 import * as Mobx from 'mobx-react-lite'
 
-import { TableType as T } from '../types'
+import { useTableContext } from '../context'
 
 type Th = null | HTMLTableCellElement
 type E = React.MouseEvent
 
-export const useCellResize = (table: T) =>
-  Mobx.useLocalObservable(() => ({
+export const useCellResize = () => {
+  const table = useTableContext()
+  return Mobx.useLocalObservable(() => ({
     th: null as Th,
 
     down(e: E) {
@@ -38,3 +39,4 @@ export const useCellResize = (table: T) =>
       return Boolean(this.th)
     },
   }))
+}

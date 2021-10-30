@@ -4,11 +4,10 @@ import * as Icon from '@mui/icons-material'
 import * as Mobx from 'mobx-react-lite'
 import * as RDom from 'react-dom'
 
-import { TableType as T } from '../types'
 import { useCellResize } from './hooks'
 
-export const CellResize = React.memo<{ table: T }>(({ table }) => {
-  const resize = useCellResize(table)
+export const CellResize = React.memo(() => {
+  const resize = useCellResize()
   return (
     <React.Fragment>
       {RDom.createPortal(

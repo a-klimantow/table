@@ -1,4 +1,3 @@
-import * as React from 'react'
 import * as Mui from '@mui/material'
 import { ruRU } from '@mui/material/locale'
 
@@ -14,90 +13,55 @@ const useSvgIconTheme: H<'MuiSvgIcon'> = () => ({
   },
 })
 
-const useSwitchTheme: H = () =>
-  React.useMemo(
-    () => ({
-      MuiSwitch: {
-        defaultProps: { size: 'small' },
-      },
-    }),
-    []
-  )
-const usePopoverTheme: H = () =>
-  React.useMemo(
-    () => ({
-      MuiPopover: {
-        defaultProps: {
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'center',
-          },
-        },
-      },
-    }),
-    []
-  )
+const useSwitchTheme: H<'MuiSwitch'> = () => ({
+  defaultProps: { size: 'small' },
+})
+const usePopoverTheme: H<'MuiPopover'> = () => ({
+  defaultProps: {
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'center',
+    },
+  },
+})
 
-const usePaginationTheme: H = () =>
-  React.useMemo(
-    () => ({
-      MuiTablePagination: {
-        defaultProps: { size: 'small' },
-        styleOverrides: {
-          root: {
-            gridColumn: '-1',
-          },
-        },
-      },
-    }),
-    []
-  )
+const useTablePaginationTheme: H<'MuiTablePagination'> = () => ({
+  defaultProps: { size: 'small' },
+  styleOverrides: {
+    root: {
+      gridColumn: '-1',
+    },
+  },
+})
 
-const useBackdropTheme: H = (theme) =>
-  React.useMemo(
-    () => ({
-      MuiBackdrop: {
-        defaultProps: { invisible: true },
-        styleOverrides: {
-          root: {
-            '&[data-resize]': {
-              zIndex: theme?.zIndex.modal,
-              cursor: 'col-resize',
-            },
-          },
-        },
+const useBackdropTheme: H<'MuiBackdrop'> = (theme) => ({
+  defaultProps: { invisible: true },
+  styleOverrides: {
+    root: {
+      '&[data-resize]': {
+        zIndex: theme?.zIndex.modal,
+        cursor: 'col-resize',
       },
-    }),
-    [theme]
-  )
+    },
+  },
+})
 
 export const useComponentsTheme = () => {
   const theme = Mui.useTheme()
-  const container = useContainerTheme(theme)
-  const paper = usePaperTheme(theme)
-  const MuiSvgIcon = useSvgIconTheme()
-  const swtch = useSwitchTheme()
-  const popover = usePopoverTheme()
   const table = useTableTheme(theme)
-  const pagination = usePaginationTheme()
-  const backdrop = useBackdropTheme(theme)
-  return React.useMemo(
-    () =>
-      Mui.createTheme(
-        {
-          components: {
-            ...container,
-            ...paper,
-            ...swtch,
-            ...popover,
-            ...table,
-            ...pagination,
-            ...backdrop,
-            MuiSvgIcon,
-          },
-        },
-        ruRU
-      ),
-    [container, pagination, paper, popover, MuiSvgIcon, swtch, table, backdrop]
+  return Mui.createTheme(
+    {
+      components: {
+        MuiPaper: usePaperTheme(theme),
+        MuiTablePagination: useTablePaginationTheme(),
+        MuiSwitch: useSwitchTheme(),
+        MuiSvgIcon: useSvgIconTheme(),
+        MuiPopover: usePopoverTheme(),
+        MuiBackdrop: useBackdropTheme(theme),
+        MuiContainer: useContainerTheme(theme),
+        ...table,
+      },
+    },
+    ruRU
   )
 }

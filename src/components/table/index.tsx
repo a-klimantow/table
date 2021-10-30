@@ -36,7 +36,7 @@ export const Table = React.memo<TableProps>(({ table, ...props }) => {
                     <Mui.ListItemIcon>
                       <Mui.Switch />
                     </Mui.ListItemIcon>
-                    {c.name}
+                    <Mui.Typography variant="body1">{c.name}</Mui.Typography>
                   </Mui.ListItem>
                 ))}
               </Mui.List>

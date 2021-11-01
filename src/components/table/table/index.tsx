@@ -10,9 +10,9 @@ import { TableLoader } from '../table_loader'
 import { Toolbar } from '../toolbar'
 import { Bottom } from '../bottom'
 
-export const Table = React.memo<TableProps>(({ table, ...props }) => (
-  <TableProvider table={table}>
-    <Mui.Container disableGutters {...props}>
+export const Table = React.memo<TableProps>((props) => (
+  <TableProvider value={props}>
+    <Mui.Container disableGutters data-app-page={props.isPage}>
       <Toolbar />
 
       <TableContainer>

@@ -34,4 +34,7 @@ export interface IData {
 
 export interface TableProps {
   table: TableType
+  onExportClick?(): void
+  onImportClick?(): void
+  isPage?: boolean
 }

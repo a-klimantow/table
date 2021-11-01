@@ -44,7 +44,7 @@ const columns: ICol[] = [
 ]
 
 export const Requests = observer(() => {
-  const table = useTable(columns)
+  const table = useTable(columns, 'requests')
   useFetch(table)
   return <Table data-app-page table={table} />
 })

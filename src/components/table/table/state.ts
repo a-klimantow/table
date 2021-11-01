@@ -35,7 +35,7 @@ export class TableState {
   }
 
   // loader
-  loader = false
+  loader = true
   setLoader(l: boolean) {
     this.loader = l
   }
@@ -72,6 +72,10 @@ export class TableState {
     return this.page * this.top
   }
 
+  set skip(n: number) {
+    this.state.page = n
+  }
+
   // itmes
   get items() {
     return this.data.items
@@ -84,6 +88,7 @@ export class TableState {
   update(items: I[], count: number) {
     this.items = items
     this.count = count
+    if (count < this.top) this.page = 0
     this.loader = false
   }
 

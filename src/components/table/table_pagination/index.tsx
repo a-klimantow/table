@@ -7,7 +7,7 @@ export const useTablePagination = (): Mui.TablePaginationProps => {
 
   return {
     count: table.count,
-    page: table.page,
+    page: table.count ? table.page : table.count,
 
     onPageChange(_, page) {
       table.page = page

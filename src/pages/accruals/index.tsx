@@ -33,7 +33,7 @@ const columns: ICol[] = [
 ]
 
 export const Accruals = observer(() => {
-  const table = useTable(columns)
+  const table = useTable(columns, 'accruals')
   useFetch(table)
   return <Table isPage table={table} onImportClick={() => null} />
 })

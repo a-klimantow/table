@@ -25,6 +25,7 @@ interface Optional {
 export interface ICol extends Partial<Optional> {
   name: string
   key: string
+  type: 'string' | 'number' | 'date'
 }
 
 export interface IData {

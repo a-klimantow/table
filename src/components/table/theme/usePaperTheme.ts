@@ -36,6 +36,7 @@ export const usePaperTheme: H<'MuiPaper'> = () => {
           gridTemplate: 'auto / 32px 130px 32px',
           border: '1px solid',
           borderColor: 'transparent',
+          padding: 0,
 
           '& input': {
             fontSize: 14,

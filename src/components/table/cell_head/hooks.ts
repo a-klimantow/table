@@ -32,3 +32,6 @@ export const useSortLabel = (col: C) => {
     onClick: changSort,
   } as Mui.TableSortLabelProps
 }
+
+export const useAlign = (col: C): C['align'] =>
+  col.align ?? col.type === 'string' ? 'left' : 'right'

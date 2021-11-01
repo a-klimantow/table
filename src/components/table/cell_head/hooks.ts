@@ -33,5 +33,5 @@ export const useSortLabel = (col: C) => {
   } as Mui.TableSortLabelProps
 }
 
-export const useAlign = (col: C): C['align'] =>
-  col.align ?? col.type === 'string' ? 'left' : 'right'
+export const useAlign = (col: C): string =>
+  col.type === 'string' ? 'left' : 'right'

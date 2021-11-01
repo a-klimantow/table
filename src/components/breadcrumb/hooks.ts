@@ -7,8 +7,8 @@ type L = Mui.LinkProps & { key: string }
 
 export const useBreadCrumbs = () => {
   const history = useHistory()
-  const module = useRouteMatch<{ path:M}>('/:path')
-  const page = useRouteMatch<{ path:P}>('/*/:path')
+  const module = useRouteMatch<{ path: M }>('/:path')
+  const page = useRouteMatch<{ path: P }>('/*/:path')
 
   return [
     {
@@ -18,19 +18,21 @@ export const useBreadCrumbs = () => {
         color: 'grey.500',
         pointerEvents: 'none',
         textDecoration: 'none',
-        fontSize: '15px'
-      }
+        fontSize: '15px',
+      },
     },
     {
       key: 'page',
       children: pageNames.get(page ? page.params.path : ''),
-      onClick: () => { history.push(page ? page.path : '') },
+      onClick: () => {
+        history.push(page ? page.url : '')
+      },
       sx: {
         color: 'black',
         cursor: 'pointer',
         textDecoration: 'none',
-        fontSize: '15px'
-      }
-    }
+        fontSize: '15px',
+      },
+    },
   ] as L[]
 }

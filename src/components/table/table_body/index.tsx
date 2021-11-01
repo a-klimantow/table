@@ -1,8 +1,8 @@
-import * as React from 'react'
 import * as Mui from '@mui/material'
 import * as Mobx from 'mobx-react-lite'
 
 import { useTableContext } from '../context'
+import { CellBody } from '../cell_body'
 
 export const TableBody = Mobx.observer(() => {
   const { table } = useTableContext()
@@ -11,15 +11,7 @@ export const TableBody = Mobx.observer(() => {
       {table.items.map((item, i) => (
         <Mui.TableRow key={i}>
           {table.columns.map((col) => (
-            <Mobx.Observer key={col.key}>
-              {() =>
-                col.hidden ? null : (
-                  <Mui.TableCell>
-                    {item[col.key] as React.ReactNode}
-                  </Mui.TableCell>
-                )
-              }
-            </Mobx.Observer>
+            <CellBody key={col.key} col={col} item={item} />
           ))}
         </Mui.TableRow>
       ))}

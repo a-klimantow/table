@@ -4,13 +4,16 @@ import * as Mobx from 'mobx-react-lite'
 import { ICol as C } from '../types'
 import { CellResize } from '../cell_resize'
 
-import { useAlign, useSortLabel } from './hooks'
+import { useSortLabel } from './hooks'
 
 export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
-  const align = useAlign(col)
   if (col.hidden) return null
   return (
-    <Mui.TableCell align={align} data-key={col.key} width={col.width}>
+    <Mui.TableCell
+      align={col.type === 'string' ? 'left' : 'right'}
+      data-key={col.key}
+      width={col.width}
+    >
       <SortLabel col={col}>
         <Mui.Typography
           variant="body2"

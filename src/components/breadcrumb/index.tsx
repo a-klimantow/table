@@ -4,11 +4,12 @@ import { useBreadCrumbs } from './hooks'
 
 export const Breadcrumbs = () => {
   const links = useBreadCrumbs()
+
   return (
     <Mui.Breadcrumbs>
-      {links.map(({key, ...rest}) =>
+      {links.map(({ key, ...rest }) => (
         <Mui.Link {...rest} key={key} />
-      )}
+      ))}
     </Mui.Breadcrumbs>
   )
 }

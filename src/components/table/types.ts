@@ -1,3 +1,4 @@
+import * as React from 'react'
 import * as Mui from '@mui/material'
 import { useTable, useStorage } from './table/hooks'
 
@@ -11,15 +12,14 @@ export type ThemeHookType<K extends string = string> = () => K extends KC
   : Mui.Components
 
 type TSL = Mui.TableSortLabelProps
-type TC = Mui.TableCellProps
 
 interface Optional {
   hidden: boolean
   sort: TSL['direction']
   sortOrder?: number
-  align: TC['align']
   width: number
   quickFilter: boolean
+  formated?(v: string | number): React.ReactNode
 }
 
 export interface ICol extends Partial<Optional> {

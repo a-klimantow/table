@@ -24,6 +24,7 @@ export const usePaperTheme: H<'MuiPaper'> = () => {
         '&[data-section=toolbar]': {
           background: theme?.palette.grey['300'],
           gridTemplate: '56px / repeat(3, auto) 1fr',
+          position: 'relative',
         },
 
         '&[data-section=bottom]': {

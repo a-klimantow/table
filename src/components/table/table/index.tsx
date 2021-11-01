@@ -16,7 +16,6 @@ export const Table = React.memo<TableProps>((props) => (
       <Toolbar />
 
       <TableContainer>
-        <TableLoader />
         <Mui.Table>
           <TableHead />
           <TableBody />

@@ -1,14 +1,12 @@
 import * as React from 'react'
 import * as Mui from '@mui/material'
-import { useBreadCrumbsStateExport } from './hooks'
-import { useHistory } from 'react-router-dom'
+import { useBreadCrumbs } from './hooks'
 
 export const Breadcrumbs = () => {
-  const history = useHistory()
-  const state = useBreadCrumbsStateExport()
+  const state = useBreadCrumbs()
+  console.log(state)
   return (
     <Mui.Breadcrumbs aria-label='breadcrumb'>
-      {state.renderLink(history)}
     </Mui.Breadcrumbs>
   )
 }

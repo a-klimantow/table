@@ -33,5 +33,10 @@ export const useMenuColumns = () => {
           c.hidden = b
         })
     ),
+
+    badge: {
+      badgeContent: table.columns.filter((c) => c.hidden).length,
+      color: 'info',
+    } as Mui.BadgeProps,
   }
 }

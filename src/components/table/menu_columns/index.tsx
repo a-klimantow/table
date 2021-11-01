@@ -5,12 +5,14 @@ import * as Mobx from 'mobx-react-lite'
 
 import { useMenuColumns } from './hooks'
 
-export const MenuColumns = React.memo(() => {
-  const { button, popover, items, hiddenAll } = useMenuColumns()
+export const MenuColumns = Mobx.observer(() => {
+  const { button, popover, items, hiddenAll, badge } = useMenuColumns()
   return (
     <React.Fragment>
       <Mui.IconButton {...button}>
-        <Icon.ViewColumn />
+        <Mui.Badge {...badge}>
+          <Icon.ViewColumn />
+        </Mui.Badge>
       </Mui.IconButton>
       <Mui.Popover {...popover}>
         <Mui.List>

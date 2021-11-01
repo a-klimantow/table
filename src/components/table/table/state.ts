@@ -5,14 +5,15 @@ import { ICol as C, IData as I, StorageType as ST } from '../types'
 
 const initialState = {
   search: '',
+  page: 0,
   top: 10,
-  skip: 0,
 }
 
 export class TableState {
   private state: typeof initialState
   private _cols: C[]
   private data = { items: [] as I[] }
+  private _count = null as null | number
 
   constructor(cols: C[], local: ST, session: ST) {
     this.state = session.get(initialState)
@@ -21,8 +22,8 @@ export class TableState {
     mobx.makeAutoObservable(this)
 
     mobx.reaction(
-      () => [this.search, this.top, this.skip],
-      ([search, top, skip]) => session.set({ search, top, skip })
+      () => [this.search, this.top, this.page],
+      ([search, top, page]) => session.set({ search, top, page })
     )
 
     mobx.reaction(
@@ -30,6 +31,7 @@ export class TableState {
       (cols) => local.set(cols)
     )
   }
+
   // loader
   loader = false
   setLoader(l: boolean) {
@@ -45,6 +47,15 @@ export class TableState {
     this.state.search = s
   }
 
+  // page
+  get page() {
+    return this.state.page
+  }
+
+  set page(n: number) {
+    this.state.page = n
+  }
+
   // top
   get top() {
     return this.state.top
@@ -56,11 +67,7 @@ export class TableState {
 
   // skip
   get skip() {
-    return this.state.skip
-  }
-
-  set skip(n: number) {
-    this.state.skip = n
+    return this.page * this.top
   }
 
   // columns
@@ -79,6 +86,15 @@ export class TableState {
 
   set items(arr: I[]) {
     this.data.items = arr
+  }
+
+  // count
+  get count(): number {
+    return this._count ?? 0
+  }
+
+  set count(n: number) {
+    this._count = n
   }
 
   // sorting order by

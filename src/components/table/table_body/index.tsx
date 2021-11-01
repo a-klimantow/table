@@ -5,7 +5,7 @@ import * as Mobx from 'mobx-react-lite'
 import { useTableContext } from '../context'
 
 export const TableBody = Mobx.observer(() => {
-  const table = useTableContext()
+  const { table } = useTableContext()
   return (
     <Mui.TableBody>
       {table.items.map((item, i) => (

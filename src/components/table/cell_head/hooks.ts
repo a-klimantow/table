@@ -5,7 +5,7 @@ import { ICol as C } from '../types'
 import { useTableContext } from '../context'
 
 export const useSortLabel = (col: C) => {
-  const table = useTableContext()
+  const { table } = useTableContext()
 
   const changSort = mobx.action(() => {
     const { key, sort } = col

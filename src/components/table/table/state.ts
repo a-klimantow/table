@@ -7,7 +7,7 @@ import { getQuickFilter } from './utils'
 const initialState = {
   search: '',
   page: 0,
-  top: 10,
+  top: 15,
 }
 
 export class TableState {

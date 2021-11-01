@@ -5,10 +5,12 @@ import { TableType as T } from '../types'
 import { useTheme } from '../theme'
 import { TableContext } from '../context'
 
-export const TableProvider = Mobx.observer<{ value: T }>(
-  ({ value, children }) => (
+export const TableProvider = Mobx.observer<{ table: T }>(
+  ({ table, children }) => (
     <Mui.ThemeProvider theme={useTheme()}>
-      <TableContext.Provider value={value}>{children}</TableContext.Provider>
+      <TableContext.Provider value={{ table }}>
+        {children}
+      </TableContext.Provider>
     </Mui.ThemeProvider>
   )
 )

@@ -18,7 +18,7 @@ const initialState = (value = '') => ({
 })
 
 export function useSeach() {
-  const table = useTableContext()
+  const { table } = useTableContext()
   const state = Mobx.useLocalObservable(() => initialState(table.search))
 
   const update = () => state.touched && (table.search = state.value)

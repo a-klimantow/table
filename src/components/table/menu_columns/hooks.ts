@@ -8,7 +8,7 @@ const usePopover = () => React.useState<null | Element>(null)
 
 export const useMenuColumns = () => {
   const [anchor, setAncor] = usePopover()
-  const table = useTableContext()
+  const { table } = useTableContext()
   return {
     button: {
       onClick: (e) => setAncor(e.currentTarget),

@@ -3,7 +3,7 @@ import * as Mobx from 'mobx-react-lite'
 import { useTableContext } from '../context'
 
 export const useTablePagination = (): Mui.TablePaginationProps => {
-  const table = useTableContext()
+  const { table } = useTableContext()
 
   return {
     count: table.count,
@@ -14,7 +14,7 @@ export const useTablePagination = (): Mui.TablePaginationProps => {
     },
 
     rowsPerPage: table.top,
-    rowsPerPageOptions: [10, 20, 30],
+    rowsPerPageOptions: [15, 20, 30],
 
     onRowsPerPageChange(e) {
       table.top = +e.target.value

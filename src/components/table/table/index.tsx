@@ -11,7 +11,7 @@ import { Toolbar } from '../toolbar'
 import { Bottom } from '../bottom'
 
 export const Table = React.memo<TableProps>(({ table, ...props }) => (
-  <TableProvider value={table}>
+  <TableProvider table={table}>
     <Mui.Container disableGutters {...props}>
       <Toolbar />
 

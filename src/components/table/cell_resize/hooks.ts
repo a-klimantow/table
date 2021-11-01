@@ -7,7 +7,7 @@ type Th = null | HTMLTableCellElement
 type E = React.MouseEvent
 
 export const useCellResize = () => {
-  const table = useTableContext()
+  const { table } = useTableContext()
   return Mobx.useLocalObservable(() => ({
     th: null as Th,
 

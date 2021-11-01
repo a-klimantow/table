@@ -5,8 +5,10 @@ import { TableType } from 'components/table'
 
 export const useFetch = (table: TableType) => {
   const fetch = Hook.useFetch('withdrawal')
+
   Hook.useFetchAuth(fetch)
   Hook.useFetchRedirect(fetch)
+  Hook.useFetchAbort(fetch)
 
   fetch.query(table.query)
 

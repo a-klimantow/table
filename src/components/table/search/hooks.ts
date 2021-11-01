@@ -35,6 +35,8 @@ export function useSeach() {
       placeholder: 'Поиск...',
     } as Mui.InputBaseProps,
 
+    disabled: !table.quickFilterCols.length,
+
     showButton: state.showButton,
 
     button: {

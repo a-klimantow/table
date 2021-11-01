@@ -2,6 +2,7 @@ import * as mobx from 'mobx'
 import buildQueries from 'odata-query'
 
 import { ICol as C, IData as I, StorageType as ST } from '../types'
+import { getQuickFilter } from './utils'
 
 const initialState = {
   search: '',
@@ -11,13 +12,14 @@ const initialState = {
 
 export class TableState {
   private state: typeof initialState
-  private _cols: C[]
   private data = { items: [] as I[] }
-  private _count = null as null | number
+
+  public count = 0
+  public columns: C[]
 
   constructor(cols: C[], local: ST, session: ST) {
     this.state = session.get(initialState)
-    this._cols = local.get(cols)
+    this.columns = local.get(cols)
 
     mobx.makeAutoObservable(this)
 
@@ -27,7 +29,7 @@ export class TableState {
     )
 
     mobx.reaction(
-      () => this._cols.map((c) => ({ ...c })),
+      () => this.columns.map((c) => ({ ...c })),
       (cols) => local.set(cols)
     )
   }
@@ -70,15 +72,6 @@ export class TableState {
     return this.page * this.top
   }
 
-  // columns
-  get columns() {
-    return this._cols
-  }
-
-  set columns(arr: C[]) {
-    this._cols = arr
-  }
-
   // itmes
   get items() {
     return this.data.items
@@ -88,18 +81,26 @@ export class TableState {
     this.data.items = arr
   }
 
-  // count
-  get count(): number {
-    return this._count ?? 0
-  }
-
-  set count(n: number) {
-    this._count = n
+  update(items: I[], count: number) {
+    this.items = items
+    this.count = count
+    this.loader = false
   }
 
   // sorting order by
   get orderBy() {
-    return this._cols.filter((c) => c.sort).map((c) => `${c.key} ${c.sort}`)
+    return this.columns.filter((c) => c.sort).map((c) => `${c.key} ${c.sort}`)
+  }
+
+  get quickFilterCols() {
+    return this.columns.filter((c) => c.quickFilter && !c.hidden)
+  }
+
+  // quickFilter
+  get quickFilter() {
+    if (!this.search) return ''
+    if (!this.quickFilterCols.length) return ''
+    return getQuickFilter(this.search, this.quickFilterCols)
   }
 
   // query
@@ -108,6 +109,7 @@ export class TableState {
       top: this.top,
       skip: this.skip,
       orderBy: this.orderBy,
+      filter: this.quickFilter,
     }).slice(1)
   }
 }

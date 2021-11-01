@@ -10,17 +10,41 @@ const columns: ICol[] = [
     quickFilter: true,
     type: 'string',
   },
-  { key: 'country', name: 'Страна', quickFilter: true, type: 'string' },
-  { key: 'old_requests', name: 'Старше 3 дней', type: 'number' },
-  { key: 'old_requests_sum', name: 'Сумма (старше 3 дней)', type: 'number' },
-  { key: 'all_requests', name: 'На рассмотрении', type: 'number' },
-  { key: 'all_requests_sum', name: 'Сумма (на рассмотрении)', type: 'number' },
-  { key: 'accept_requests', name: 'В обработке', type: 'number' },
+  {
+    key: 'country',
+    name: 'Страна',
+    quickFilter: true,
+    type: 'string',
+  },
+  {
+    key: 'old_requests',
+    name: 'Старше 3 дней',
+    type: 'number',
+  },
+  {
+    key: 'old_requests_sum',
+    name: 'Сумма (старше 3 дней)',
+    type: 'number',
+  },
+  {
+    key: 'all_requests',
+    name: 'На рассмотрении',
+    type: 'number',
+  },
+  {
+    key: 'all_requests_sum',
+    name: 'Сумма (на рассмотрении)',
+    type: 'number',
+  },
+  {
+    key: 'accept_requests',
+    name: 'В обработке',
+    type: 'number',
+  },
 ]
 
 export const Requests = observer(() => {
   const table = useTable(columns)
   useFetch(table)
-
-  return <Table table={table} data-app-page />
+  return <Table data-app-page table={table} />
 })

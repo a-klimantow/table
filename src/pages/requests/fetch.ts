@@ -8,7 +8,7 @@ export const useFetch = (table: TableType) => {
   Hook.useFetchAuth(fetch)
   Hook.useFetchRedirect(fetch)
 
-//   fetch.query(table.query)
+  fetch.query(table.query)
 
   React.useEffect(() => {
     table.setLoader(true)
@@ -16,12 +16,9 @@ export const useFetch = (table: TableType) => {
       try {
         const res = await fetch
         const { items, metadata } = res.body
-        const { pagination } = metadata
+        const { total_count } = metadata.pagination
 
-        table.items = items
-        table.count = pagination.total_count
-
-        table.setLoader(false)
+        table.update(items, total_count)
       } catch (error) {}
     })()
   })

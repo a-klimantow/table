@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as Mui from '@mui/material'
 import * as Mobx from 'mobx-react-lite'
 
-import { TableType as T } from '../types'
 import { useTableContext } from '../context'
 
 const initialState = (value = '') => ({

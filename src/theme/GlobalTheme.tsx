@@ -144,7 +144,7 @@ export const GlobalTheme: React.FC = (props) => {
             },
             ruRU
           ),
-        [theme]
+        [theme, palette]
       )}
     >
       <Mui.CssBaseline />

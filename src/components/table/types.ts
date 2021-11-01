@@ -5,9 +5,9 @@ export type TableType = ReturnType<typeof useTable>
 
 type KC = keyof Mui.Components
 
-export type ThemeHookType<K extends string = string> = (
-  theme?: Mui.Theme
-) => K extends KC ? Mui.Components[K] : Mui.Components
+export type ThemeHookType<K extends string = string> = () => K extends KC
+  ? Mui.Components[K]
+  : Mui.Components
 
 type TSL = Mui.TableSortLabelProps
 type TC = Mui.TableCellProps

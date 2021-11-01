@@ -24,7 +24,6 @@ export function useFetchLogin(form: F) {
     (async () => {
       try {
         const { body } = await fetch
-        console.log(body.roles)
         if (includesRole(body.roles)) {
           token.update(body)
           user.update(body)

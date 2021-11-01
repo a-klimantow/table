@@ -29,7 +29,7 @@ export function useFetchLogin(form: F) {
           user.update(body)
         } else {
           form.loading = false
-          return ntf.warning('Контент не доступен')
+          ntf.warning('Контент не доступен')
         }
       } catch (error) {
         const { response } = error as ResponseError

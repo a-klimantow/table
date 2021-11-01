@@ -9,7 +9,7 @@ import { useSortLabel } from './hooks'
 export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
   if (col.hidden) return null
   return (
-    <Mui.TableCell align={col.align} data-key={col.key}>
+    <Mui.TableCell align={col.align} data-key={col.key} width={col.width}>
       <SortLabel col={col}>
         <Mui.Typography
           variant="body2"

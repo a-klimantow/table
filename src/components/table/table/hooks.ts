@@ -1,87 +1,39 @@
 import * as React from 'react'
-import * as mobx from 'mobx'
-import buildQueries from 'odata-query'
 
-import { columns, data } from '../data'
-import { ICol as C, IData as I } from '../types'
+import { TableState } from './state'
+import { columns } from '../data'
+type S = 'local' | 'session'
+type D = string | number | object
 
-const initialState = {
-  search: '',
-  top: 0,
-  skip: 0,
-  columns,
-  data,
+export const useStorage = (key: string, st: S) => {
+  const storage = st === 'local' ? localStorage : sessionStorage
+
+  return React.useMemo(
+    () => ({
+      get<T extends D>(d?: T): T {
+        const res = storage.getItem(key)
+        return res ? JSON.parse(res) : d ?? null
+      },
+      set<T extends D>(d: T) {
+        storage.setItem(key, JSON.stringify(d))
+      },
+      remove() {
+        storage.removeItem(key)
+      },
+      clear() {
+        storage.clear()
+      },
+    }),
+    [key, storage]
+  )
 }
 
 export function useTable() {
   return React.useRef(
-    new (class {
-      private state = initialState
-
-      // search
-      get search() {
-        return this.state.search
-      }
-
-      set search(s: string) {
-        this.state.search = s
-      }
-
-      // top
-      get top() {
-        return this.state.top
-      }
-
-      set top(n: number) {
-        this.state.top = n
-      }
-
-      // skip
-      get skip() {
-        return this.state.skip
-      }
-
-      set skip(n: number) {
-        this.state.skip = n
-      }
-
-      // columns
-      get columns() {
-        return this.state.columns
-      }
-
-      set columns(arr: C[]) {
-        this.state.columns = arr
-      }
-
-      // itmes
-      get items() {
-        return this.state.data
-      }
-
-      set items(arr: I[]) {
-        this.state.data = arr
-      }
-
-      // sorting order by
-      get orderBy() {
-        return this.state.columns
-          .filter((c) => c.sort)
-          .map((c) => `${c.key} ${c.sort}`)
-      }
-
-      // query
-      get query() {
-        return buildQueries({
-          top: this.top,
-          skip: this.skip,
-          orderBy: this.orderBy,
-        }).slice(1)
-      }
-
-      constructor() {
-        mobx.makeAutoObservable(this)
-      }
-    })()
+    new TableState(
+      columns,
+      useStorage('key', 'local'),
+      useStorage('key', 'session')
+    )
   ).current
 }

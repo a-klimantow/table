@@ -1,7 +1,8 @@
 import * as Mui from '@mui/material'
-import { useTable } from './table/hooks'
+import { useTable, useStorage } from './table/hooks'
 
 export type TableType = ReturnType<typeof useTable>
+export type StorageType = ReturnType<typeof useStorage>
 
 type KC = keyof Mui.Components
 

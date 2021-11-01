@@ -15,7 +15,6 @@ export const TableBody = Mobx.observer(() => {
               {() =>
                 col.hidden ? null : (
                   <Mui.TableCell>
-                    {console.log(item[col.key])}
                     {item[col.key] as React.ReactNode}
                   </Mui.TableCell>
                 )

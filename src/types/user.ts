@@ -13,6 +13,7 @@ export interface IUser {
   name: string
   email: string
   roles: RoleType[]
+  partner_id: number
   token: string
   refresh_token: string
 }

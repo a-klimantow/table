@@ -1,45 +1,36 @@
-import * as React from 'react'
+import * as Mui from '@mui/material'
 import { useHistory, useRouteMatch } from 'react-router-dom'
-import { moduleNames, pageNames } from '../../assets'
 import { PageType as P, ModuleType as M } from '../../types'
+import { moduleNames, pageNames } from '../../assets'
 
-const useModuleName = () => {
-  const match = useRouteMatch<{ module:M}>('/:module')
-  if (match) {
-    const { module } = match.params
-    return moduleNames.get(module)
-  }
-  return ''
-}
-
-const usePageName = () => {
-  const match = useRouteMatch<{ page:P}>('/*/:page')
-  if (match) {
-    const { page } = match.params
-    return pageNames.get(page)
-  }
-  return ''
-}
+type L = Mui.LinkProps & { key: string }
 
 export const useBreadCrumbs = () => {
   const history = useHistory()
-  const moduleName = useModuleName()
-  const pageName = usePageName()
-  const location = [moduleName, pageName]
+  const module = useRouteMatch<{ path:M}>('/:path')
+  const page = useRouteMatch<{ path:P}>('/*/:path')
 
-  return location.map((item, i) => {
-    if (location.length === i + 1) {
-      return {
-        name: item,
-        event: () => { history.push(history.location.pathname) },
-        color: 'text.primary'
+  return [
+    {
+      key: 'module',
+      children: moduleNames.get(module ? module.params.path : ''),
+      sx: {
+        color: 'grey.500',
+        pointerEvents: 'none',
+        textDecoration: 'none',
+        fontSize: '15px'
       }
-    } else {
-      return {
-        name: item,
-        event: {},
-        color: 'inherit'
+    },
+    {
+      key: 'page',
+      children: pageNames.get(page ? page.params.path : ''),
+      onClick: () => { history.push(page ? page.path : '') },
+      sx: {
+        color: 'black',
+        cursor: 'pointer',
+        textDecoration: 'none',
+        fontSize: '15px'
       }
     }
-  })
+  ] as L[]
 }

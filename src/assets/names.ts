@@ -1,6 +1,6 @@
 import { PageType as P, ModuleType as M } from '../types'
 
-export const moduleNames = new Map<M, string>([
+export const moduleNames = new Map<M | '', string>([
   ['administration', 'Администрирование'],
   ['panels', 'Панели'],
   ['projects', 'Проекты'],
@@ -8,7 +8,7 @@ export const moduleNames = new Map<M, string>([
   ['user', 'Пользователь'],
 ])
 
-export const pageNames = new Map<P, string>([
+export const pageNames = new Map<P | '', string>([
   ['accruals', 'Начисления'],
   ['login', 'Вход'],
   ['logout', 'Выход'],

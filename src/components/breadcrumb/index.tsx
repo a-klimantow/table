@@ -3,10 +3,12 @@ import * as Mui from '@mui/material'
 import { useBreadCrumbs } from './hooks'
 
 export const Breadcrumbs = () => {
-  const state = useBreadCrumbs()
-  console.log(state)
+  const links = useBreadCrumbs()
   return (
-    <Mui.Breadcrumbs aria-label='breadcrumb'>
+    <Mui.Breadcrumbs>
+      {links.map(({key, ...rest}) =>
+        <Mui.Link {...rest} key={key} />
+      )}
     </Mui.Breadcrumbs>
   )
 }

@@ -2,11 +2,17 @@ import { Response } from 'superagent'
 
 // фоматирование даты
 
-export function dateFormate(date: Date) {
+export function dateFormate(date: string) {
   return new Intl.DateTimeFormat('ru-Ru', {
     dateStyle: 'short',
     timeStyle: 'short',
   }).format(new Date(date))
+}
+
+// фоматирование чисел
+
+export function numberFormate(num: number) {
+  return new Intl.NumberFormat('ru-Ru').format(num)
 }
 
 // правильный урл

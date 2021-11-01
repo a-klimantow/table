@@ -8,20 +8,22 @@ import { useSortLabel } from './hooks'
 
 export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
   if (col.hidden) return null
+
+  const isSortable = col.sortable ?? true
+
   return (
     <Mui.TableCell
       align={col.type === 'string' ? 'left' : 'right'}
       data-key={col.key}
       width={col.width}
     >
-      <SortLabel col={col}>
-        <Mui.Typography
-          variant="body2"
-          fontWeight={col.quickFilter ? 500 : 300}
-        >
-          {col.name}
-        </Mui.Typography>
-      </SortLabel>
+      {isSortable ? (
+        <SortLabel col={col}>
+          <Name col={col} />
+        </SortLabel>
+      ) : (
+        <Name col={col} />
+      )}
       <CellResize />
     </Mui.TableCell>
   )
@@ -29,4 +31,12 @@ export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
 
 const SortLabel = Mobx.observer<{ col: C }>(({ col, children }) => (
   <Mui.TableSortLabel {...useSortLabel(col)} children={children} />
+))
+
+const Name = Mobx.observer<{ col: C }>(({ col }) => (
+  <Mui.Typography
+    variant="body2"
+    fontWeight={col.quickFilter ? 500 : 300}
+    children={col.name}
+  />
 ))

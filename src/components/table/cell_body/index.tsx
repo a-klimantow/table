@@ -16,6 +16,14 @@ export const CellBody = Mobx.observer<{ col: C; item: I }>(({ col, item }) => {
 type N = React.ReactNode
 
 function renderNode(col: C, item: I): N {
-  const node = item[col.key] as number | string
-  return col.formated ? col.formated(node) : node
+  const keys = col.key.split('/')
+  const node = getNode(keys, item)
+
+  return col.formated ? col.formated(node as string) : (node as N)
+}
+
+function getNode([key, ...keys]: string[], item: I): N {
+  if (typeof item[key] !== 'object') return item[key] as N
+
+  return getNode(keys, item[key] as I)
 }

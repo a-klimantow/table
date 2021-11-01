@@ -17,9 +17,10 @@ interface Optional {
   hidden: boolean
   sort: TSL['direction']
   sortOrder?: number
+  sortable?: boolean
   width: number
   quickFilter: boolean
-  formated?(v: string | number): React.ReactNode
+  formated?(v: unknown): React.ReactNode
 }
 
 export interface ICol extends Partial<Optional> {
@@ -29,7 +30,7 @@ export interface ICol extends Partial<Optional> {
 }
 
 export interface IData {
-  [key: string]: unknown
+  [key: string]: unknown | IData
 }
 
 export interface TableProps {

@@ -1,23 +1,39 @@
 import { observer } from 'mobx-react-lite'
-//
-import * as Grid from 'components/grid'
-import { FileImport } from 'components/file_import'
-import { useAccrualsGrid } from './hooks'
+
+import { dateFormate, numberFormate } from 'utils'
+import { Table, useTable, ICol } from 'components/table'
+import { useFetch } from './fetch'
+
+const columns: ICol[] = [
+  {
+    key: 'file/file_name',
+    name: 'Файл',
+    quickFilter: true,
+    type: 'string',
+  },
+  {
+    key: 'author_id',
+    name: 'ID пользователя',
+    quickFilter: true,
+    type: 'number',
+  },
+  {
+    key: 'created',
+    name: 'Дата и время загрузки',
+    type: 'date',
+    formated: dateFormate,
+  },
+  {
+    key: 'amount',
+    name: 'Сумма',
+    type: 'number',
+    formated: numberFormate,
+    sortable: false,
+  },
+]
 
 export const Accruals = observer(() => {
-  const grid = useAccrualsGrid()
-  return (
-    <Grid.Provider value={grid}>
-      <Grid.Paper data-app-page>
-        <Grid.Toolbar>
-          <Grid.Search />
-        </Grid.Toolbar>
-        <Grid.Table />
-        <Grid.Bottom>
-          <FileImport />
-          <Grid.Pagination />
-        </Grid.Bottom>
-      </Grid.Paper>
-    </Grid.Provider>
-  )
+  const table = useTable(columns)
+  useFetch(table)
+  return <Table isPage table={table} onImportClick={() => null} />
 })

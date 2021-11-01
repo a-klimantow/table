@@ -15,7 +15,7 @@ const columns: ICol[] = [
     name: 'Дата',
     type: 'date',
     formated(date) {
-      return new Date(date).toLocaleDateString()
+      return new Date(date as string).toLocaleDateString()
     },
   },
   {
@@ -44,7 +44,7 @@ const columns: ICol[] = [
 ]
 
 export const Reports = observer(() => {
-  const table = useTable(columns)
+  const table = useTable(columns, 'reports')
   useFetch(table)
   return <Table isPage table={table} onExportClick={() => null} />
 })

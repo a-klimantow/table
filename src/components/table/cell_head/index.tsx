@@ -15,7 +15,6 @@ export const CellHead = Mobx.observer<{ col: C }>(({ col }) => {
     <Mui.TableCell
       align={col.type === 'string' ? 'left' : 'right'}
       data-key={col.key}
-      // width={col.width}
       sx={{ width: col.width, maxWidth: col.width }}
     >
       {isSortable ? (

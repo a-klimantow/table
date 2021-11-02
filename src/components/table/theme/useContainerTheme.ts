@@ -8,7 +8,7 @@ export const useContainerTheme: H<'MuiContainer'> = () => {
     defaultProps: { disableGutters: true },
     styleOverrides: {
       root: {
-        width: 'auto',
+        width: '100%',
         border: '1px solid',
         borderColor: theme?.palette.divider,
         borderRadius: theme?.shape.borderRadius,

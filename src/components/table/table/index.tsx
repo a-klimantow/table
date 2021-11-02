@@ -11,7 +11,11 @@ import { Bottom } from '../bottom'
 
 export const Table = React.memo<TableProps>((props) => (
   <TableProvider value={props}>
-    <Mui.Container disableGutters data-app-page={props.isPage}>
+    <Mui.Paper
+      data-app-page={props.isPage || null}
+      elevation={1}
+      data-table-container
+    >
       <Toolbar />
 
       <TableContainer>
@@ -22,6 +26,6 @@ export const Table = React.memo<TableProps>((props) => (
       </TableContainer>
 
       <Bottom />
-    </Mui.Container>
+    </Mui.Paper>
   </TableProvider>
 ))

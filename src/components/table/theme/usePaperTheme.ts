@@ -12,17 +12,21 @@ export const usePaperTheme: H<'MuiPaper'> = () => {
     styleOverrides: {
       root: {
         display: 'grid',
-        columnGap: theme?.spacing(1),
+        columnGap: theme.spacing(1),
+
+        '&[data-table-container]': {
+          gridTemplateRows: 'auto 1fr auto',
+        },
 
         '&[data-section]': {
           display: 'grid',
           placeItems: 'center',
-          columnGap: theme?.spacing(1),
-          padding: theme?.spacing(0, 1),
+          columnGap: theme.spacing(1),
+          padding: theme.spacing(0, 1),
         },
 
         '&[data-section=toolbar]': {
-          background: theme?.palette.grey['300'],
+          background: theme.palette.grey['300'],
           gridTemplate: '56px / repeat(3, auto) 1fr',
           position: 'relative',
         },
@@ -30,7 +34,7 @@ export const usePaperTheme: H<'MuiPaper'> = () => {
         '&[data-section=bottom]': {
           gridTemplate: 'auto / repeat(2, auto) 1fr',
           borderTop: '1px solid',
-          borderTopColor: theme?.palette.divider,
+          borderTopColor: theme.palette.divider,
         },
 
         '&[data-section="search"]': {
@@ -44,7 +48,7 @@ export const usePaperTheme: H<'MuiPaper'> = () => {
           },
 
           '&:focus-within': {
-            borderColor: theme?.palette.primary.main,
+            borderColor: theme.palette.primary.main,
           },
         },
       },
